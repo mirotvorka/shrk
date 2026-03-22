@@ -16,10 +16,28 @@
     </div>
 
     <div class="layout">
-      <aside class="column nav-col" id="navCol">
+     <aside class="column nav-col" id="navCol">
         <h3 class="column-title">Навигация</h3>
 
         <div class="accordion">
+          
+          <div class="acc-item">
+            <button class="nav-btn acc-head" type="button" data-form="main-blog" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">ГЛАВНЫЙ БЛОГ</button>
+          </div>
+          
+     <div class="acc-item">
+            <button class="nav-btn acc-head" type="button" data-form="awards-blog" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">БЛОГ НАГРАД</button>
+          </div>
+
+          <div class="acc-item">
+            <button class="nav-btn acc-head" type="button" data-form="activity-blog" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">БЛОГ АКТИВНОСТИ</button>
+          </div>
+        
+          
+          <div class="acc-item">
+            <button class="nav-btn acc-head" type="button" data-form="pirate-code" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">ПИРАТСКИЙ КОДЕКС</button>
+          </div>
+
           <div class="acc-item">
             <button class="acc-head" type="button">ОТРЯДНЫЕ <span>▾</span></button>
             <div class="acc-body">
@@ -44,26 +62,24 @@
                 <button class="nav-btn" data-form="sphere-guard">Охранная сфера</button>
                 <button class="nav-btn" data-form="sphere-food">Продовольственная сфера</button>
                 <button class="nav-btn" data-form="sphere-heal">Врачевательная сфера</button>
-                <button class="nav-btn" data-form="sphere-squadron">Эскадра</button>
               </div>
             </div>
           </div>
 
           <div class="acc-item">
-            <button class="acc-head" type="button">ДРУГОЕ <span>▾</span></button>
-            <div class="acc-body">
-              <div class="nav-list">
-                <button class="nav-btn" data-form="main-blog">Главный блог</button>
-                <button class="nav-btn" data-form="awards-blog">Блог наград</button>
-                <button class="nav-btn" data-form="pirate-code">Пиратский кодекс</button>
-                <button class="nav-btn" data-form="shelter-blog">Блог притулья</button>
-                <button class="nav-btn" data-form="task-board">Доска поручений</button>
-              </div>
-            </div>
+            <button class="nav-btn acc-head" type="button" data-form="sphere-squadron" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">ЭСКАДРА</button>
           </div>
+          
+          <div class="acc-item">
+            <button class="nav-btn acc-head" type="button" data-form="task-board" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">ДОСКА ПОРУЧЕНИЙ</button>
+          </div>
+          
+          <div class="acc-item">
+            <button class="nav-btn acc-head" type="button" data-form="shelter-blog" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">БЛОГ ПРИТУЛЬЯ</button>
+          </div>
+
         </div>
       </aside>
-
       <section class="column input-col">
         <h3 class="column-title" id="workAreaTitle">Приветствие</h3>
 
@@ -217,7 +233,49 @@
         <div id="form-squad-turtles" class="stack form-view hidden"><div class="card"><h2>Отряд Черепах</h2></div></div>
         <div id="form-squad-sharks" class="stack form-view hidden"><div class="card"><h2>Отряд Акул</h2></div></div>
         <div id="form-squad-seagulls" class="stack form-view hidden"><div class="card"><h2>Отряд Чаек</h2></div></div>
-        <div id="form-squad-octopus" class="stack form-view hidden"><div class="card"><h2>Отряд Осьминогов</h2></div></div>
+<!-- ОТРЯД ОСЬМИНОГОВ -->
+        <div id="form-squad-octopus" class="stack form-view hidden">
+          <div class="card stack">
+            <h2>Морская вылазка</h2>
+            
+            <div class="grid">
+              <div>
+                <label for="octoDate">Дата проведения</label>
+                <input id="octoDate" type="text" placeholder="дд.мм.гг">
+              </div>
+
+              <div>
+                <label for="octoNavId">ID Навигатора</label>
+                <input id="octoNavId" type="text" placeholder="Например: 750333">
+              </div>
+
+              <div class="full">
+                <label for="octoPartIds">ID Участников (через пробел)</label>
+                <input id="octoPartIds" type="text" placeholder="123456 789012 345678">
+              </div>
+
+              <div class="full">
+                <label for="octoProofs">Скриншоты</label>
+                <input id="octoProofs" type="text" placeholder="ссылка1 ссылка2 ссылка3">
+                <div style="font-size: 12px; opacity: 0.7; margin-top: 5px; line-height: 1.4;">
+                  скриншот глубоководья до/после вылазки и скриншот палубной рубки/сундука в случае если есть целебные/другие ресурсы
+                </div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="primary" id="octoGenerate">Составить отчёт</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <label for="octoResult">Результат</label>
+            <textarea id="octoResult" class="output" readonly></textarea>
+            <div class="actions">
+              <button class="secondary" data-copy="octoResult">Скопировать отчёт</button>
+            </div>
+          </div>
+        </div>
         <div id="form-squad-flyingfish" class="stack form-view hidden"><div class="card"><h2>Отряд Летучих рыб</h2></div></div>
         <div id="form-squad-albatross" class="stack form-view hidden"><div class="card"><h2>Отряд Альбатросов</h2></div></div>
         <div id="form-squad-dolphins" class="stack form-view hidden"><div class="card"><h2>Отряд Дельфинов</h2></div></div>

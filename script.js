@@ -35,8 +35,8 @@ const costumeGroups = {
     },
     'Отрядные костюмы': {
         'Охотник на акул': [], 'Буревестник': [], 'Вестник морей': [], 'Образцовый чистюля': [],
-        'Сверкающая жемчужина': [], 'Менестрель слова': [], 'Дары морей': ['стандарт', 'без карты'],
-        'Опытный чтец': [], 'Искусный травовед': ['стандарт', 'доп. вариант черный'], 'Пилигрим': [],
+        'Сверкающая жемчужина': [], 'Менестрель слова': [], 'Дары морей': ['с картой', 'без карты'],
+        'Опытный чтец': [], 'Искусный травовед': ['красный цвет', 'черный цвет'], 'Пилигрим': [],
         'Рыба-Клоун': [], 'Заядлый рыболов': []
     },
     'Должностные костюмы': {
@@ -88,20 +88,24 @@ function getMoscowDate() {
 function fillValidDates() {
     const select = qs('rankDate');
     if (!select) return;
-    const validDays = [0, 1, 3, 5];
+    
+    const validDays = [0, 1, 3, 5]; // 0=Вс, 1=Пн, 3=Ср, 5=Пт
     const dayNames = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
     const dates = [];
-    let d = new Date();
-    d.setDate(d.getDate() - 2);
-    while (dates.length < 5) {
+    
+    let d = new Date(); 
+    
+    while (dates.length < 5) { 
         if (validDays.includes(d.getDay())) {
             const day = String(d.getDate()).padStart(2, '0');
             const month = String(d.getMonth() + 1).padStart(2, '0');
             const year = String(d.getFullYear()).slice(-2);
+            
             dates.push({ val: `${day}.${month}.${year}`, text: `${day}.${month}.${year} (${dayNames[d.getDay()]})` });
         }
-        d.setDate(d.getDate() + 1);
+        d.setDate(d.getDate() + 1); 
     }
+    
     select.innerHTML = '';
     dates.forEach(d => {
         const opt = document.createElement('option');
@@ -109,7 +113,8 @@ function fillValidDates() {
         opt.textContent = d.text;
         select.append(opt);
     });
-    select.selectedIndex = 1;
+
+    select.selectedIndex = 0; 
 }
 
 function fillSelect(select, items) {
@@ -160,7 +165,6 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
         setForm(btn.dataset.form);
         qs('workAreaTitle').textContent = e.target.textContent.trim();
         
-        // Железобетонный способ смены ссылки (работает везде)
         window.location.hash = btn.dataset.form;
     });
 });
@@ -319,9 +323,7 @@ if (navToggle && navCol) {
     });
 }
 
-// --- ЛОГИКА ЭСКАДРЫ ---
 
-// 1. Автоматическая дата при загрузке
 if (qs('eskDate')) {
     qs('eskDate').value = getMoscowDate();
 }
@@ -376,7 +378,6 @@ if (qs('eskGenerate')) {
             let startTotal = startH * 60 + startM;
             let endTotal = endH * 60 + endM;
             
-            // Переход через полночь
             if (endTotal < startTotal) endTotal += 24 * 60;
             
             const diff = endTotal - startTotal;
@@ -392,6 +393,27 @@ if (qs('eskGenerate')) {
         
         qs('eskResult').value = text;
     };
+}
+
+const eskTypeSelect = qs('eskType');
+const eskLeadCheckbox = qs('eskIsLead');
+
+if (eskTypeSelect && eskLeadCheckbox) {
+    const leadWrapper = eskLeadCheckbox.parentElement; // Захватываем весь блок с текстом
+
+    function toggleLeadCheckbox() {
+        if (eskTypeSelect.value === 'Свободный бег') {
+            leadWrapper.style.display = 'none'; // Прячем
+            eskLeadCheckbox.checked = false;    // Сбрасываем галочку
+        } else {
+            leadWrapper.style.display = 'flex'; // Показываем
+        }
+    }
+
+    // Слушаем переключения в списке
+    eskTypeSelect.addEventListener('change', toggleLeadCheckbox);
+    // Прячем сразу при загрузке страницы (так как Свободный бег стоит первым)
+    toggleLeadCheckbox();
 }
 
 const routes = {
@@ -456,3 +478,77 @@ function openTabFromHash() {
 
 window.addEventListener('DOMContentLoaded', openTabFromHash);
 window.addEventListener('hashchange', openTabFromHash);
+
+const mainLogoTitle = document.querySelector('.topbar h1');
+mainLogoTitle.style.cursor = 'pointer'; 
+
+mainLogoTitle.addEventListener('click', () => {
+    setForm('welcome');
+    qs('workAreaTitle').textContent = 'Приветствие';
+    
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.acc-item').forEach(item => item.classList.remove('open'));
+    
+    window.history.replaceState(null, null, window.location.pathname);
+});
+
+const idInputs = [qs('rankId'), qs('awardsId'), qs('eskId'), qs('octoNavId')].filter(Boolean);
+
+const savedId = localStorage.getItem('shrk_user_id');
+if (savedId) {
+    idInputs.forEach(input => input.value = savedId);
+}
+
+idInputs.forEach(input => {
+    input.addEventListener('input', (e) => {
+        const newId = e.target.value.trim();
+        
+        localStorage.setItem('shrk_user_id', newId);
+        
+        idInputs.forEach(otherInput => {
+            if (otherInput !== e.target) {
+                otherInput.value = newId;
+            }
+        });
+    });
+});
+
+
+if (qs('octoDate')) {
+    qs('octoDate').value = getMoscowDate();
+}
+if (qs('octoGenerate')) {
+    qs('octoGenerate').onclick = () => {
+        const date = qs('octoDate').value.trim() || 'дд.мм.гг';
+        const navId = qs('octoNavId').value.trim() || 'ID';
+        
+        // Обрабатываем участников
+        const rawParts = qs('octoPartIds').value.trim();
+        const partsArr = rawParts.split(/[\s,]+/).filter(Boolean);
+        const partsStr = partsArr.length > 0 
+            ? partsArr.map(id => `[link${id}] [${id}]`).join(', ')
+            : '[linkID] [ID]';
+
+        // Умная обработка ссылок из одного поля
+        const proofsRaw = qs('octoProofs').value.trim();
+        const proofLinks = proofsRaw.split(/\s+/).filter(Boolean);
+        
+        let proofsText = '';
+        if (proofLinks.length > 0) {
+            if (proofLinks[0]) proofsText += `\n[url=${proofLinks[0]}]скриншот Глубоководья до вылазки[/url]`;
+            if (proofLinks[1]) proofsText += `\n[url=${proofLinks[1]}]скриншот Глубоководья после вылазки[/url]`;
+            if (proofLinks[2]) proofsText += `\n[url=${proofLinks[2]}]скриншот Палубной рубки / сундука[/url]`;
+            
+            for (let i = 3; i < proofLinks.length; i++) {
+                proofsText += `\n[url=${proofLinks[i]}]скриншот ${i-2}[/url]`;
+            }
+    } else {
+            // Если оставили пустым - ничего не пишем
+            proofsText = '\nСкриншоты были отправлены в беседу навигаторов.';
+        }
+        // Собираем всё вместе
+        const text = `[b]Дата проведения: ${date}[/b]\n[b]Навигатор:[/b] [link${navId}] [${navId}].\n[b]Участники:[/b] ${partsStr}.${proofsText}`;
+        
+        qs('octoResult').value = text;
+    };
+}
