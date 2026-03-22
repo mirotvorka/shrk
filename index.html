@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Автозаполнение отчётов</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <div class="topbar">
+      <div>
+        <h1>АВТОЗАПОЛНЕНИЕ ОТЧЁТОВ [ШРК]</h1>
+      </div>
+      <button class="nav-toggle" id="navToggle" type="button">Показать навигацию</button>
+    </div>
+
+    <div class="layout">
+      <aside class="column nav-col" id="navCol">
+        <h3 class="column-title">Навигация</h3>
+
+        <div class="accordion">
+          <div class="acc-item">
+            <button class="acc-head" type="button">ОТРЯДНЫЕ <span>▾</span></button>
+            <div class="acc-body">
+              <div class="nav-list">
+                <button class="nav-btn" data-form="squad-kits">Отряд Китов</button>
+                <button class="nav-btn" data-form="squad-turtles">Отряд Черепах</button>
+                <button class="nav-btn" data-form="squad-sharks">Отряд Акул</button>
+                <button class="nav-btn" data-form="squad-seagulls">Отряд Чаек</button>
+                <button class="nav-btn" data-form="squad-octopus">Отряд Осьминогов</button>
+                <button class="nav-btn" data-form="squad-flyingfish">Отряд Летучих рыб</button>
+                <button class="nav-btn" data-form="squad-albatross">Отряд Альбатросов</button>
+                <button class="nav-btn" data-form="squad-dolphins">Отряд Дельфинов</button>
+                <button class="nav-btn" data-form="squad-clownfish">Отряд Рыб-клоунов</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <button class="acc-head" type="button">ОБЩЕКОМАНДНЫЕ <span>▾</span></button>
+            <div class="acc-body">
+              <div class="nav-list">
+                <button class="nav-btn" data-form="sphere-guard">Охранная сфера</button>
+                <button class="nav-btn" data-form="sphere-food">Продовольственная сфера</button>
+                <button class="nav-btn" data-form="sphere-heal">Врачевательная сфера</button>
+                <button class="nav-btn" data-form="sphere-squadron">Эскадра</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <button class="acc-head" type="button">ДРУГОЕ <span>▾</span></button>
+            <div class="acc-body">
+              <div class="nav-list">
+                <button class="nav-btn" data-form="main-blog">Главный блог</button>
+                <button class="nav-btn" data-form="awards-blog">Блог наград</button>
+                <button class="nav-btn" data-form="pirate-code">Пиратский кодекс</button>
+                <button class="nav-btn" data-form="shelter-blog">Блог притулья</button>
+                <button class="nav-btn" data-form="task-board">Доска поручений</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="column input-col">
+        <h3 class="column-title" id="workAreaTitle">Приветствие</h3>
+
+    <div id="form-welcome" class="stack form-view">
+  <div class="card" style="padding: 35px 25px; text-align: center;">
+    <img src="images/shrk.png" alt="ШРК лого" class="welcome-logo">
+    
+    <p style="font-style: italic; opacity: 0.8; margin-bottom: 25px;">чтото крутое придумать</p>
+
+    <div class="help">
+      <p style="margin-bottom: 15px;"><b>Йо-хо-хо!</b> Мы создали этот сайт, чтобы избавить тебя от возни с BB-кодами. Теперь отчёты составляются быстрее, чем поднимается парус!</p>
+      <p style="margin-bottom: 10px;"><b>Как это работает?</b> Просто выбери нужный шаблон отчёта в навигации слева, заполни поля, и нажми «Составить отчёт». Готовый текст появится внизу, откуда его можно скопировать.</p>
+    </div>
+  </div>
+</div>
+
+<div id="form-main-blog" class="stack form-view hidden">
+          <div class="card stack">
+            <h2 style="margin-bottom: 0;">Посвящение</h2>
+
+            <div class="grid">
+              <div>
+                <label for="rankType">Посвящение в</label>
+                <select id="rankType"></select>
+              </div>
+
+              <div>
+                <label for="rankDate">Дата посвящения</label>
+                <select id="rankDate"></select>
+              </div>
+
+              <div>
+                <label for="rankId">ID</label>
+                <input id="rankId" type="text" placeholder="Например: 750333">
+              </div>
+              <div>
+                <label for="rankProof">Скриншот(ы)</label>
+                <input id="rankProof" type="text" placeholder="ссылка1 ссылка2 ссылка3">
+              </div>
+
+              <div id="rankMentorWrap">
+                <label for="rankMentor">Наставник</label>
+                <select id="rankMentor"></select>
+              </div>
+
+              <div id="rankPirateWrap" class="hidden">
+                <label for="rankPirateName">Пиратское имя</label>
+                <input id="rankPirateName" type="text">
+              </div>
+
+              <div id="rankFemWrap" class="hidden">
+                <label for="rankFeminine">Феминитив</label>
+                <select id="rankFeminine">
+                  <option>не ставить</option>
+                  <option> ставить</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="rankSpeech">Речь</label>
+                <select id="rankSpeech">
+                  <option>нет</option>
+                  <option>есть</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="primary" id="rankGenerate">Составить отчёт</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <label for="rankResult">Результат</label>
+            <textarea id="rankResult" class="output" readonly></textarea>
+            <div class="actions">
+              <button class="secondary" data-copy="rankResult">Скопировать отчёт</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="form-awards-blog" class="stack form-view hidden">
+          <div class="card stack">
+            <h2>Запрос награды</h2>
+
+            <div class="grid">
+              <div>
+                <label for="awardsMode">Тип отчёта</label>
+                <select id="awardsMode">
+                  <option value="medal">Запрос медали</option>
+                  <option value="trophy">Запрос трофея</option>
+                  <option value="costume">Запрос костюма</option>
+                  <option value="title">Запрос должности</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="awardsId">ID</label>
+                <input id="awardsId" type="text" placeholder="Например: 750333">
+              </div>
+
+              <div>
+                <label for="awardsDol">Должность</label>
+                <select id="awardsDol"></select>
+              </div>
+
+              <div>
+                <label id="awardsGroupLabel" for="awardsGroup">Категория:</label>
+                <select id="awardsGroup"></select>
+              </div>
+
+              <div>
+                <label id="awardsItemLabel" for="awardsItem">Название</label>
+                <select id="awardsItem"></select>
+              </div>
+
+              <div id="variantWrap" class="hidden">
+  <label id="awardsVariantLabel" for="awardsVariant">Вариант / цвет / срок</label>
+  <div id="variantInputArea">
+     <input id="awardsVariant" type="text" placeholder="Например: красный">
+  </div>
+</div>
+
+              <div class="full">
+                <label for="awardsProofs">Скриншот(ы)</label>
+                <input id="awardsProofs" type="text" placeholder="ссылка1 ссылка2 ссылка3">
+              </div>
+            </div>
+
+            <div class="actions">
+              <button class="primary" id="awardsGenerate">Составить отчёт</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <label for="awardsResult">Результат</label>
+            <textarea id="awardsResult" class="output" readonly></textarea>
+            <div class="actions">
+              <button class="secondary" data-copy="awardsResult">Скопировать отчёт</button>
+            </div>
+          </div>
+        </div>
+
+        
+
+        <div id="form-pirate-code" class="stack form-view hidden"><div class="card"><h2>Пиратский кодекс</h2></div></div>
+        <div id="form-shelter-blog" class="stack form-view hidden"><div class="card"><h2>Блог притулья</h2></div></div>
+        <div id="form-task-board" class="stack form-view hidden"><div class="card"><h2>Доска поручений</h2></div></div>
+
+        <div id="form-squad-kits" class="stack form-view hidden"><div class="card"><h2>Отряд Китов</h2></div></div>
+        <div id="form-squad-turtles" class="stack form-view hidden"><div class="card"><h2>Отряд Черепах</h2></div></div>
+        <div id="form-squad-sharks" class="stack form-view hidden"><div class="card"><h2>Отряд Акул</h2></div></div>
+        <div id="form-squad-seagulls" class="stack form-view hidden"><div class="card"><h2>Отряд Чаек</h2></div></div>
+        <div id="form-squad-octopus" class="stack form-view hidden"><div class="card"><h2>Отряд Осьминогов</h2></div></div>
+        <div id="form-squad-flyingfish" class="stack form-view hidden"><div class="card"><h2>Отряд Летучих рыб</h2></div></div>
+        <div id="form-squad-albatross" class="stack form-view hidden"><div class="card"><h2>Отряд Альбатросов</h2></div></div>
+        <div id="form-squad-dolphins" class="stack form-view hidden"><div class="card"><h2>Отряд Дельфинов</h2></div></div>
+        <div id="form-squad-clownfish" class="stack form-view hidden"><div class="card"><h2>Отряд Рыб-клоунов</h2></div></div>
+
+        <div id="form-sphere-guard" class="stack form-view hidden"><div class="card"><h2>Охранная сфера</h2></div></div>
+        <div id="form-sphere-food" class="stack form-view hidden"><div class="card"><h2>Продовольственная сфера</h2></div></div>
+        <div id="form-sphere-heal" class="stack form-view hidden"><div class="card"><h2>Врачевательная сфера</h2></div></div>
+   <div id="form-sphere-squadron" class="stack form-view hidden">
+  <div class="card stack">
+    <h2>Эскадра</h2>
+    
+    <div class="grid">
+      <div class="full">
+        <label for="eskType">Тип мероприятия</label>
+        <select id="eskType">
+          <option value="Свободный бег">Свободный бег</option>
+          <option value="Боевые игры">Боевые игры</option>
+          <option value="Морской бой">Морской бой</option>
+          <option value="Ристалище">Ристалище</option>
+          <option value="Учения">Учения</option>
+          <option value="Портовая стажировка">Портовая стажировка</option>
+          <option value="Персональное занятие">Персональное занятие</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="eskTime">Время (чч:мм - чч:мм)</label>
+        <input id="eskTime" type="text" placeholder="18:00 - 19:00">
+      </div>
+
+      <div>
+        <label for="eskId">ID</label>
+        <input id="eskId" type="text" placeholder="750333">
+      </div>
+
+      <div class="full" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+        <input type="checkbox" id="eskIsLead" style="width: 20px; height: 20px; cursor: pointer;">
+        <label for="eskIsLead" style="margin: 0; cursor: pointer;">Ведущий</label>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="primary" id="eskGenerate">Составить отчёт</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <label for="eskResult">Результат</label>
+    <textarea id="eskResult" class="output" readonly></textarea>
+    <div class="actions">
+      <button class="secondary" data-copy="eskResult">Скопировать отчёт</button>
+    </div>
+  </div>
+</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
