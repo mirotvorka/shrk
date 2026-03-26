@@ -549,15 +549,14 @@ if (qs('octoGenerate')) {
 const guardLocs = ['Дыра в корабле', 'Извилистая тропа', 'Искажённая чаща', 'Тихий залив', 'Лазурная бухта', 'Отдалённая лазурная бухта'];
 const guardRoutes = ['А', 'Б', 'В'];
 
-// Переключение видимости полей и автозаполнение ID
 function updateGuardForm() {
     const mode = qs('guardMode').value;
-    const savedId = localStorage.getItem('shrk_user_id') || ''; // Берем сохраненный ID
+    const savedId = localStorage.getItem('shrk_user_id') || ''; 
 
     document.querySelectorAll('[class*="guard-sub-"]').forEach(el => el.classList.add('hidden'));
     document.querySelectorAll(`.guard-sub-${mode}`).forEach(el => el.classList.remove('hidden'));
     
-    // Автоматическая подстановка ID в зависимости от режима
+
     if (mode === 'patrol') {
         if (savedId) qs('patrolCollector').value = savedId;
         setAutoPatrolTime();
@@ -568,7 +567,7 @@ function updateGuardForm() {
     } 
  else if (mode === 'check') {
         if (savedId) qs('checkMyId').value = savedId;
-        qs('checkTime').value = ''; // Оставляем поле пустым для ручного ввода
+        qs('checkTime').value = ''; 
     }
 }
 
@@ -588,7 +587,6 @@ function setAutoPatrolTime() {
     qs('patrolTime').value = selected;
 }
 
-// Генерация отчёта
 if(qs('guardGenerate')) {
     qs('guardGenerate').onclick = () => {
         const mode = qs('guardMode').value;
@@ -598,7 +596,6 @@ if(qs('guardGenerate')) {
         if (mode === 'patrol') {
             const leads = qs('patrolLeads').value.trim().split(/\s+/).filter(Boolean);
             const collId = qs('patrolCollector').value || 'ID';
-            // Если ведущих нет, ставим собирающего как общего ведущего
             const leadStr = leads.length >= 2 
                 ? `[link${leads[0]}] [${leads[0]}] (А), [link${leads[1]}] [${leads[1]}] (Б)`
                 : `[link${leads[0] || collId}] [${leads[0] || collId}] (Общий)`;
@@ -626,7 +623,7 @@ if(qs('guardGenerate')) {
       else if (mode === 'check') {
             const myId = qs('checkMyId').value || 'ID';
             const targetId = qs('checkTargetId').value || 'ID';
-            const checkTime = qs('checkTime').value || 'чч:мм'; // Берем время из нового поля
+            const checkTime = qs('checkTime').value || 'чч:мм'; 
             result = `Я, [link${myId}] [${myId}], проверил дозорного [link${targetId}] [${targetId}] в ${checkTime}; проверка ${qs('checkStatus').value}.`;
         }
 
@@ -634,25 +631,18 @@ if(qs('guardGenerate')) {
     };
 }
 
-// Привязка событий
 if(qs('guardMode')) qs('guardMode').onchange = updateGuardForm;
 if(qs('watchSubMode')) qs('watchSubMode').onchange = updateWatchOptions;
 
-// Регистрируем поля для глобального сохранения ID
 const guardIdFields = [qs('patrolCollector'), qs('watchId'), qs('checkMyId')];
 guardIdFields.forEach(el => { 
     if(el) {
         idInputs.push(el); 
-        // Если меняем ID руками в охранке — он сохранится для всего сайта
         el.addEventListener('input', () => localStorage.setItem('shrk_user_id', el.value));
     }
 });
 
-updateGuardForm(); // Запуск при загрузке
-
-// === ЛОГИКА ДЛЯ ОТРЯДА ДЕЛЬФИНОВ ===
-
-// 1. Формат ВК
+updateGuardForm(); 
 const vkBtn = document.getElementById('vkGenerate');
 if (vkBtn) {
     vkBtn.onclick = () => {
@@ -669,10 +659,10 @@ if (vkBtn) {
     };
 }
 
-// 2. Формат КЭТВАР (Переключение полей и генерация)
+
 const cwTypeEl = document.getElementById('cwType');
 if (cwTypeEl) {
-    // Умное переключение времени и заходов
+
     cwTypeEl.addEventListener('change', function() {
         const timeWrap = document.querySelector('.cw-time-wrap');
         const diveWrap = document.querySelector('.cw-dive-wrap');
@@ -684,7 +674,7 @@ if (cwTypeEl) {
             if(diveWrap) diveWrap.classList.add('hidden');
         }
     });
-    // Запускаем 1 раз при загрузке, чтобы скрыть ненужное
+
     cwTypeEl.dispatchEvent(new Event('change'));
 }
 
@@ -700,7 +690,6 @@ if (cwBtn) {
         let noun = '';
         let actionCatwar = '';
 
-        // Автоматически подбираем слова
         if (type === 'climb') {
             actionCatwar = 'лазал';
             noun = isSingle ? 'малышом' : 'малышами';
@@ -722,10 +711,11 @@ if (cwBtn) {
             let startStr = '00.00', endStr = '00.00';
             
             if (times && times.length === 2) {
-                startStr = times[0].replace(':', '.');
-                endStr = times[1].replace(':', '.');
-                const [sh, sm] = startStr.split('.').map(Number);
-                const [eh, em] = endStr.split('.').map(Number);
+               startStr = times[0].replace('.', ':');
+                endStr = times[1].replace('.', ':');
+                
+                const [sh, sm] = startStr.split(':').map(Number);
+                const [eh, em] = endStr.split(':').map(Number);
                 
                 let diff = (eh * 60 + em) - (sh * 60 + sm);
                 if (diff < 0) diff += 1440;
@@ -743,7 +733,6 @@ if (cwBtn) {
     };
 }
 
-// 3. Формат ОБУЧЕНИЕ
 const teachBtn = document.getElementById('teachGenerate');
 if (teachBtn) {
     teachBtn.onclick = () => {
@@ -754,7 +743,6 @@ if (teachBtn) {
     };
 }
 
-// 4. Синхронизация ID
 const dolphinIds = [document.getElementById('vkMyId'), document.getElementById('cwMyId'), document.getElementById('teachMyId')];
 dolphinIds.forEach(el => {
     if(el) {
