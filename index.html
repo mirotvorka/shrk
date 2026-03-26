@@ -248,7 +248,7 @@
 
               <div>
                 <label for="octoNavId">ID Навигатора</label>
-                <input id="octoNavId" type="text" placeholder="Например: 1234567">
+                <input id="octoNavId" type="text" placeholder="1234567">
               </div>
 
               <div class="full">
@@ -280,8 +280,119 @@
         </div>
         <div id="form-squad-flyingfish" class="stack form-view hidden"><div class="card"><h2>Отряд Летучих рыб</h2></div></div>
         <div id="form-squad-albatross" class="stack form-view hidden"><div class="card"><h2>Отряд Альбатросов</h2></div></div>
-        <div id="form-squad-dolphins" class="stack form-view hidden"><div class="card"><h2>Отряд Дельфинов</h2></div></div>
-        <div id="form-squad-clownfish" class="stack form-view hidden"><div class="card"><h2>Отряд Рыб-клоунов</h2></div></div>
+     <div id="form-squad-dolphins" class="stack form-view hidden">
+
+  <div class="card stack">
+    <h2>Начало деятельности (ВК)</h2>
+    <div class="grid">
+      <div class="full">
+        <label for="vkType">Выберите тип деятельности</label>
+        <select id="vkType">
+          <option value="climb">Лазание</option>
+          <option value="vision">Прокачивание зоркости</option>
+          <option value="dive">Ныряние</option>
+        </select>
+      </div>
+      <div>
+        <label for="vkMyId">ID</label>
+        <input id="vkMyId" type="text" placeholder="750333">
+      </div>
+      <div>
+        <label for="vkTargetIds">ID сопровождаемых (через пробел)</label>
+        <input id="vkTargetIds" type="text" placeholder="123456 789012">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="vkGenerate">Составить отчёт</button>
+    </div>
+  </div>
+  
+  <div class="card">
+    <label for="vkResult">Результат</label>
+    <textarea id="vkResult" class="output" readonly style="min-height: 60px;"></textarea>
+    <div class="actions">
+      <button class="secondary" data-copy="vkResult">Скопировать отчёт</button>
+    </div>
+  </div>
+
+  <div class="card stack">
+    <h2>Прокачивание навыков</h2>
+    <div class="grid">
+      <div class="full">
+        <label for="cwType">Выберите тип деятельности</label>
+        <select id="cwType">
+          <option value="climb">Лазание</option>
+          <option value="vision">Прокачивание зоркости</option>
+          <option value="dive">Ныряние</option>
+        </select>
+      </div>
+      <div>
+        <label for="cwMyId">ID</label>
+        <input id="cwMyId" type="text" placeholder="750333">
+      </div>
+      <div>
+        <label for="cwTargetIds">ID сопровождаемых (через пробел)</label>
+        <input id="cwTargetIds" type="text" placeholder="123456 789012">
+      </div>
+
+      <div class="cw-time-wrap full">
+        <label for="cwTimeRange">Время (чч.мм - чч.мм)</label>
+        <input id="cwTimeRange" type="text" placeholder="12.00 - 13.00">
+      </div>
+
+      <div class="cw-dive-wrap hidden full">
+        <label for="cwDives">Количество заходов</label>
+        <input id="cwDives" type="text" placeholder="1" style="margin-bottom: 12px;">
+        
+        <div style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+          <input type="checkbox" id="cwIsToddler" style="width: 18px; height: 18px; cursor: pointer;">
+          <label for="cwIsToddler" style="margin: 0; cursor: pointer; color: var(--text-bright);">Малыш-топотушка+</label>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="cwGenerate">Составить отчёт</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <label for="cwResult">Результат </label>
+    <textarea id="cwResult" class="output" readonly style="min-height: 100px;"></textarea>
+    <div class="actions">
+      <button class="secondary" data-copy="cwResult">Скопировать отчёт</button>
+    </div>
+  </div>
+
+  <div class="card stack">
+    <h2>Обучение игрока лазанию</h2>
+    <div class="grid">
+      <div>
+        <label for="teachMyId">ID</label>
+        <input id="teachMyId" type="text" placeholder="750333">
+      </div>
+      <div>
+        <label for="teachTargetId">ID игрока</label>
+        <input id="teachTargetId" type="text" placeholder="123456">
+      </div>
+      <div class="full">
+        <label for="teachProof">Скриншот</label>
+        <input id="teachProof" type="text" placeholder="ссылка">
+      </div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="teachGenerate">Составить отчёт</button>
+    </div>
+  </div>
+  
+  <div class="card">
+    <label for="teachResult">Результат</label>
+    <textarea id="teachResult" class="output" readonly></textarea>
+    <div class="actions">
+      <button class="secondary" data-copy="teachResult">Скопировать отчёт</button>
+    </div>
+  </div>
+
+</div>
 
 <div id="form-sphere-guard" class="stack form-view hidden">
   <div class="card stack">
