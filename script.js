@@ -89,7 +89,7 @@ function fillValidDates() {
     const select = qs('rankDate');
     if (!select) return;
     
-    const validDays = [0, 1, 3, 5]; // 0=Вс, 1=Пн, 3=Ср, 5=Пт
+    const validDays = [0, 1, 3, 5]; 
     const dayNames = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
     const dates = [];
     
@@ -399,20 +399,18 @@ const eskTypeSelect = qs('eskType');
 const eskLeadCheckbox = qs('eskIsLead');
 
 if (eskTypeSelect && eskLeadCheckbox) {
-    const leadWrapper = eskLeadCheckbox.parentElement; // Захватываем весь блок с текстом
+    const leadWrapper = eskLeadCheckbox.parentElement; 
 
     function toggleLeadCheckbox() {
         if (eskTypeSelect.value === 'Свободный бег') {
-            leadWrapper.style.display = 'none'; // Прячем
-            eskLeadCheckbox.checked = false;    // Сбрасываем галочку
+            leadWrapper.style.display = 'none'; 
+            eskLeadCheckbox.checked = false;    
         } else {
-            leadWrapper.style.display = 'flex'; // Показываем
+            leadWrapper.style.display = 'flex';
         }
     }
 
-    // Слушаем переключения в списке
     eskTypeSelect.addEventListener('change', toggleLeadCheckbox);
-    // Прячем сразу при загрузке страницы (так как Свободный бег стоит первым)
     toggleLeadCheckbox();
 }
 
@@ -431,7 +429,7 @@ const routes = {
     'squad-albatross': 'albatros',
     'squad-dolphins': 'delfin', 
     'squad-clownfish': 'clownriba',    
-    'sphere-guardians': 'ohranka',
+    'sphere-guard': 'ohranka',
     'sphere-food': 'prodovolka',
     'sphere-heal': 'vrach',
     'shelter-blog': 'priyut',
@@ -469,7 +467,6 @@ function openTabFromHash() {
             const accItem = activeBtn.closest('.acc-item');
             if (accItem) accItem.classList.add('open');
             
-            // Открываем форму
             setForm(formId);
             qs('workAreaTitle').textContent = activeBtn.textContent.trim();
         }
@@ -522,14 +519,12 @@ if (qs('octoGenerate')) {
         const date = qs('octoDate').value.trim() || 'дд.мм.гг';
         const navId = qs('octoNavId').value.trim() || 'ID';
         
-        // Обрабатываем участников
         const rawParts = qs('octoPartIds').value.trim();
         const partsArr = rawParts.split(/[\s,]+/).filter(Boolean);
         const partsStr = partsArr.length > 0 
             ? partsArr.map(id => `[link${id}] [${id}]`).join(', ')
             : '[linkID] [ID]';
 
-        // Умная обработка ссылок из одного поля
         const proofsRaw = qs('octoProofs').value.trim();
         const proofLinks = proofsRaw.split(/\s+/).filter(Boolean);
         
@@ -543,12 +538,114 @@ if (qs('octoGenerate')) {
                 proofsText += `\n[url=${proofLinks[i]}]скриншот ${i-2}[/url]`;
             }
     } else {
-            // Если оставили пустым - ничего не пишем
             proofsText = '\nСкриншоты были отправлены в беседу навигаторов.';
         }
-        // Собираем всё вместе
         const text = `[b]Дата проведения: ${date}[/b]\n[b]Навигатор:[/b] [link${navId}] [${navId}].\n[b]Участники:[/b] ${partsStr}.${proofsText}`;
         
         qs('octoResult').value = text;
     };
 }
+
+const guardLocs = ['Дыра в корабле', 'Извилистая тропа', 'Искажённая чаща', 'Тихий залив', 'Лазурная бухта', 'Отдалённая лазурная бухта'];
+const guardRoutes = ['А', 'Б', 'В'];
+
+// Переключение видимости полей и автозаполнение ID
+function updateGuardForm() {
+    const mode = qs('guardMode').value;
+    const savedId = localStorage.getItem('shrk_user_id') || ''; // Берем сохраненный ID
+
+    document.querySelectorAll('[class*="guard-sub-"]').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll(`.guard-sub-${mode}`).forEach(el => el.classList.remove('hidden'));
+    
+    // Автоматическая подстановка ID в зависимости от режима
+    if (mode === 'patrol') {
+        if (savedId) qs('patrolCollector').value = savedId;
+        setAutoPatrolTime();
+    } 
+    else if (mode === 'watch') {
+        if (savedId) qs('watchId').value = savedId;
+        updateWatchOptions();
+    } 
+ else if (mode === 'check') {
+        if (savedId) qs('checkMyId').value = savedId;
+        qs('checkTime').value = ''; // Оставляем поле пустым для ручного ввода
+    }
+}
+
+function updateWatchOptions() {
+    const isPassive = qs('watchSubMode').value === 'passive';
+    fillSelect(qs('watchLoc'), isPassive ? guardLocs : guardRoutes);
+}
+
+function setAutoPatrolTime() {
+    const times = ["03:00", "07:00", "11:00", "15:00", "20:00", "23:00"];
+    const now = new Date();
+    const moscow = new Date(now.toLocaleString("en-US", {timeZone: "Europe/Moscow"}));
+    const cur = `${String(moscow.getHours()).padStart(2, '0')}:${String(moscow.getMinutes()).padStart(2, '0')}`;
+    
+    let selected = times[0];
+    for (let t of times) { if (cur >= t) selected = t; }
+    qs('patrolTime').value = selected;
+}
+
+// Генерация отчёта
+if(qs('guardGenerate')) {
+    qs('guardGenerate').onclick = () => {
+        const mode = qs('guardMode').value;
+        const date = getMoscowDate();
+        let result = "";
+
+        if (mode === 'patrol') {
+            const leads = qs('patrolLeads').value.trim().split(/\s+/).filter(Boolean);
+            const collId = qs('patrolCollector').value || 'ID';
+            // Если ведущих нет, ставим собирающего как общего ведущего
+            const leadStr = leads.length >= 2 
+                ? `[link${leads[0]}] [${leads[0]}] (А), [link${leads[1]}] [${leads[1]}] (Б)`
+                : `[link${leads[0] || collId}] [${leads[0] || collId}] (Общий)`;
+            
+            const parts = qs('patrolParts').value.trim().split(/\s+/).filter(Boolean).map(id => `[link${id}] [${id}]`).join(', ');
+            
+            result = `[b]Отчёт о пограничном патруле.[/b]\n[b]${date}[/b]\nВремя сбора: ${qs('patrolTime').value}\nСобирающий: [link${collId}] [${collId}]\nВедущий: ${leadStr}\nУчастники: ${parts || '[linkID] [ID]'}`;
+        } 
+        
+        else if (mode === 'watch') {
+            const timeRange = qs('watchTimeRange').value || '00:00 - 00:00';
+            const isPassive = qs('watchSubMode').value === 'passive';
+            const wId = qs('watchId').value || 'ID';
+            let duration = "00:00";
+            const tMatches = timeRange.match(/(\d{1,2}:\d{2})/g);
+            if (tMatches?.length === 2) {
+                const [s, e] = tMatches.map(m => m.split(':').map(Number));
+                let diff = (e[0]*60 + e[1]) - (s[0]*60 + s[1]);
+                if (diff < 0) diff += 1440;
+                duration = `${String(Math.floor(diff/60)).padStart(2,'0')}:${String(diff%60).padStart(2,'0')}`;
+            }
+            result = `[b]Отчёт о ${isPassive ? 'пассивном' : 'активном'} дозоре.[/b]\n[b]${date}[/b]\nЧасы дозора: ${timeRange} (${duration})\nДозорный: [link${wId}] [${wId}]\n${isPassive ? 'Локация' : 'Маршрут'}: ${qs('watchLoc').value}`;
+        }
+        
+      else if (mode === 'check') {
+            const myId = qs('checkMyId').value || 'ID';
+            const targetId = qs('checkTargetId').value || 'ID';
+            const checkTime = qs('checkTime').value || 'чч:мм'; // Берем время из нового поля
+            result = `Я, [link${myId}] [${myId}], проверил дозорного [link${targetId}] [${targetId}] в ${checkTime}; проверка ${qs('checkStatus').value}.`;
+        }
+
+        qs('guardResult').value = result;
+    };
+}
+
+// Привязка событий
+if(qs('guardMode')) qs('guardMode').onchange = updateGuardForm;
+if(qs('watchSubMode')) qs('watchSubMode').onchange = updateWatchOptions;
+
+// Регистрируем поля для глобального сохранения ID
+const guardIdFields = [qs('patrolCollector'), qs('watchId'), qs('checkMyId')];
+guardIdFields.forEach(el => { 
+    if(el) {
+        idInputs.push(el); 
+        // Если меняем ID руками в охранке — он сохранится для всего сайта
+        el.addEventListener('input', () => localStorage.setItem('shrk_user_id', el.value));
+    }
+});
+
+updateGuardForm(); // Запуск при загрузке

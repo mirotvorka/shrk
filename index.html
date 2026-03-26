@@ -17,7 +17,9 @@
 
     <div class="layout">
      <aside class="column nav-col" id="navCol">
-        <h3 class="column-title">Навигация</h3>
+        <h3 class="column-title">
+  Навигация 
+</h3>
 
         <div class="accordion">
           
@@ -98,7 +100,7 @@
 
 <div id="form-main-blog" class="stack form-view hidden">
           <div class="card stack">
-            <h2 style="margin-bottom: 0;">Посвящение</h2>
+            <h2>Посвящение</h2>
 
             <div class="grid">
               <div>
@@ -113,7 +115,7 @@
 
               <div>
                 <label for="rankId">ID</label>
-                <input id="rankId" type="text" placeholder="Например: 750333">
+                <input id="rankId" type="text" placeholder="1234567">
               </div>
               <div>
                 <label for="rankProof">Скриншот(ы)</label>
@@ -167,7 +169,7 @@
 
             <div class="grid">
               <div>
-                <label for="awardsMode">Тип отчёта</label>
+                <label for="awardsMode">Выберите тип награды</label>
                 <select id="awardsMode">
                   <option value="medal">Запрос медали</option>
                   <option value="trophy">Запрос трофея</option>
@@ -178,7 +180,7 @@
 
               <div>
                 <label for="awardsId">ID</label>
-                <input id="awardsId" type="text" placeholder="Например: 750333">
+                <input id="awardsId" type="text" placeholder="1234567">
               </div>
 
               <div>
@@ -246,7 +248,7 @@
 
               <div>
                 <label for="octoNavId">ID Навигатора</label>
-                <input id="octoNavId" type="text" placeholder="Например: 750333">
+                <input id="octoNavId" type="text" placeholder="Например: 1234567">
               </div>
 
               <div class="full">
@@ -281,7 +283,100 @@
         <div id="form-squad-dolphins" class="stack form-view hidden"><div class="card"><h2>Отряд Дельфинов</h2></div></div>
         <div id="form-squad-clownfish" class="stack form-view hidden"><div class="card"><h2>Отряд Рыб-клоунов</h2></div></div>
 
-        <div id="form-sphere-guard" class="stack form-view hidden"><div class="card"><h2>Охранная сфера</h2></div></div>
+<div id="form-sphere-guard" class="stack form-view hidden">
+  <div class="card stack">
+    <h2 id="guardTypeTitle">Охранная сфера</h2>
+    
+    <div class="grid">
+      <div class="full">
+        <label for="guardMode">Выберите тип отчёта</label>
+        <select id="guardMode">
+          <option value="patrol">Пограничный патруль</option>
+          <option value="watch">Дозор (Активный/Пассивный)</option>
+          <option value="check">Проверка дозорного</option>
+        </select>
+      </div>
+
+      <div class="full guard-sub-patrol">
+        <label for="patrolTime">Время сбора (МСК)</label>
+        <select id="patrolTime">
+          <option value="03:00">03:00</option>
+          <option value="07:00">07:00</option>
+          <option value="11:00">11:00</option>
+          <option value="15:00">15:00</option>
+          <option value="20:00">20:00</option>
+          <option value="23:00">23:00</option>
+        </select>
+      </div>
+      <div class="guard-sub-patrol">
+        <label for="patrolCollector">Собирающий (ID)</label>
+        <input id="patrolCollector" type="text" placeholder="1234567">
+      </div>
+      <div class="guard-sub-patrol">
+        <label for="patrolLeads">Ведущие (ID через пробел)</label>
+        <input id="patrolLeads" type="text" placeholder="123456 789012">
+           <div style="font-size: 10px; opacity: 0.7; margin-top: 5px; line-height: 1.4;">
+                Первый ID — <b>(А)</b>, второй ID — <b>(Б)</b>, при указании одного ID — <b>(Общий)</b>
+                </div>
+      </div>
+      <div class="full guard-sub-patrol">
+        <label for="patrolParts">Участники (ID через пробел)</label>
+        <input id="patrolParts" type="text" placeholder="123 456 789">
+      </div>
+
+      <div class="full guard-sub-watch hidden">
+        <label for="watchSubMode">Вид дозора</label>
+        <select id="watchSubMode">
+          <option value="passive">Пассивный</option>
+          <option value="active">Активный</option>
+        </select>
+      </div>
+      <div class="guard-sub-watch hidden">
+        <label for="watchTimeRange">Часы (чч:мм - чч:мм)</label>
+        <input id="watchTimeRange" type="text" placeholder="12:00 - 13:00">
+      </div>
+      <div class="guard-sub-watch hidden">
+        <label for="watchId">Дозорный (ID)</label>
+        <input id="watchId" type="text" placeholder="1234567">
+      </div>
+      <div class="full guard-sub-watch hidden" id="watchLocWrap">
+        <label for="watchLoc">Локация / Маршрут</label>
+        <select id="watchLoc"></select> </div>
+
+     <div class="guard-sub-check hidden">
+        <label for="checkMyId">ID</label>
+        <input id="checkMyId" type="text" placeholder="750333">
+      </div>
+      <div class="guard-sub-check hidden">
+        <label for="checkTargetId">ID дозорного</label>
+        <input id="checkTargetId" type="text" placeholder="123456">
+      </div>
+      <div class="guard-sub-check hidden">
+        <label for="checkTime">Время (чч:мм)</label>
+        <input id="checkTime" type="text" placeholder="18:35">
+      </div>
+      <div class="guard-sub-check hidden">
+        <label for="checkStatus">Результат проверки</label>
+        <select id="checkStatus">
+          <option value="пройдена">Пройдена</option>
+          <option value="не пройдена">Не пройдена</option>
+        </select>
+      </div>
+
+   </div> <div class="actions">
+      <button class="primary" id="guardGenerate">Составить отчёт</button>
+    </div>
+
+  </div> 
+
+  <div class="card">
+    <label for="guardResult">Результат</label>
+    <textarea id="guardResult" class="output" readonly></textarea>
+    <div class="actions">
+      <button class="secondary" data-copy="guardResult">Скопировать отчёт</button>
+    </div>
+  </div>
+</div>
         <div id="form-sphere-food" class="stack form-view hidden"><div class="card"><h2>Продовольственная сфера</h2></div></div>
         <div id="form-sphere-heal" class="stack form-view hidden"><div class="card"><h2>Врачевательная сфера</h2></div></div>
    <div id="form-sphere-squadron" class="stack form-view hidden">
@@ -290,7 +385,7 @@
     
     <div class="grid">
       <div class="full">
-        <label for="eskType">Тип мероприятия</label>
+        <label for="eskType">Выберите тип мероприятия</label>
         <select id="eskType">
           <option value="Свободный бег">Свободный бег</option>
           <option value="Боевые игры">Боевые игры</option>
@@ -309,7 +404,7 @@
 
       <div>
         <label for="eskId">ID</label>
-        <input id="eskId" type="text" placeholder="750333">
+        <input id="eskId" type="text" placeholder="1234567">
       </div>
 
       <div class="full" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
@@ -333,5 +428,6 @@
 </div>
 
   <script src="script.js"></script>
+
 </body>
 </html>
