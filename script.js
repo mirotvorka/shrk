@@ -643,119 +643,148 @@ guardIdFields.forEach(el => {
 });
 
 updateGuardForm(); 
-const vkBtn = document.getElementById('vkGenerate');
-if (vkBtn) {
-    vkBtn.onclick = () => {
-        const type = document.getElementById('vkType').value;
-        const myId = document.getElementById('vkMyId').value.trim() || 'ID';
-        const rawIdsStr = document.getElementById('vkTargetIds').value.trim().split(/\s+/).filter(Boolean).join(', ') || 'ID';
+
+// === ЛОГИКА ДЛЯ ОТРЯДА ДЕЛЬФИНОВ (УМНАЯ КАРТОЧКА) ===
+
+function updateDolphinForm() {
+    const reportType = document.getElementById('dolphinReportType');
+    const activityType = document.getElementById('dolphinActivityType');
+    
+    // Если элементов нет на странице, прерываем функцию, чтобы не было ошибок
+    if (!reportType || !activityType) return;
+
+    const activityWrap = document.getElementById('dolphinActivityWrap');
+    const targetLabel = document.getElementById('dolphinTargetLabel');
+    const timeWrap = document.getElementById('dolphinTimeWrap');
+    const diveWrap = document.getElementById('dolphinDiveWrap');
+    const proofWrap = document.getElementById('dolphinProofWrap');
+
+    // Скрываем все специфичные поля
+    activityWrap.classList.add('hidden');
+    timeWrap.classList.add('hidden');
+    diveWrap.classList.add('hidden');
+    proofWrap.classList.add('hidden');
+    
+    if (reportType.value === 'vk') {
+        activityWrap.classList.remove('hidden');
+        targetLabel.innerText = "ID сопровождаемых (через пробел)";
+    } 
+    else if (reportType.value === 'cw') {
+        activityWrap.classList.remove('hidden');
+        targetLabel.innerText = "ID сопровождаемых (через пробел)";
         
-        let vkTag = '', vkAction = '';
-        if (type === 'climb') { vkTag = '#лазание'; vkAction = 'лазать.'; }
-        else if (type === 'vision') { vkTag = '#зоркость'; vkAction = 'прокачивать зоркость.'; }
-        else if (type === 'dive') { vkTag = '#ныряние'; vkAction = 'нырять.'; }
-
-        document.getElementById('vkResult').value = `${vkTag}\n${myId}, веду ${rawIdsStr} ${vkAction}`;
-    };
-}
-
-
-const cwTypeEl = document.getElementById('cwType');
-if (cwTypeEl) {
-
-    cwTypeEl.addEventListener('change', function() {
-        const timeWrap = document.querySelector('.cw-time-wrap');
-        const diveWrap = document.querySelector('.cw-dive-wrap');
-        if (this.value === 'dive') {
-            if(timeWrap) timeWrap.classList.add('hidden');
-            if(diveWrap) diveWrap.classList.remove('hidden');
+        if (activityType.value === 'dive') {
+            diveWrap.classList.remove('hidden');
         } else {
-            if(timeWrap) timeWrap.classList.remove('hidden');
-            if(diveWrap) diveWrap.classList.add('hidden');
+            timeWrap.classList.remove('hidden');
         }
-    });
-
-    cwTypeEl.dispatchEvent(new Event('change'));
-}
-
-const cwBtn = document.getElementById('cwGenerate');
-if (cwBtn) {
-    cwBtn.onclick = () => {
-        const type = document.getElementById('cwType').value;
-        const date = getMoscowDate();
-        const myId = document.getElementById('cwMyId').value.trim() || 'ID';
-        const rawIds = (document.getElementById('cwTargetIds').value || '').trim().split(/\s+/).filter(Boolean);
-        const isSingle = rawIds.length === 1;
-
-        let noun = '';
-        let actionCatwar = '';
-
-        if (type === 'climb') {
-            actionCatwar = 'лазал';
-            noun = isSingle ? 'малышом' : 'малышами';
-        } else if (type === 'vision') {
-            actionCatwar = 'качал зоркость';
-            noun = isSingle ? 'игроком' : 'игроками';
-        } else if (type === 'dive') {
-            actionCatwar = 'нырял';
-            noun = isSingle ? 'малышом' : 'малышами';
-        }
-
-        const formattedIds = rawIds.map(id => `[link${id}] [${id}]`).join(', ') || '[linkID] [ID]';
-        let points = 0;
-        let timeStr = '';
-
-        if (type === 'climb' || type === 'vision') {
-            const timeRange = document.getElementById('cwTimeRange').value || '00.00 - 00.00';
-            const times = timeRange.match(/(\d{1,2})[:.](\d{2})/g);
-            let startStr = '00.00', endStr = '00.00';
-            
-            if (times && times.length === 2) {
-               startStr = times[0].replace('.', ':');
-                endStr = times[1].replace('.', ':');
-                
-                const [sh, sm] = startStr.split(':').map(Number);
-                const [eh, em] = endStr.split(':').map(Number);
-                
-                let diff = (eh * 60 + em) - (sh * 60 + sm);
-                if (diff < 0) diff += 1440;
-
-                points = type === 'climb' ? Math.floor(diff / 6) : Math.floor(diff / 4);
-            }
-            timeStr = ` с ${startStr} до ${endStr}`;
-        } else if (type === 'dive') {
-            const dives = parseInt(document.getElementById('cwDives').value) || 1;
-            const isToddler = document.getElementById('cwIsToddler').checked;
-            points = dives * (isToddler ? 2.5 : 5);
-        }
-
-        document.getElementById('cwResult').value = `[b]${date}[/b]\nЯ, [link${myId}] [${myId}], [b]${actionCatwar}[/b] с ${noun} ${formattedIds}${timeStr}\n[b]Кол-во заработанных баллов:[/b] ${points}.`;
-    };
-}
-
-const teachBtn = document.getElementById('teachGenerate');
-if (teachBtn) {
-    teachBtn.onclick = () => {
-        const myId = document.getElementById('teachMyId').value.trim() || 'ID';
-        const tId = document.getElementById('teachTargetId').value.trim() || 'ID';
-        const proof = document.getElementById('teachProof').value.trim() || 'ссылка';
-        document.getElementById('teachResult').value = `Я, [link${myId}] [${myId}], помог малышу [link${tId}] обучиться лазать.\n[url=${proof}]Доказательства[/url]`;
-    };
-}
-
-const dolphinIds = [document.getElementById('vkMyId'), document.getElementById('cwMyId'), document.getElementById('teachMyId')];
-dolphinIds.forEach(el => {
-    if(el) {
-        idInputs.push(el);
-        const saved = localStorage.getItem('shrk_user_id');
-        if (saved) el.value = saved;
-        el.addEventListener('input', (e) => {
-            const val = e.target.value;
-            localStorage.setItem('shrk_user_id', val);
-            dolphinIds.forEach(input => { if (input && input !== el) input.value = val; });
-        });
+    } 
+    else if (reportType.value === 'teach') {
+        targetLabel.innerText = "ID игрока";
+        proofWrap.classList.remove('hidden');
     }
-});
+}
+
+// Привязываем переключение
+const dolphinReportEl = document.getElementById('dolphinReportType');
+const dolphinActivityEl = document.getElementById('dolphinActivityType');
+
+if (dolphinReportEl) {
+    dolphinReportEl.addEventListener('change', updateDolphinForm);
+}
+if (dolphinActivityEl) {
+    dolphinActivityEl.addEventListener('change', updateDolphinForm);
+}
+
+// Генерация текста
+const dolphinBtn = document.getElementById('dolphinGenerate');
+if (dolphinBtn) {
+    dolphinBtn.onclick = () => {
+        const reportType = document.getElementById('dolphinReportType').value;
+        const myId = document.getElementById('dolphinMyId').value.trim() || 'ID';
+        const rawIdsStr = document.getElementById('dolphinTargetIds').value.trim();
+        const rawIds = rawIdsStr.split(/\s+/).filter(Boolean);
+        const targetIdsText = rawIds.join(', ') || 'ID';
+        
+        let resultText = '';
+
+        if (reportType === 'vk') {
+            const type = document.getElementById('dolphinActivityType').value;
+            let vkTag = '', vkAction = '';
+            
+            if (type === 'climb') { vkTag = '#лазание'; vkAction = 'лазать.'; }
+            else if (type === 'vision') { vkTag = '#зоркость'; vkAction = 'прокачивать зоркость.'; }
+            else if (type === 'dive') { vkTag = '#ныряние'; vkAction = 'нырять.'; }
+
+            resultText = `${vkTag}\n${myId}, веду ${targetIdsText} ${vkAction}`;
+        } 
+        else if (reportType === 'cw') {
+            const type = document.getElementById('dolphinActivityType').value;
+            const date = getMoscowDate();
+            const isSingle = rawIds.length === 1;
+            const isToddler = document.getElementById('dolphinIsToddler').checked; 
+            
+            let noun = '', actionCatwar = '', points = 0, timeStr = '';
+
+            if (type === 'climb') {
+                actionCatwar = 'лазал';
+                noun = isSingle ? 'малышом' : 'малышами';
+            } else if (type === 'vision') {
+                actionCatwar = 'качал зоркость';
+                noun = isSingle ? 'игроком' : 'игроками';
+            } else if (type === 'dive') {
+                actionCatwar = 'нырял';
+                noun = isToddler ? (isSingle ? 'игроком' : 'игроками') : (isSingle ? 'малышом' : 'малышами');
+            }
+
+            const formattedIds = rawIds.map(id => `[link${id}] [${id}]`).join(', ') || '[linkID] [ID]';
+
+            if (type === 'climb' || type === 'vision') {
+                const timeRange = document.getElementById('dolphinTimeRange').value || '00.00 - 00.00';
+                const times = timeRange.match(/(\d{1,2})[:.](\d{2})/g);
+                let startStr = '00.00', endStr = '00.00';
+                
+                if (times && times.length === 2) {
+                    startStr = times[0].replace(':', '.');
+                    endStr = times[1].replace(':', '.');
+                    const [sh, sm] = startStr.split('.').map(Number);
+                    const [eh, em] = endStr.split('.').map(Number);
+                    
+                    let diff = (eh * 60 + em) - (sh * 60 + sm);
+                    if (diff < 0) diff += 1440;
+
+                    points = type === 'climb' ? Math.floor(diff / 6) : Math.floor(diff / 4);
+                }
+                timeStr = ` с ${startStr} до ${endStr}`;
+            } else if (type === 'dive') {
+                const dives = parseInt(document.getElementById('dolphinDives').value) || 1;
+                points = dives * (isToddler ? 2.5 : 5);
+            }
+
+            resultText = `[b]${date}[/b]\nЯ, [link${myId}] [${myId}], [b]${actionCatwar}[/b] с ${noun} ${formattedIds}${timeStr}\n[b]Кол-во заработанных баллов:[/b] ${points}.`;
+        } 
+        else if (reportType === 'teach') {
+            const proof = document.getElementById('dolphinProof').value.trim() || 'ссылка';
+            const tId = rawIds[0] || 'ID'; 
+            resultText = `Я, [link${myId}] [${myId}], помог малышу [link${tId}] обучиться лазать.\n[url=${proof}]Доказательства[/url]`;
+        }
+
+        document.getElementById('dolphinResult').value = resultText;
+    };
+}
+
+// Автосохранение ID
+const dolphinMyIdEl = document.getElementById('dolphinMyId');
+if (dolphinMyIdEl) {
+    idInputs.push(dolphinMyIdEl);
+    const saved = localStorage.getItem('shrk_user_id');
+    if (saved) dolphinMyIdEl.value = saved;
+    dolphinMyIdEl.addEventListener('input', () => localStorage.setItem('shrk_user_id', dolphinMyIdEl.value));
+}
+
+// Запуск при загрузке
+updateDolphinForm();
+
 
 // === ЛОГИКА ДЛЯ ВРАЧЕВАТЕЛЬНОЙ СФЕРЫ ===
 
