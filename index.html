@@ -283,10 +283,10 @@
      <div id="form-squad-dolphins" class="stack form-view hidden">
 
   <div class="card stack">
-    <h2>Начало деятельности (ВК)</h2>
+    <h2>Начало мероприятия (ВК)</h2>
     <div class="grid">
       <div class="full">
-        <label for="vkType">Выберите тип деятельности</label>
+        <label for="vkType">Вид мероприятия</label>
         <select id="vkType">
           <option value="climb">Лазание</option>
           <option value="vision">Прокачивание зоркости</option>
@@ -319,7 +319,7 @@
     <h2>Прокачивание навыков</h2>
     <div class="grid">
       <div class="full">
-        <label for="cwType">Выберите тип деятельности</label>
+        <label for="cwType">Вид мероприятия</label>
         <select id="cwType">
           <option value="climb">Лазание</option>
           <option value="vision">Прокачивание зоркости</option>
@@ -400,7 +400,7 @@
     
     <div class="grid">
       <div class="full">
-        <label for="guardMode">Выберите тип отчёта</label>
+        <label for="guardMode">Вид отчёта</label>
         <select id="guardMode">
           <option value="patrol">Пограничный патруль</option>
           <option value="watch">Дозор (Активный/Пассивный)</option>
@@ -489,14 +489,149 @@
   </div>
 </div>
         <div id="form-sphere-food" class="stack form-view hidden"><div class="card"><h2>Продовольственная сфера</h2></div></div>
-        <div id="form-sphere-heal" class="stack form-view hidden"><div class="card"><h2>Врачевательная сфера</h2></div></div>
-   <div id="form-sphere-squadron" class="stack form-view hidden">
+
+        <div id="form-sphere-heal" class="stack form-view hidden">
+  
+  <style>
+    .shrk-chip {
+      padding: 6px 14px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--text-bright, #333);
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.3);
+      transition: all 0.2s ease;
+      user-select: none;
+      text-align: center;
+    }
+    .shrk-chip:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    .shrk-chip.active {
+      background: #4a3525;
+      color: #fff;
+      border-color: #4a3525;
+    }
+  </style>
+
+  <div class="card stack">
+    <h2>Врачевательная сфера</h2>
+    
+    <div class="grid">
+      <div class="full">
+        <label for="healMainType">Тип мероприятия</label>
+        <select id="healMainType">
+          <option value="resource">Ресурсный патруль</option>
+          <option value="expedition">Экспедиции</option>
+          <option value="doc_patrol">Докторский патруль</option>
+          <option value="free_hunt">Свободная охота</option>
+          <option value="spv">СПВ</option>
+        </select>
+      </div>
+
+      <div class="full heal-sub-resource">
+        <label for="healSubResource">Вид ресурсного патруля</label>
+        <select id="healSubResource">
+          <option value="веточник">Веточник</option>
+          <option value="травник">Травник</option>
+          <option value="мховник">Мховник</option>
+        </select>
+      </div>
+
+      <div class="full heal-sub-exp hidden">
+        <label for="healSubExp">Вид экспедиции</label>
+        <select id="healSubExp">
+          <option value="дневная экспедиция">Дневная</option>
+          <option value="вечерняя экспедиция">Вечерняя</option>
+        </select>
+      </div>
+
+      <div class="full heal-sub-spv hidden">
+        <label for="healSubSpv">Вид</label>
+        <select id="healSubSpv">
+          <option value="heal">Лечение</option>
+          <option value="duty">Дежурство</option>
+          <option value="supervision">Надзор</option>
+        </select>
+      </div>
+
+      <div id="healCollectorWrap">
+        <label id="healCollectorLabel" for="healCollectorId">Собирающий (ID)</label>
+        <input id="healCollectorId" type="text" placeholder="750333">
+      </div>
+
+      <div id="healHelpersWrap" class="hidden">
+        <label for="healHelperIds">Помощники (ID через пробел)</label>
+        <input id="healHelperIds" type="text" placeholder="345678">
+      </div>
+
+      <div id="healPartsWrap">
+        <label for="healPartIds">Участники (ID через пробел)</label>
+        <input id="healPartIds" type="text" placeholder="123456 789012">
+        <div id="healDocNote" class="hidden" style="font-size: 11px; opacity: 0.7; margin-top: 5px;">
+          Чтобы добавить мышей, напишите их количество через плюс после ID: <b>123456+2</b>
+        </div>
+      </div>
+
+      <div id="healMiceWrap" class="hidden">
+        <label for="healMice">Кол-во мышей</label>
+        <input id="healMice" type="text" placeholder="1">
+      </div>
+
+      <div id="healPatientWrap" class="hidden">
+        <label for="healPatientId">Кого вылечил (ID)</label>
+        <input id="healPatientId" type="text" placeholder="123456">
+      </div>
+
+      <div id="healDiseaseWrap" class="hidden full">
+        <label for="healDisease">Вылечил от</label>
+        <select id="healDisease">
+          <option value="отравления">Отравление</option>
+          <option value="кашля">Кашель</option>
+          <option value="ушибов">Ушибы</option>
+          <option value="ран">Раны</option>
+          <option value="ссадин от утопления">Ссадины от утопления</option>
+        </select>
+      </div>
+
+      <div id="healReplacedWrap" class="hidden full">
+        <div style="font-size: 11px; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; font-weight: bold; letter-spacing: 0.5px;">
+          Заменил и провел мероприятия (нажмите, чтобы выбрать)
+        </div>
+        <div id="healReplacedChips" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;">
+          <div class="shrk-chip" data-value="веточник">Веточник</div>
+          <div class="shrk-chip" data-value="травник">Травник</div>
+          <div class="shrk-chip" data-value="мховник">Мховник</div>
+          <div class="shrk-chip" data-value="дневная экспедиция">Дневная эксп.</div>
+          <div class="shrk-chip" data-value="вечерняя экспедиция">Вечерняя эксп.</div>
+          <div class="shrk-chip" data-value="докторский патруль">Докт. патруль</div>
+        </div>
+      </div>
+
+    </div>
+    
+    <div class="actions">
+      <button class="primary" id="healGenerate">Составить отчёт</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <label for="healResult">Результат</label>
+    <textarea id="healResult" class="output" readonly style="min-height: 160px;"></textarea>
+    <div class="actions">
+      <button class="secondary" data-copy="healResult">Скопировать отчёт</button>
+    </div>
+  </div>
+</div>
+
+        <div id="form-sphere-squadron" class="stack form-view hidden">
   <div class="card stack">
     <h2>Эскадра</h2>
     
     <div class="grid">
       <div class="full">
-        <label for="eskType">Выберите тип мероприятия</label>
+        <label for="eskType">Вид мероприятия</label>
         <select id="eskType">
           <option value="Свободный бег">Свободный бег</option>
           <option value="Боевые игры">Боевые игры</option>

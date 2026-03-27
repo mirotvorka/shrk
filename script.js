@@ -756,3 +756,155 @@ dolphinIds.forEach(el => {
         });
     }
 });
+
+// === ЛОГИКА ДЛЯ ВРАЧЕВАТЕЛЬНОЙ СФЕРЫ ===
+
+function updateHealForm() {
+    const mainType = document.getElementById('healMainType').value;
+    const subSpv = document.getElementById('healSubSpv').value;
+    
+    document.querySelector('.heal-sub-resource').classList.toggle('hidden', mainType !== 'resource');
+    document.querySelector('.heal-sub-exp').classList.toggle('hidden', mainType !== 'expedition');
+    document.querySelector('.heal-sub-spv').classList.toggle('hidden', mainType !== 'spv');
+
+    const collectorLabel = document.getElementById('healCollectorLabel');
+    const collectorWrap = document.getElementById('healCollectorWrap');
+    const partsWrap = document.getElementById('healPartsWrap');
+    const helpersWrap = document.getElementById('healHelpersWrap');
+    const docNote = document.getElementById('healDocNote');
+    const miceWrap = document.getElementById('healMiceWrap');
+    const patientWrap = document.getElementById('healPatientWrap');
+    const diseaseWrap = document.getElementById('healDiseaseWrap');
+    const replacedWrap = document.getElementById('healReplacedWrap');
+
+    // Сбрасываем видимость и ширину
+    collectorWrap.classList.remove('hidden');
+    collectorWrap.classList.remove('full');
+    partsWrap.classList.remove('hidden');
+    partsWrap.classList.remove('full'); // Возвращаем обычную ширину участникам
+    helpersWrap.classList.add('hidden');
+    docNote.classList.add('hidden');
+    miceWrap.classList.add('hidden');
+    patientWrap.classList.add('hidden');
+    diseaseWrap.classList.add('hidden');
+    replacedWrap.classList.add('hidden');
+    
+    collectorLabel.innerText = "Собирающий (ID)";
+
+    if (mainType === 'doc_patrol') {
+        helpersWrap.classList.remove('hidden');
+        docNote.classList.remove('hidden');
+        partsWrap.classList.add('full'); // Растягиваем участников на всю ширину
+    } 
+    else if (mainType === 'free_hunt') {
+        collectorLabel.innerText = "Участник (ID)";
+        partsWrap.classList.add('hidden');
+        miceWrap.classList.remove('hidden');
+    } 
+    else if (mainType === 'spv') {
+        partsWrap.classList.add('hidden');
+        if (subSpv === 'heal') {
+            collectorLabel.innerText = "ID";
+            patientWrap.classList.remove('hidden');
+            diseaseWrap.classList.remove('hidden');
+        } else if (subSpv === 'duty') {
+            collectorLabel.innerText = "Дежурный (ID)";
+            collectorWrap.classList.add('full'); 
+        } else if (subSpv === 'supervision') {
+            collectorLabel.innerText = "Надзорный (ID)";
+            replacedWrap.classList.remove('hidden');
+            collectorWrap.classList.add('full'); 
+        }
+    }
+}
+
+const healMainEl = document.getElementById('healMainType');
+const healSpvEl = document.getElementById('healSubSpv');
+if (healMainEl) healMainEl.addEventListener('change', updateHealForm);
+if (healSpvEl) healSpvEl.addEventListener('change', updateHealForm);
+
+function formatHealIds(rawStr) {
+    const raw = rawStr.trim().split(/\s+/).filter(Boolean);
+    return raw.map(str => {
+        let id = str;
+        let miceStr = '';
+        if (str.includes('+')) {
+            const parts = str.split('+');
+            id = parts[0];
+            let num = parts[1];
+            miceStr = ` (+${num} мышей)`;
+        }
+        return `[link${id}] [${id}]${miceStr}`;
+    }).join(', ') || '-';
+}
+
+const healChips = document.querySelectorAll('.shrk-chip');
+healChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+        chip.classList.toggle('active');
+    });
+});
+
+const healBtn = document.getElementById('healGenerate');
+if (healBtn) {
+    healBtn.onclick = () => {
+        const mainType = document.getElementById('healMainType').value;
+        const myId = document.getElementById('healCollectorId').value.trim() || 'ID';
+        const date = getMoscowDate();
+        let resultText = '';
+
+       if (mainType === 'resource' || mainType === 'expedition') {
+            const sub = mainType === 'resource' ? document.getElementById('healSubResource').value : document.getElementById('healSubExp').value;
+            
+            // Склоняем слова для красивого текста
+            let subConjugated = sub;
+            if (sub === 'веточник') subConjugated = 'веточнике';
+            if (sub === 'травник') subConjugated = 'травнике';
+            if (sub === 'мховник') subConjugated = 'мховнике';
+            if (sub === 'дневная экспедиция') subConjugated = 'дневной экспедиции';
+            if (sub === 'вечерняя экспедиция') subConjugated = 'вечерней экспедиции';
+
+            const parts = formatHealIds(document.getElementById('healPartIds').value);
+            resultText = `[b]${date}[/b]\n[b]Отчёт о ${subConjugated}.[/b]\n[u]Собирающий:[/u] [link${myId}] [${myId}]\n[u]Участники:[/u] ${parts}`;
+        }
+        else if (mainType === 'doc_patrol') {
+            const parts = formatHealIds(document.getElementById('healPartIds').value);
+            const helpers = formatHealIds(document.getElementById('healHelperIds').value);
+            resultText = `[b]${date}[/b]\n[b]Отчёт о докторском патруле.[/b]\n[u]Собирающий:[/u] [link${myId}] [${myId}]\n[u]Участники:[/u] ${parts}\n[u]Помощники:[/u] ${helpers}`;
+        } 
+        else if (mainType === 'free_hunt') {
+            const mice = document.getElementById('healMice').value || '1';
+            resultText = `[b]${date}[/b]\n[b]Отчёт о свободной охоте.[/b]\n[u]Участник:[/u] [link${myId}] [${myId}] (+${mice} мышей)`;
+        } 
+        else if (mainType === 'spv') {
+            const sub = document.getElementById('healSubSpv').value;
+            if (sub === 'heal') {
+                const patientId = document.getElementById('healPatientId').value.trim() || 'ID';
+                const disease = document.getElementById('healDisease').value;
+                resultText = `[b]${date}[/b]\n[b]Отчёт о лечении.[/b]\nЯ, [link${myId}] [${myId}], вылечил [link${patientId}] от ${disease}.`;
+            } 
+            else if (sub === 'duty') {
+                resultText = `[b]${date}[/b]\n[b]Отчёт о дежурстве.[/b]\n[u]Дежурный:[/u] [link${myId}] [${myId}]`;
+            } 
+            else if (sub === 'supervision') {
+                const activeChips = document.querySelectorAll('.shrk-chip.active');
+                const replacedVals = Array.from(activeChips).map(chip => chip.getAttribute('data-value'));
+                const replaced = replacedVals.length > 0 ? replacedVals.join(', ') : '-';
+                
+                resultText = `[b]${date}[/b]\n[b]Отчёт о надзоре.[/b]\n[u]Надзорный:[/u] [link${myId}] [${myId}]\n[u]Заменил и провел мероприятия:[/u] ${replaced}`;
+            }
+        }
+
+        document.getElementById('healResult').value = resultText;
+    };
+}
+
+const healCollectorEl = document.getElementById('healCollectorId');
+if (healCollectorEl) {
+    idInputs.push(healCollectorEl);
+    const saved = localStorage.getItem('shrk_user_id');
+    if (saved) healCollectorEl.value = saved;
+    healCollectorEl.addEventListener('input', () => localStorage.setItem('shrk_user_id', healCollectorEl.value));
+}
+
+if (healMainEl) updateHealForm();
