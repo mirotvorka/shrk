@@ -1,5 +1,4 @@
 const positions = ['малыш', 'малыш-топотушка', 'юнга', 'матрос', 'старший матрос', 'морской волк'];
-
 const mentorOptions = ['-', 'Ясно Солнышко', 'Дурёха', 'Утопленник', 'Алиот', 'Грехи', 'Крылатая Смерть Денница', 'Собачина', 'Горечь', 'Солнцепоклонница'];
 
 const rankTypes = {
@@ -88,24 +87,19 @@ function getMoscowDate() {
 function fillValidDates() {
     const select = qs('rankDate');
     if (!select) return;
-    
     const validDays = [0, 1, 3, 5]; 
     const dayNames = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
     const dates = [];
-    
     let d = new Date(); 
-    
     while (dates.length < 5) { 
         if (validDays.includes(d.getDay())) {
             const day = String(d.getDate()).padStart(2, '0');
             const month = String(d.getMonth() + 1).padStart(2, '0');
             const year = String(d.getFullYear()).slice(-2);
-            
             dates.push({ val: `${day}.${month}.${year}`, text: `${day}.${month}.${year} (${dayNames[d.getDay()]})` });
         }
         d.setDate(d.getDate() + 1); 
     }
-    
     select.innerHTML = '';
     dates.forEach(d => {
         const opt = document.createElement('option');
@@ -113,7 +107,6 @@ function fillValidDates() {
         opt.textContent = d.text;
         select.append(opt);
     });
-
     select.selectedIndex = 0; 
 }
 
@@ -160,14 +153,88 @@ document.querySelectorAll('.acc-head').forEach(btn => {
     });
 });
 
+const routes = {
+    'sphere-squadron': 'escadra',
+    'main-blog': 'main',
+    'awards-blog': 'nagrady',
+    'task-board': 'doska',
+    'pirate-code': 'codex',
+    'squad-seagulls': 'chaiki',
+    'squad-kits': 'kiti',
+    'squad-turtles': 'cherepahi',
+    'squad-sharks': 'akula',
+    'squad-octopus': 'osminogi', 
+    'squad-flyingfish': 'letriba',  
+    'squad-albatross': 'albatros',
+    'squad-dolphins': 'delfin', 
+    'squad-clownfish': 'clownriba',    
+    'sphere-guard': 'ohranka',
+    'sphere-food': 'prodovolka',
+    'sphere-heal': 'vrach',
+    'shelter-blog': 'priyut',
+    'other-journal': 'journal'
+};
+
+function getHashByFormId(formId) { return routes[formId] || formId; }
+function getFormIdByHash(hash) {
+    for (let key in routes) { if (routes[key] === hash) return key; }
+    return hash; 
+}
+
 document.querySelectorAll('.nav-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
-        setForm(btn.dataset.form);
+        const formId = btn.dataset.form;
+        setForm(formId);
         qs('workAreaTitle').textContent = e.target.textContent.trim();
-        
-        window.location.hash = btn.dataset.form;
+        window.location.hash = getHashByFormId(formId);
     });
 });
+
+function openTabFromHash() {
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+        const formId = getFormIdByHash(hash);
+        const activeBtn = document.querySelector(`.nav-btn[data-form="${formId}"]`);
+        if (activeBtn) {
+            const accItem = activeBtn.closest('.acc-item');
+            if (accItem) accItem.classList.add('open');
+            setForm(formId);
+            qs('workAreaTitle').textContent = activeBtn.textContent.trim();
+        }
+    }
+}
+
+window.addEventListener('DOMContentLoaded', openTabFromHash);
+window.addEventListener('hashchange', openTabFromHash);
+
+const mainLogoTitle = document.querySelector('.topbar h1');
+mainLogoTitle.style.cursor = 'pointer'; 
+mainLogoTitle.addEventListener('click', () => {
+    setForm('welcome');
+    qs('workAreaTitle').textContent = 'Приветствие';
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.acc-item').forEach(item => item.classList.remove('open'));
+    window.history.replaceState(null, null, window.location.pathname);
+});
+
+document.querySelectorAll('[data-copy]').forEach(btn => {
+    btn.onclick = () => {
+        const el = qs(btn.dataset.copy);
+        if(el) {
+            el.select();
+            document.execCommand('copy');
+        }
+    };
+});
+
+const navToggle = qs('navToggle');
+const navCol = qs('navCol');
+if (navToggle && navCol) {
+    navToggle.addEventListener('click', () => {
+        navCol.classList.toggle('mobile-open');
+        navToggle.textContent = navCol.classList.contains('mobile-open') ? 'Скрыть навигацию' : 'Показать навигацию';
+    });
+}
 
 function updateRankFields() {
     const cfg = rankTypes[qs('rankType').value];
@@ -181,17 +248,16 @@ if(qs('rankGenerate')) {
     qs('rankGenerate').onclick = () => {
         const cfg = rankTypes[qs('rankType').value];
         const id = qs('rankId').value.trim() || 'ID';
-        const nameInput = qs('rankName');
+        const nameInput = qs('rankPirateName');
         const name = (nameInput && nameInput.value.trim()) ? nameInput.value.trim() : '-';
         const date = qs('rankDate').value;
         const proofs = makeProofs(qs('rankProof').value);
         const speech = qs('rankSpeech').value;
 
-        let text = `Я, [link${id}] [${id}], желаю посвятиться в [b]${cfg.label}[/b] (${date}).\n${proofs}\n[b]Имя:[/b] ${name}`;
+        let text = `Я, [link${id}] [${id}], желаю посвятиться в [b]${cfg.label}[/b] (${date}).\n${proofs}`;
         if (cfg.mentor) text += `\n[b]Наставник:[/b] ${qs('rankMentor').value}`;
         if (cfg.pirate) {
-            const pName = qs('rankPirateName').value.trim();
-            text += `\n[b]Пиратское имя:[/b] ${pName || '-'}`;
+            text += `\n[b]Пиратское имя:[/b] ${name}`;
         }
         if (cfg.fem) text += `\n[b]Феминитив:[/b] ${qs('rankFeminine').value}`;
         text += `\n[b]Речь:[/b] ${speech}`;
@@ -203,12 +269,9 @@ function syncAwardsGroups() {
     const modeSelect = qs('awardsMode');
     const mode = modeSelect.value;
     const label = qs('awardsGroupLabel'); 
-    
     const selectedText = modeSelect.options[modeSelect.selectedIndex].text.replace('Запрос ', '');
     
-    if (label) {
-        label.textContent = 'Тип ' + selectedText;
-    }
+    if (label) label.textContent = 'Тип ' + selectedText;
 
     let groups = [];
     if (mode === 'medal') groups = Object.keys(medalGroups);
@@ -298,65 +361,30 @@ if(qs('awardsGenerate')) {
     };
 }
 
-document.querySelectorAll('[data-copy]').forEach(btn => {
-    btn.onclick = () => {
-        const el = qs(btn.dataset.copy);
-        if(el) {
-            el.select();
-            document.execCommand('copy');
-        }
-    };
-});
-
-const navToggle = qs('navToggle');
-const navCol = qs('navCol');
-
-if (navToggle && navCol) {
-    navToggle.addEventListener('click', () => {
-        navCol.classList.toggle('mobile-open');
-        
-        if (navCol.classList.contains('mobile-open')) {
-            navToggle.textContent = 'Скрыть навигацию';
-        } else {
-            navToggle.textContent = 'Показать навигацию';
-        }
-    });
-}
-
-
-if (qs('eskDate')) {
-    qs('eskDate').value = getMoscowDate();
-}
+if (qs('eskDate')) qs('eskDate').value = getMoscowDate();
 
 function calculateDuration() {
     const timeInput = qs('eskTime').value; 
     const durationField = qs('eskDuration');
-    
+    if (!durationField) return;
     const times = timeInput.match(/(\d{1,2}):(\d{2})/g);
-    
     if (times && times.length === 2) {
         const [startStr, endStr] = times;
         const [startH, startM] = startStr.split(':').map(Number);
         const [endH, endM] = endStr.split(':').map(Number);
-        
         let startTotal = startH * 60 + startM;
         let endTotal = endH * 60 + endM;
-        
         if (endTotal < startTotal) endTotal += 24 * 60;
-        
         const diff = endTotal - startTotal;
         const h = Math.floor(diff / 60);
         const m = diff % 60;
-        
         durationField.value = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
     } else {
         durationField.value = '';
     }
 }
 
-if (qs('eskTime')) {
-    qs('eskTime').addEventListener('input', calculateDuration);
-}
+if (qs('eskTime')) qs('eskTime').addEventListener('input', calculateDuration);
 
 if (qs('eskGenerate')) {
     qs('eskGenerate').onclick = () => {
@@ -364,43 +392,32 @@ if (qs('eskGenerate')) {
         const time = qs('eskTime').value.trim() || 'чч:мм - чч:мм';
         const id = qs('eskId').value.trim() || 'ID';
         const isLead = qs('eskIsLead').checked;
-
         const date = getMoscowDate();
 
         let duration = '00:00';
         const times = time.match(/(\d{1,2}):(\d{2})/g);
-        
         if (times && times.length === 2) {
             const [startStr, endStr] = times;
             const [startH, startM] = startStr.split(':').map(Number);
             const [endH, endM] = endStr.split(':').map(Number);
-            
             let startTotal = startH * 60 + startM;
             let endTotal = endH * 60 + endM;
-            
             if (endTotal < startTotal) endTotal += 24 * 60;
-            
             const diff = endTotal - startTotal;
             const h = Math.floor(diff / 60);
             const m = diff % 60;
-            
             duration = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
         }
-
         const leadSuffix = isLead ? ', ведущий' : '';
-
         const text = `[b]${type}[/b]\n[b]${date}[/b]; ${time} (${duration})\n[b]Участник[/b]: [[n]l[/n]ink${id}]${leadSuffix}`;
-        
         qs('eskResult').value = text;
     };
 }
 
 const eskTypeSelect = qs('eskType');
 const eskLeadCheckbox = qs('eskIsLead');
-
 if (eskTypeSelect && eskLeadCheckbox) {
     const leadWrapper = eskLeadCheckbox.parentElement; 
-
     function toggleLeadCheckbox() {
         if (eskTypeSelect.value === 'Свободный бег') {
             leadWrapper.style.display = 'none'; 
@@ -409,111 +426,11 @@ if (eskTypeSelect && eskLeadCheckbox) {
             leadWrapper.style.display = 'flex';
         }
     }
-
     eskTypeSelect.addEventListener('change', toggleLeadCheckbox);
     toggleLeadCheckbox();
 }
 
-const routes = {
-    'sphere-squadron': 'escadra',
-    'main-blog': 'main',
-    'awards-blog': 'nagrady',
-    'task-board': 'doska',
-    'pirate-code': 'codex',
-    'squad-seagulls': 'chaiki',
-    'squad-kits': 'kiti',
-    'squad-turtles': 'cherepahi',
-    'squad-sharks': 'akula',
-    'squad-octopus': 'osminogi', 
-    'squad-flyingfish': 'letriba',  
-    'squad-albatross': 'albatros',
-    'squad-dolphins': 'delfin', 
-    'squad-clownfish': 'clownriba',    
-    'sphere-guard': 'ohranka',
-    'sphere-food': 'prodovolka',
-    'sphere-heal': 'vrach',
-    'shelter-blog': 'priyut',
-};
-
-function getHashByFormId(formId) {
-    return routes[formId] || formId; 
-}
-
-function getFormIdByHash(hash) {
-    for (let key in routes) {
-        if (routes[key] === hash) return key;
-    }
-    return hash; 
-}
-
-document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        const formId = btn.dataset.form;
-        setForm(formId);
-        qs('workAreaTitle').textContent = e.target.textContent.trim();
-        
-        window.location.hash = getHashByFormId(formId);
-    });
-});
-
-function openTabFromHash() {
-    const hash = window.location.hash.replace('#', '');
-    
-    if (hash) {
-        const formId = getFormIdByHash(hash);
-        const activeBtn = document.querySelector(`.nav-btn[data-form="${formId}"]`);
-        
-        if (activeBtn) {
-            const accItem = activeBtn.closest('.acc-item');
-            if (accItem) accItem.classList.add('open');
-            
-            setForm(formId);
-            qs('workAreaTitle').textContent = activeBtn.textContent.trim();
-        }
-    }
-}
-
-window.addEventListener('DOMContentLoaded', openTabFromHash);
-window.addEventListener('hashchange', openTabFromHash);
-
-const mainLogoTitle = document.querySelector('.topbar h1');
-mainLogoTitle.style.cursor = 'pointer'; 
-
-mainLogoTitle.addEventListener('click', () => {
-    setForm('welcome');
-    qs('workAreaTitle').textContent = 'Приветствие';
-    
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.acc-item').forEach(item => item.classList.remove('open'));
-    
-    window.history.replaceState(null, null, window.location.pathname);
-});
-
-const idInputs = [qs('rankId'), qs('awardsId'), qs('eskId'), qs('octoNavId')].filter(Boolean);
-
-const savedId = localStorage.getItem('shrk_user_id');
-if (savedId) {
-    idInputs.forEach(input => input.value = savedId);
-}
-
-idInputs.forEach(input => {
-    input.addEventListener('input', (e) => {
-        const newId = e.target.value.trim();
-        
-        localStorage.setItem('shrk_user_id', newId);
-        
-        idInputs.forEach(otherInput => {
-            if (otherInput !== e.target) {
-                otherInput.value = newId;
-            }
-        });
-    });
-});
-
-
-if (qs('octoDate')) {
-    qs('octoDate').value = getMoscowDate();
-}
+if (qs('octoDate')) qs('octoDate').value = getMoscowDate();
 if (qs('octoGenerate')) {
     qs('octoGenerate').onclick = () => {
         const date = qs('octoDate').value.trim() || 'дд.мм.гг';
@@ -521,9 +438,7 @@ if (qs('octoGenerate')) {
         
         const rawParts = qs('octoPartIds').value.trim();
         const partsArr = rawParts.split(/[\s,]+/).filter(Boolean);
-        const partsStr = partsArr.length > 0 
-            ? partsArr.map(id => `[link${id}] [${id}]`).join(', ')
-            : '[linkID] [ID]';
+        const partsStr = partsArr.length > 0 ? partsArr.map(id => `[link${id}] [${id}]`).join(', ') : '[linkID] [ID]';
 
         const proofsRaw = qs('octoProofs').value.trim();
         const proofLinks = proofsRaw.split(/\s+/).filter(Boolean);
@@ -533,15 +448,13 @@ if (qs('octoGenerate')) {
             if (proofLinks[0]) proofsText += `\n[url=${proofLinks[0]}]скриншот Глубоководья до вылазки[/url]`;
             if (proofLinks[1]) proofsText += `\n[url=${proofLinks[1]}]скриншот Глубоководья после вылазки[/url]`;
             if (proofLinks[2]) proofsText += `\n[url=${proofLinks[2]}]скриншот Палубной рубки / сундука[/url]`;
-            
             for (let i = 3; i < proofLinks.length; i++) {
                 proofsText += `\n[url=${proofLinks[i]}]скриншот ${i-2}[/url]`;
             }
-    } else {
+        } else {
             proofsText = '\nСкриншоты были отправлены в беседу навигаторов.';
         }
         const text = `[b]Дата проведения: ${date}[/b]\n[b]Навигатор:[/b] [link${navId}] [${navId}].\n[b]Участники:[/b] ${partsStr}.${proofsText}`;
-        
         qs('octoResult').value = text;
     };
 }
@@ -551,24 +464,12 @@ const guardRoutes = ['А', 'Б', 'В'];
 
 function updateGuardForm() {
     const mode = qs('guardMode').value;
-    const savedId = localStorage.getItem('shrk_user_id') || ''; 
-
     document.querySelectorAll('[class*="guard-sub-"]').forEach(el => el.classList.add('hidden'));
     document.querySelectorAll(`.guard-sub-${mode}`).forEach(el => el.classList.remove('hidden'));
     
-
-    if (mode === 'patrol') {
-        if (savedId) qs('patrolCollector').value = savedId;
-        setAutoPatrolTime();
-    } 
-    else if (mode === 'watch') {
-        if (savedId) qs('watchId').value = savedId;
-        updateWatchOptions();
-    } 
- else if (mode === 'check') {
-        if (savedId) qs('checkMyId').value = savedId;
-        qs('checkTime').value = ''; 
-    }
+    if (mode === 'patrol') setAutoPatrolTime();
+    else if (mode === 'watch') updateWatchOptions();
+    else if (mode === 'check') qs('checkTime').value = ''; 
 }
 
 function updateWatchOptions() {
@@ -581,10 +482,9 @@ function setAutoPatrolTime() {
     const now = new Date();
     const moscow = new Date(now.toLocaleString("en-US", {timeZone: "Europe/Moscow"}));
     const cur = `${String(moscow.getHours()).padStart(2, '0')}:${String(moscow.getMinutes()).padStart(2, '0')}`;
-    
     let selected = times[0];
     for (let t of times) { if (cur >= t) selected = t; }
-    qs('patrolTime').value = selected;
+    if(qs('patrolTime')) qs('patrolTime').value = selected;
 }
 
 if(qs('guardGenerate')) {
@@ -599,12 +499,9 @@ if(qs('guardGenerate')) {
             const leadStr = leads.length >= 2 
                 ? `[link${leads[0]}] [${leads[0]}] (А), [link${leads[1]}] [${leads[1]}] (Б)`
                 : `[link${leads[0] || collId}] [${leads[0] || collId}] (Общий)`;
-            
             const parts = qs('patrolParts').value.trim().split(/\s+/).filter(Boolean).map(id => `[link${id}] [${id}]`).join(', ');
-            
             result = `[b]Отчёт о пограничном патруле.[/b]\n[b]${date}[/b]\nВремя сбора: ${qs('patrolTime').value}\nСобирающий: [link${collId}] [${collId}]\nВедущий: ${leadStr}\nУчастники: ${parts || '[linkID] [ID]'}`;
         } 
-        
         else if (mode === 'watch') {
             const timeRange = qs('watchTimeRange').value || '00:00 - 00:00';
             const isPassive = qs('watchSubMode').value === 'passive';
@@ -619,38 +516,23 @@ if(qs('guardGenerate')) {
             }
             result = `[b]Отчёт о ${isPassive ? 'пассивном' : 'активном'} дозоре.[/b]\n[b]${date}[/b]\nЧасы дозора: ${timeRange} (${duration})\nДозорный: [link${wId}] [${wId}]\n${isPassive ? 'Локация' : 'Маршрут'}: ${qs('watchLoc').value}`;
         }
-        
-      else if (mode === 'check') {
+        else if (mode === 'check') {
             const myId = qs('checkMyId').value || 'ID';
             const targetId = qs('checkTargetId').value || 'ID';
             const checkTime = qs('checkTime').value || 'чч:мм'; 
             result = `Я, [link${myId}] [${myId}], проверил дозорного [link${targetId}] [${targetId}] в ${checkTime}; проверка ${qs('checkStatus').value}.`;
         }
-
         qs('guardResult').value = result;
     };
 }
-
 if(qs('guardMode')) qs('guardMode').onchange = updateGuardForm;
 if(qs('watchSubMode')) qs('watchSubMode').onchange = updateWatchOptions;
+if(qs('guardMode')) updateGuardForm(); 
 
-const guardIdFields = [qs('patrolCollector'), qs('watchId'), qs('checkMyId')];
-guardIdFields.forEach(el => { 
-    if(el) {
-        idInputs.push(el); 
-        el.addEventListener('input', () => localStorage.setItem('shrk_user_id', el.value));
-    }
-});
-
-updateGuardForm(); 
-
-// === ЛОГИКА ДЛЯ ОТРЯДА ДЕЛЬФИНОВ (УМНАЯ КАРТОЧКА) ===
 
 function updateDolphinForm() {
     const reportType = document.getElementById('dolphinReportType');
     const activityType = document.getElementById('dolphinActivityType');
-    
-    // Если элементов нет на странице, прерываем функцию, чтобы не было ошибок
     if (!reportType || !activityType) return;
 
     const activityWrap = document.getElementById('dolphinActivityWrap');
@@ -659,7 +541,6 @@ function updateDolphinForm() {
     const diveWrap = document.getElementById('dolphinDiveWrap');
     const proofWrap = document.getElementById('dolphinProofWrap');
 
-    // Скрываем все специфичные поля
     activityWrap.classList.add('hidden');
     timeWrap.classList.add('hidden');
     diveWrap.classList.add('hidden');
@@ -672,12 +553,8 @@ function updateDolphinForm() {
     else if (reportType.value === 'cw') {
         activityWrap.classList.remove('hidden');
         targetLabel.innerText = "ID сопровождаемых (через пробел)";
-        
-        if (activityType.value === 'dive') {
-            diveWrap.classList.remove('hidden');
-        } else {
-            timeWrap.classList.remove('hidden');
-        }
+        if (activityType.value === 'dive') diveWrap.classList.remove('hidden');
+        else timeWrap.classList.remove('hidden');
     } 
     else if (reportType.value === 'teach') {
         targetLabel.innerText = "ID игрока";
@@ -685,18 +562,11 @@ function updateDolphinForm() {
     }
 }
 
-// Привязываем переключение
 const dolphinReportEl = document.getElementById('dolphinReportType');
 const dolphinActivityEl = document.getElementById('dolphinActivityType');
+if (dolphinReportEl) dolphinReportEl.addEventListener('change', updateDolphinForm);
+if (dolphinActivityEl) dolphinActivityEl.addEventListener('change', updateDolphinForm);
 
-if (dolphinReportEl) {
-    dolphinReportEl.addEventListener('change', updateDolphinForm);
-}
-if (dolphinActivityEl) {
-    dolphinActivityEl.addEventListener('change', updateDolphinForm);
-}
-
-// Генерация текста
 const dolphinBtn = document.getElementById('dolphinGenerate');
 if (dolphinBtn) {
     dolphinBtn.onclick = () => {
@@ -711,11 +581,9 @@ if (dolphinBtn) {
         if (reportType === 'vk') {
             const type = document.getElementById('dolphinActivityType').value;
             let vkTag = '', vkAction = '';
-            
             if (type === 'climb') { vkTag = '#лазание'; vkAction = 'лазать.'; }
             else if (type === 'vision') { vkTag = '#зоркость'; vkAction = 'прокачивать зоркость.'; }
             else if (type === 'dive') { vkTag = '#ныряние'; vkAction = 'нырять.'; }
-
             resultText = `${vkTag}\n${myId}, веду ${targetIdsText} ${vkAction}`;
         } 
         else if (reportType === 'cw') {
@@ -743,16 +611,13 @@ if (dolphinBtn) {
                 const timeRange = document.getElementById('dolphinTimeRange').value || '00.00 - 00.00';
                 const times = timeRange.match(/(\d{1,2})[:.](\d{2})/g);
                 let startStr = '00.00', endStr = '00.00';
-                
                 if (times && times.length === 2) {
                     startStr = times[0].replace(':', '.');
                     endStr = times[1].replace(':', '.');
                     const [sh, sm] = startStr.split('.').map(Number);
                     const [eh, em] = endStr.split('.').map(Number);
-                    
                     let diff = (eh * 60 + em) - (sh * 60 + sm);
                     if (diff < 0) diff += 1440;
-
                     points = type === 'climb' ? Math.floor(diff / 6) : Math.floor(diff / 4);
                 }
                 timeStr = ` с ${startStr} до ${endStr}`;
@@ -760,7 +625,6 @@ if (dolphinBtn) {
                 const dives = parseInt(document.getElementById('dolphinDives').value) || 1;
                 points = dives * (isToddler ? 2.5 : 5);
             }
-
             resultText = `[b]${date}[/b]\nЯ, [link${myId}] [${myId}], [b]${actionCatwar}[/b] с ${noun} ${formattedIds}${timeStr}\n[b]Кол-во заработанных баллов:[/b] ${points}.`;
         } 
         else if (reportType === 'teach') {
@@ -768,25 +632,11 @@ if (dolphinBtn) {
             const tId = rawIds[0] || 'ID'; 
             resultText = `Я, [link${myId}] [${myId}], помог малышу [link${tId}] обучиться лазать.\n[url=${proof}]Доказательства[/url]`;
         }
-
         document.getElementById('dolphinResult').value = resultText;
     };
 }
+if (dolphinReportEl) updateDolphinForm();
 
-// Автосохранение ID
-const dolphinMyIdEl = document.getElementById('dolphinMyId');
-if (dolphinMyIdEl) {
-    idInputs.push(dolphinMyIdEl);
-    const saved = localStorage.getItem('shrk_user_id');
-    if (saved) dolphinMyIdEl.value = saved;
-    dolphinMyIdEl.addEventListener('input', () => localStorage.setItem('shrk_user_id', dolphinMyIdEl.value));
-}
-
-// Запуск при загрузке
-updateDolphinForm();
-
-
-// === ЛОГИКА ДЛЯ ВРАЧЕВАТЕЛЬНОЙ СФЕРЫ ===
 
 function updateHealForm() {
     const mainType = document.getElementById('healMainType').value;
@@ -806,11 +656,10 @@ function updateHealForm() {
     const diseaseWrap = document.getElementById('healDiseaseWrap');
     const replacedWrap = document.getElementById('healReplacedWrap');
 
-    // Сбрасываем видимость и ширину
     collectorWrap.classList.remove('hidden');
     collectorWrap.classList.remove('full');
     partsWrap.classList.remove('hidden');
-    partsWrap.classList.remove('full'); // Возвращаем обычную ширину участникам
+    partsWrap.classList.remove('full'); 
     helpersWrap.classList.add('hidden');
     docNote.classList.add('hidden');
     miceWrap.classList.add('hidden');
@@ -823,7 +672,7 @@ function updateHealForm() {
     if (mainType === 'doc_patrol') {
         helpersWrap.classList.remove('hidden');
         docNote.classList.remove('hidden');
-        partsWrap.classList.add('full'); // Растягиваем участников на всю ширину
+        partsWrap.classList.add('full'); 
     } 
     else if (mainType === 'free_hunt') {
         collectorLabel.innerText = "Участник (ID)";
@@ -860,19 +709,14 @@ function formatHealIds(rawStr) {
         if (str.includes('+')) {
             const parts = str.split('+');
             id = parts[0];
-            let num = parts[1];
-            miceStr = ` (+${num} мышей)`;
+            miceStr = ` (+${parts[1]} мышей)`;
         }
         return `[link${id}] [${id}]${miceStr}`;
     }).join(', ') || '-';
 }
 
 const healChips = document.querySelectorAll('.shrk-chip');
-healChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-        chip.classList.toggle('active');
-    });
-});
+healChips.forEach(chip => { chip.addEventListener('click', () => chip.classList.toggle('active')); });
 
 const healBtn = document.getElementById('healGenerate');
 if (healBtn) {
@@ -882,10 +726,8 @@ if (healBtn) {
         const date = getMoscowDate();
         let resultText = '';
 
-       if (mainType === 'resource' || mainType === 'expedition') {
+        if (mainType === 'resource' || mainType === 'expedition') {
             const sub = mainType === 'resource' ? document.getElementById('healSubResource').value : document.getElementById('healSubExp').value;
-            
-            // Склоняем слова для красивого текста
             let subConjugated = sub;
             if (sub === 'веточник') subConjugated = 'веточнике';
             if (sub === 'травник') subConjugated = 'травнике';
@@ -919,21 +761,112 @@ if (healBtn) {
                 const activeChips = document.querySelectorAll('.shrk-chip.active');
                 const replacedVals = Array.from(activeChips).map(chip => chip.getAttribute('data-value'));
                 const replaced = replacedVals.length > 0 ? replacedVals.join(', ') : '-';
-                
                 resultText = `[b]${date}[/b]\n[b]Отчёт о надзоре.[/b]\n[u]Надзорный:[/u] [link${myId}] [${myId}]\n[u]Заменил и провел мероприятия:[/u] ${replaced}`;
             }
         }
-
         document.getElementById('healResult').value = resultText;
     };
 }
+if (healMainEl) updateHealForm();
 
-const healCollectorEl = document.getElementById('healCollectorId');
-if (healCollectorEl) {
-    idInputs.push(healCollectorEl);
-    const saved = localStorage.getItem('shrk_user_id');
-    if (saved) healCollectorEl.value = saved;
-    healCollectorEl.addEventListener('input', () => localStorage.setItem('shrk_user_id', healCollectorEl.value));
+// === ЖУРНАЛ МР ===
+const btnJournal = qs('btnJournal');
+const journalReportType = qs('journalReportType');
+const journalStreamWrap = qs('journalStreamWrap');
+const journalCasterWrap = qs('journalCasterWrap');
+const journalTitleWrap = qs('journalTitleWrap');
+const journalAuthorWrap = qs('journalAuthorWrap');
+
+if (journalReportType) {
+    function updateJournalView() {
+        if (journalReportType.value === 'news') {
+            if (journalStreamWrap) journalStreamWrap.style.display = 'none';
+            if (journalCasterWrap) journalCasterWrap.style.display = 'none';
+            if (journalTitleWrap) journalTitleWrap.classList.remove('hidden');
+            if (journalAuthorWrap) journalAuthorWrap.classList.add('full'); // Растягиваем!
+        } else {
+            if (journalStreamWrap) journalStreamWrap.style.display = '';
+            if (journalCasterWrap) journalCasterWrap.style.display = '';
+            if (journalTitleWrap) journalTitleWrap.classList.add('hidden');
+            if (journalAuthorWrap) journalAuthorWrap.classList.remove('full'); // Возвращаем как было
+        }
+    }
+    
+    journalReportType.addEventListener('change', updateJournalView);
+    updateJournalView(); // Запускаем один раз при открытии страницы
 }
 
-if (healMainEl) updateHealForm();
+if (btnJournal) {
+    function shortenUrl(url) {
+        let clean = url.replace(/^https?:\/\//, "").replace(/^www\./, "");
+        if (clean.startsWith("vk.com/")) {
+            let part = clean.split("/")[1];
+            return part ? part.split("?")[0] : "vk.com";
+        }
+        return clean.split("/")[0];
+    }
+
+    function formatJournalText(text, applyLinksAndIds = true) {
+        let t = text || "Текст.";
+        t = t.replace(/●/g, "[size=15]•[/size]");
+        t = t.replace(/○/g, "[size=15]∘[/size]");
+        t = t.replace(/^(\s*)(\d+\.)/gm, "$1[b]$2[/b]");
+        
+        if (applyLinksAndIds) {
+            t = t.replace(/catwar\.(?:net|su)\/blog(\d+)/gi, (match, id) => `[url=blog${id}]блог[/url]`);
+            const linkRegex = /(https?:\/\/\S+|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\/\S*)/g;
+            t = t.replace(linkRegex, (match) => {
+                if (match.includes("blog")) return match; 
+                const fullUrl = match.startsWith("http") ? match : "https://" + match;
+                const shortText = shortenUrl(match);
+                return `[url=${fullUrl}]${shortText}[/url]`;
+            });
+            t = t.replace(/\[(\d+)\](?!\s*\(\[link\1\]\))/g, (match, id) => `${match} ([link${id}])`);
+        }
+        return t;
+    }
+
+    btnJournal.onclick = () => {
+        const isNews = journalReportType.value === 'news';
+        const d = new Date();
+        const today = String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getFullYear()).slice(-2);
+        
+        const titleVal = qs('journalTitle')?.value || "ЗАГОЛОВОК";
+        const dateVal = isNews ? titleVal : today;
+        
+        const newsTxt = formatJournalText(qs('journalNews').value, true);
+        const streamTxt = formatJournalText(qs('journalStream').value, false);
+        
+        const authorId = qs('journalAuthorId').value.trim() || "ID";
+        let casterId = qs('journalCasterId').value.trim();
+        if (!casterId) casterId = authorId;
+
+        let template = '';
+        if (!isNews) {
+            template = `[font=cambria][size=13][color=#4B2F1F][bgrf=#654E3D][pad=4 3 4 4][justify][divr=https://sun9-43.userapi.com/s/v1/ig2/sUh1KyKKa-ddjBYNhsuK8Pm249btOow7ykVEhNJC0WwFMj3zK7G_QDk5jjUIUd_b9Jv8dhNOAMH2eIUD9ybQOlRA.jpg?quality=95&as=32x64,48x96,72x144,108x216,160x320,240x480,360x720,480x960,540x1080,564x1128&from=bu&u=Fxn8BVgwWe5NLzoYlYSmjr08gvhZpXZDwpuVSbIrwQE&cs=564x0][bgrf=#C4A78D99][center][font=georgia][b][size=16][color=#4B2F1F][pad=8]СОБРАНИЕ, ${dateVal}[/pad][/color][/size][/b][/font][/center][/bgrf][bgrf=#654E3D][pad=1.5][/pad][/bgrf][bgrf=#F3EADBCC][pad=20][bgrf=#A98A7077][pad=3][font=georgia][b][size=14][color=#4B2F1F] НОВОСТИ[/color][/size][/b][/font][/pad][/bgrf][br]${newsTxt}[br][size=9]Пост составил: [cat${authorId}] [${authorId}][/size][br][br][bgrf=#A98A7077][pad=3][font=georgia][b][size=14][color=#4B2F1F][center][ [header=блок1]РАСКРЫТЬ ТРАНСЛЯЦИЮ СОБРАНИЯ[/header] ][/center][/color][/size][/b][/font][/pad][/bgrf][block=блок1][br]${streamTxt}[br][size=9]Транслировал собрание: [cat${casterId}] [${casterId}][/size][/block][/pad][/bgrf][/divr][/justify][/pad][/bgrf][/color][/size][/font]`;
+        } else {
+            template = `[font=cambria][size=13][color=#4B2F1F][bgrf=#654E3D][pad=4 3 4 4][justify][divr=https://sun9-43.userapi.com/s/v1/ig2/sUh1KyKKa-ddjBYNhsuK8Pm249btOow7ykVEhNJC0WwFMj3zK7G_QDk5jjUIUd_b9Jv8dhNOAMH2eIUD9ybQOlRA.jpg?quality=95&as=32x64,48x96,72x144,108x216,160x320,240x480,360x720,480x960,540x1080,564x1128&from=bu&u=Fxn8BVgwWe5NLzoYlYSmjr08gvhZpXZDwpuVSbIrwQE&cs=564x0][bgrf=#C4A78D99][center][font=georgia][b][size=16][color=#4B2F1F][pad=8]${dateVal}[/pad][/color][/size][/b][/font][/center][/bgrf][bgrf=#654E3D][pad=1.5][/pad][/bgrf][bgrf=#F3EADBCC][pad=20][bgrf=#A98A7077][pad=3][font=georgia][b][size=14][color=#4B2F1F] НОВОСТИ[/color][/size][/b][/font][/pad][/bgrf][br]${newsTxt}[br][size=9]Пост составил: [cat${authorId}] [${authorId}][/size][/pad][/bgrf][/divr][/justify][/pad][/bgrf][/color][/size][/font]`;
+        }
+        qs('journalResult').value = template;
+    };
+}
+document.addEventListener("DOMContentLoaded", () => {
+    const allIdInputs = document.querySelectorAll('.save-id');
+    const savedUserId = localStorage.getItem('shrk_user_id');
+    
+    if (savedUserId) {
+        allIdInputs.forEach(input => { input.value = savedUserId; });
+    }
+
+    allIdInputs.forEach(input => {
+        input.addEventListener('input', (event) => {
+            const newValue = event.target.value.trim();
+            localStorage.setItem('shrk_user_id', newValue);
+            allIdInputs.forEach(otherInput => {
+                if (otherInput !== event.target) {
+                    otherInput.value = newValue;
+                }
+            });
+        });
+    });
+});

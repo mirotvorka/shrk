@@ -17,9 +17,7 @@
 
     <div class="layout">
      <aside class="column nav-col" id="navCol">
-        <h3 class="column-title">
-  Навигация 
-</h3>
+        <h3 class="column-title">Навигация</h3>
 
         <div class="accordion">
           
@@ -80,6 +78,14 @@
             <button class="nav-btn acc-head" type="button" data-form="shelter-blog" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">БЛОГ ПРИТУЛЬЯ</button>
           </div>
 
+          <div class="acc-item">
+            <button class="acc-head" type="button">ДРУГОЕ <span>▾</span></button>
+            <div class="acc-body">
+              <div class="nav-list">
+                <button class="nav-btn" data-form="other-journal">Вестники</button>
+              </div>
+            </div>
+          </div>
         </div>
       </aside>
       <section class="column input-col">
@@ -115,7 +121,7 @@
 
               <div>
                 <label for="rankId">ID</label>
-                <input id="rankId" type="text" placeholder="1234567">
+                <input id="rankId" type="text" class="save-id" placeholder="1234567">
               </div>
               <div>
                 <label for="rankProof">Скриншот(ы)</label>
@@ -180,7 +186,7 @@
 
               <div>
                 <label for="awardsId">ID</label>
-                <input id="awardsId" type="text" placeholder="1234567">
+                <input id="awardsId" type="text" class="save-id" placeholder="1234567">
               </div>
 
               <div>
@@ -235,7 +241,7 @@
         <div id="form-squad-turtles" class="stack form-view hidden"><div class="card"><h2>Отряд Черепах</h2></div></div>
         <div id="form-squad-sharks" class="stack form-view hidden"><div class="card"><h2>Отряд Акул</h2></div></div>
         <div id="form-squad-seagulls" class="stack form-view hidden"><div class="card"><h2>Отряд Чаек</h2></div></div>
-<!-- ОТРЯД ОСЬМИНОГОВ -->
+        
         <div id="form-squad-octopus" class="stack form-view hidden">
           <div class="card stack">
             <h2>Морская вылазка</h2>
@@ -248,7 +254,7 @@
 
               <div>
                 <label for="octoNavId">ID Навигатора</label>
-                <input id="octoNavId" type="text" placeholder="1234567">
+                <input id="octoNavId" type="text" class="save-id" placeholder="1234567">
               </div>
 
               <div class="full">
@@ -307,7 +313,7 @@
 
       <div id="dolphinMyIdWrap">
         <label for="dolphinMyId">ID</label>
-        <input id="dolphinMyId" type="text" placeholder="1234567">
+        <input id="dolphinMyId" type="text" class="save-id" placeholder="1234567">
       </div>
 
       <div id="dolphinTargetWrap">
@@ -379,7 +385,7 @@
       </div>
       <div class="guard-sub-patrol">
         <label for="patrolCollector">Собирающий (ID)</label>
-        <input id="patrolCollector" type="text" placeholder="1234567">
+        <input id="patrolCollector" type="text" class="save-id" placeholder="1234567">
       </div>
       <div class="guard-sub-patrol">
         <label for="patrolLeads">Ведущие (ID через пробел)</label>
@@ -406,7 +412,7 @@
       </div>
       <div class="guard-sub-watch hidden">
         <label for="watchId">Дозорный (ID)</label>
-        <input id="watchId" type="text" placeholder="1234567">
+        <input id="watchId" type="text" class="save-id" placeholder="1234567">
       </div>
       <div class="full guard-sub-watch hidden" id="watchLocWrap">
         <label for="watchLoc">Локация / Маршрут</label>
@@ -414,7 +420,7 @@
 
      <div class="guard-sub-check hidden">
         <label for="checkMyId">ID</label>
-        <input id="checkMyId" type="text" placeholder="1234567">
+        <input id="checkMyId" type="text" class="save-id" placeholder="1234567">
       </div>
       <div class="guard-sub-check hidden">
         <label for="checkTargetId">ID дозорного</label>
@@ -516,7 +522,7 @@
 
       <div id="healCollectorWrap">
         <label id="healCollectorLabel" for="healCollectorId">Собирающий (ID)</label>
-        <input id="healCollectorId" type="text" placeholder="1234567">
+        <input id="healCollectorId" type="text" class="save-id" placeholder="1234567">
       </div>
 
       <div id="healHelpersWrap" class="hidden">
@@ -608,7 +614,7 @@
 
       <div>
         <label for="eskId">ID</label>
-        <input id="eskId" type="text" placeholder="1234567">
+        <input id="eskId" type="text" class="save-id" placeholder="1234567">
       </div>
 
       <div class="full" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
@@ -630,7 +636,60 @@
     </div>
   </div>
 </div>
+<div id="form-other-journal" class="stack form-view hidden">
+          
+          <div class="card stack">
+            <h2>ЖУРНАЛ МОРСКОГО РАЗБОЙНИКА</h2>
+            
+            <div class="grid">
+              <div class="full">
+                <label for="journalReportType">Вид отчёта</label>
+                <select id="journalReportType">
+                  <option value="meeting">Собрание</option>
+                  <option value="news">Отдельный пост (#новости)</option>
+                </select>
+              </div>
 
+              <div class="full hidden" id="journalTitleWrap">
+                <label for="journalTitle">Заголовок</label>
+                <input id="journalTitle" type="text">
+              </div>
+
+              <div class="full">
+                <label for="journalNews">Новости</label>
+                <textarea id="journalNews" style="height: 50px; min-height: 50px;"></textarea>
+              </div>
+
+              <div class="full" id="journalStreamWrap">
+                <label for="journalStream">Трансляция</label>
+                <textarea id="journalStream" style="height: 50px; min-height: 50px;"></textarea>
+              </div>
+
+              <div id="journalAuthorWrap">
+                <label for="journalAuthorId">Пост составил ID</label>
+                <input id="journalAuthorId" type="text" class="save-id" placeholder="123456">
+              </div>
+
+              <div id="journalCasterWrap">
+                <label for="journalCasterId">Транслировал ID</label>
+                <input id="journalCasterId" type="text" class="save-id">
+              </div>
+            </div>
+            
+            <div class="actions">
+              <button class="primary" id="btnJournal">СОСТАВИТЬ ОТЧЁТ</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <label for="journalResult">Результат</label>
+            <textarea id="journalResult" class="output" readonly></textarea>
+            <div class="actions">
+              <button class="secondary" data-copy="journalResult">Скопировать отчёт</button>
+            </div>
+          </div>
+
+        </div>
   <script src="script.js"></script>
 
 </body>
