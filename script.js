@@ -250,11 +250,7 @@ document.querySelectorAll('[data-copy]').forEach(btn => {
   btn.addEventListener('click', () => {
     const el = qs(btn.dataset.copy);
     if(el && el.value) {
-      navigator.clipboard.writeText(el.value).then(() => {
-        const originalText = btn.textContent;
-        btn.textContent = 'Скопировано!';
-        setTimeout(() => { btn.textContent = originalText; }, 1500);
-      });
+      navigator.clipboard.writeText(el.value);
     }
   });
 });
@@ -475,8 +471,7 @@ if (qs('eskGenerate')) {
 
         const leadSuffix = isLead ? ', ведущий' : '';
         
-        const text = `[b]${type}[/b]\n[b]${date}[/b]; ${time} (${duration})\n[b]Участник[/b]: [[n]l[/n]ink${id}]${leadSuffix}`;
-        
+const text = `[b]${type}[/b]\n[b]${date}[/b]; ${time} (${duration})\n[b]Участник[/b]: [link${id}] [${id}]${leadSuffix}`;        
         qs('eskResult').value = text;
     };
 }
@@ -515,7 +510,7 @@ if (qs('octoGenerate')) {
         if (proofLinks.length > 0) {
             if (proofLinks[0]) proofsText += `\n[url=${proofLinks[0]}]скриншот Глубоководья до вылазки[/url]`;
             if (proofLinks[1]) proofsText += `\n[url=${proofLinks[1]}]скриншот Глубоководья после вылазки[/url]`;
-            if (proofLinks[2]) proofsText += `\n[url=${proofLinks[2]}]скриншот Палубной рубки / сундука[/url]`;
+            if (proofLinks[2]) proofsText += `\n[url=${proofLinks[2]}]скриншот Сопливого уголка / сундука[/url]`;
             for (let i = 3; i < proofLinks.length; i++) {
                 proofsText += `\n[url=${proofLinks[i]}]скриншот ${i-2}[/url]`;
             }
@@ -855,19 +850,27 @@ const journalStreamWrap = qs('journalStreamWrap');
 const journalCasterWrap = qs('journalCasterWrap');
 const journalTitleWrap = qs('journalTitleWrap');
 const journalAuthorWrap = qs('journalAuthorWrap');
+const journalDateInput = qs('journalDate');
+
+// Автозаполнение даты при загрузке
+if (journalDateInput) {
+    journalDateInput.value = getMoscowDate();
+}
 
 if (journalReportType) {
     function updateJournalView() {
         if (journalReportType.value === 'news') {
-            if (journalStreamWrap) journalStreamWrap.style.display = 'none';
+      if (journalStreamWrap) journalStreamWrap.style.display = 'none';
             if (journalCasterWrap) journalCasterWrap.style.display = 'none';
+            if (journalDateWrap) journalDateWrap.classList.add('hidden'); 
             if (journalTitleWrap) journalTitleWrap.classList.remove('hidden');
-            if (journalAuthorWrap) journalAuthorWrap.classList.add('full'); 
+            if (journalAuthorWrap) journalAuthorWrap.classList.add('full');
         } else {
-            if (journalStreamWrap) journalStreamWrap.style.display = '';
+         if (journalStreamWrap) journalStreamWrap.style.display = '';
             if (journalCasterWrap) journalCasterWrap.style.display = '';
+            if (journalDateWrap) journalDateWrap.classList.remove('hidden'); 
             if (journalTitleWrap) journalTitleWrap.classList.add('hidden');
-            if (journalAuthorWrap) journalAuthorWrap.classList.remove('full'); 
+            if (journalAuthorWrap) journalAuthorWrap.classList.remove('full');
         }
     }
     
@@ -907,10 +910,9 @@ if (btnJournal) {
 
     btnJournal.onclick = () => {
         const isNews = journalReportType.value === 'news';
-        const d = new Date();
-        const today = String(d.getDate()).padStart(2, '0') + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getFullYear()).slice(-2);
         
         const titleVal = qs('journalTitle')?.value || "ЗАГОЛОВОК";
+        const today = qs('journalDate')?.value || getMoscowDate(); 
         const dateVal = isNews ? titleVal : today;
         
         const newsTxt = formatJournalText(qs('journalNews').value, true);
