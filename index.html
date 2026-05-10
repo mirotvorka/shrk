@@ -247,7 +247,106 @@
         <div id="form-squad-kits" class="stack form-view hidden"><div class="card"><h2>Отряд Китов</h2></div></div>
         <div id="form-squad-turtles" class="stack form-view hidden"><div class="card"><h2>Отряд Черепах</h2></div></div>
         <div id="form-squad-sharks" class="stack form-view hidden"><div class="card"><h2>Отряд Акул</h2></div></div>
-        <div id="form-squad-seagulls" class="stack form-view hidden"><div class="card"><h2>Отряд Чаек</h2></div></div>
+       <div id="form-squad-seagulls" class="stack form-view hidden">
+          <div class="card stack">
+            <h2>Отряд Чаек</h2>
+            
+            <div class="grid">
+              <div class="full">
+                <label for="seagullsPlatform">Тип отчёта</label>
+                <select id="seagullsPlatform">
+                  <option value="vk">Отпись в ВК</option>
+                  <option value="blog">Отпись под блог</option>
+                </select>
+              </div>
+
+              <div class="full blog-only hidden">
+                <label for="seagullsBlogActivity">Вид деятельности</label>
+                <select id="seagullsBlogActivity">
+                  <option value="реклама в чат">реклама в чат</option>
+                  <option value="реклама в ЛС">реклама в ЛС</option>
+                  <option value="реклама под пост">реклама под пост</option>
+                  <option value="отзыв">отзыв</option>
+                </select>
+              </div>
+
+              <div class="full vk-only">
+                <label for="seagullsRole">Направление</label>
+                <select id="seagullsRole">
+                  <option value="promo">Рекламщики</option>
+                  <option value="herald">Вестники / Информаторы</option>
+                </select>
+              </div>
+
+              <div class="full vk-only">
+                <label for="seagullsTag">Вид отчёта (тег)</label>
+                <select id="seagullsTag">
+                </select>
+              </div>
+
+    <div id="seagullsDateWrap" class="full vk-only">
+                <label for="seagullsDate">Дата</label>
+                <input id="seagullsDate" type="text" placeholder="дд.мм.гг">
+              </div>
+
+             <div class="vk-only" id="seagullsNameWrap">
+                <label for="seagullsName">Имя</label>
+                <input id="seagullsName" type="text" class="save-name" placeholder="Имя">
+              </div>
+
+              <div id="seagullsIdWrap">
+                <label for="seagullsId">ID</label>
+                <input id="seagullsId" type="text" class="save-id" placeholder="1234567">
+              </div>
+
+              <div id="seagullsWordsWrap" class="hidden full">
+                <label for="seagullsReviewText">Текст отзыва (вставьте сюда для подсчёта слов)</label>
+                <textarea id="seagullsReviewText" style="min-height: 80px;" placeholder=" "></textarea>
+                
+                <div style="font-size: 10px; opacity: 0.7; margin-top: 3px; line-height: 1.4; margin-bottom: 10px;">
+                  <b>Кол-во слов: <span id="seagullsAutoCountResult">0</span> слов</b>
+                </div>
+
+                <label for="seagullsWords">Количество слов</label>
+                <input id="seagullsWords" type="number" placeholder=" ">
+                <div style="font-size: 10px; opacity: 0.7; margin-top: 3px; line-height: 1.4;">
+                     <a href="https://text.ru/seo " target="_blank" style="color: var(--accent); text-decoration: underline;">Сайт для подсчёта слов</a>. (если вводите вручную)
+                </div>
+              </div>
+
+          <div id="seagullsGroupWrap" class="hidden vk-only">
+                <label for="seagullsGroup">Название группы</label>
+                <select id="seagullsGroup">
+                  <option value="Новости и слухи CatWar">Новости и слухи CatWar</option>
+                  <option value="Новости CatWar">Новости CatWar</option>
+                  <option value="CatWar-СМИ | Revolution Dance">CatWar-СМИ | Revolution Dance</option>
+                </select>
+              </div>
+
+              <div id="seagullsPartnerWrap" class="hidden vk-only">
+                <label for="seagullsPartnerTag">Таг напарника (с @)</label>
+                <input id="seagullsPartnerTag" type="text" placeholder="@id123456">
+              </div>
+
+          <div class="full" id="seagullsProofsWrap">
+                <label id="seagullsProofsLabel" for="seagullsProofs">Ссылка на пост</label>
+                <input id="seagullsProofs" type="text" placeholder="ссылка1 ссылка2">
+              </div>
+            </div>
+            
+            <div class="actions">
+              <button class="primary" id="seagullsGenerate">Составить отчёт</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <label for="seagullsResult">Результат</label>
+            <textarea id="seagullsResult" class="output" readonly style="min-height: 100px;"></textarea>
+            <div class="actions">
+              <button class="secondary" data-copy="seagullsResult">Скопировать отчёт</button>
+            </div>
+          </div>
+        </div>
         
         <div id="form-squad-octopus" class="stack form-view hidden">
           <div class="card stack">

@@ -202,6 +202,26 @@ document.addEventListener("DOMContentLoaded", () => {
         input.addEventListener('input', () => {
         });
     });
+
+    const nameInputs = document.querySelectorAll('.save-name');
+    const savedUserName = localStorage.getItem('shrk_user_name');
+    
+    if (savedUserName) {
+        nameInputs.forEach(input => { input.value = savedUserName; });
+    }
+
+    nameInputs.forEach(input => {
+        input.addEventListener('input', (event) => {
+            const newValue = event.target.value.trim();
+            localStorage.setItem('shrk_user_name', newValue);
+            
+            nameInputs.forEach(otherInput => {
+                if (otherInput !== event.target) {
+                    otherInput.value = newValue;
+                }
+            });
+        });
+    });
 });
 
 function getHashByFormId(formId) { return routes[formId] || formId; }
@@ -622,7 +642,7 @@ function updateDolphinForm() {
 
         if (activityType.value === 'dive') {
             diveWrap.classList.remove('hidden');
-            if (toddlerWrap) toddlerWrap.classList.remove('hidden'); // Показываем топотушку
+            if (toddlerWrap) toddlerWrap.classList.remove('hidden'); 
         } else {
             timeWrap.classList.remove('hidden');
         }
@@ -932,3 +952,230 @@ if (btnJournal) {
     };
 }
 
+const seagullsPlatform = qs('seagullsPlatform');
+const seagullsRole = qs('seagullsRole');
+const seagullsTag = qs('seagullsTag');
+
+const seagullsDateWrap = qs('seagullsDateWrap');
+const seagullsWordsWrap = qs('seagullsWordsWrap');
+const seagullsRespWrap = qs('seagullsRespWrap');
+const seagullsGroupWrap = qs('seagullsGroupWrap');
+const seagullsPartnerWrap = qs('seagullsPartnerWrap');
+const seagullsProofsWrap = qs('seagullsProofsWrap');
+const seagullsDateInput = qs('seagullsDate');
+const seagullsBlogActivity = qs('seagullsBlogActivity');
+
+const vkOnlyElements = document.querySelectorAll('.vk-only');
+const blogOnlyElements = document.querySelectorAll('.blog-only');
+
+const seagullsOptions = {
+    promo: [
+          { val: 'chat', text: '#чат' },
+       { val: 'review', text: '#отзыв' },
+        { val: 'feed', text: '#лента' },
+        { val: 'link', text: '#ссылка' },
+        { val: 'private', text: '#приват' }
+    ],
+    herald: [
+        { val: 'stream', text: '#трансляция' },
+        { val: 'post', text: '#пост' },
+        { val: 'herald', text: '#вестник' },
+        { val: 'take', text: '#беру' },
+        { val: 'informant', text: '#информатор' }
+    ]
+};
+
+if (seagullsPlatform && seagullsRole && seagullsTag) {
+    if (seagullsDateInput) seagullsDateInput.value = getMoscowDate();
+
+    function updateSeagullsPlatform() {
+        const isBlog = seagullsPlatform.value === 'blog';
+        const idWrap = qs('seagullsIdWrap'); 
+        
+        vkOnlyElements.forEach(el => el.classList.toggle('hidden', isBlog));
+        blogOnlyElements.forEach(el => el.classList.toggle('hidden', !isBlog));
+
+        if (idWrap) {
+            if (isBlog) {
+                idWrap.classList.add('full');
+            } else {
+                idWrap.classList.remove('full');
+            }
+        }
+
+      updateSeagullsFields();
+    }
+
+    function updateSeagullsTags() {
+        const role = seagullsRole.value;
+        const options = seagullsOptions[role];
+        
+        seagullsTag.innerHTML = '';
+        options.forEach(opt => {
+            const el = document.createElement('option');
+            el.value = opt.val;
+            el.textContent = opt.text;
+            seagullsTag.appendChild(el);
+        });
+        
+        updateSeagullsFields();
+    }
+
+     function updateSeagullsFields() {
+        const isBlog = seagullsPlatform.value === 'blog';
+        const proofsLabel = qs('seagullsProofsLabel'); 
+
+        if (proofsLabel) {
+            let needsPostLink = false;
+
+            if (!isBlog) {
+                const tag = seagullsTag.value;
+                if (tag === 'review' || tag === 'feed' || tag === 'link') {
+                    needsPostLink = true;
+                }
+            }
+
+            if (needsPostLink) {
+                proofsLabel.textContent = 'Ссылка на пост';
+            } else {
+                proofsLabel.textContent = 'Ссылка на доказательства';
+            }
+        }
+
+        seagullsWordsWrap.classList.add('hidden');
+        seagullsGroupWrap.classList.add('hidden');
+        seagullsPartnerWrap.classList.add('hidden');
+        
+        seagullsDateWrap.classList.remove('hidden');
+        seagullsProofsWrap.classList.remove('hidden');
+
+        if (isBlog) {
+            if (seagullsBlogActivity && seagullsBlogActivity.value.includes('отзыв')) {
+                seagullsWordsWrap.classList.remove('hidden');
+            }
+        } else {
+            const tag = seagullsTag.value;
+            const role = qs('seagullsRole').value; 
+
+            if (role === 'herald' || tag === 'chat' || tag === 'private') {
+                seagullsProofsWrap.classList.add('hidden');
+            }
+
+            if (tag === 'review') {
+                seagullsWordsWrap.classList.remove('hidden');
+            } else if (tag === 'take') {
+                seagullsGroupWrap.classList.remove('hidden');
+                seagullsPartnerWrap.classList.remove('hidden');
+                seagullsDateWrap.classList.add('hidden');
+            }
+        }
+    }
+
+    seagullsPlatform.addEventListener('change', updateSeagullsPlatform);
+    seagullsRole.addEventListener('change', updateSeagullsTags);
+    seagullsTag.addEventListener('change', updateSeagullsFields);
+    if (seagullsBlogActivity) {
+        seagullsBlogActivity.addEventListener('change', updateSeagullsFields);
+    }
+    
+    updateSeagullsTags();
+    updateSeagullsPlatform();
+}
+
+const btnSeagulls = qs('seagullsGenerate');
+if (btnSeagulls) {
+    btnSeagulls.onclick = () => {
+        const platform = qs('seagullsPlatform').value;
+        const id = qs('seagullsId').value.trim() || 'ID';
+        let result = '';
+
+     if (platform === 'blog') {
+            const activity = qs('seagullsBlogActivity').value;
+            const date = qs('seagullsDate').value.trim() || getMoscowDate();
+            
+            const isReview = activity.includes('отзыв');
+            
+            let title = '';
+            if (isReview) {
+                title = 'Отчёт об отзыве';
+            } else {
+                title = 'Отчёт о ' + activity.replace('реклама', 'рекламе');
+            }
+            
+            const words = qs('seagullsWords').value.trim() || 'N';
+            const wordsLine = isReview ? `\nКоличество слов: ${words} слов;` : '';
+
+            let proofsRaw = qs('seagullsProofs').value.trim();
+            let proofsText = 'скриншот.'; 
+            if (proofsRaw) {
+                const links = proofsRaw.split(/\s+/).filter(Boolean);
+                proofsText = `[[url=${links[0]}]скриншот[/url]]`;
+                for (let i = 1; i < links.length; i++) {
+                    proofsText += ` [[url=${links[i]}]скриншот${i + 1}[/url]]`;
+                }
+                proofsText += '.';
+            }
+            
+            result = `[b]${title}[/b]\n[b]${date}[/b]\nУчастник: [link${id}] [${id}];${wordsLine}\nДоказательства: ${proofsText}`;
+        
+        } else {
+            const tag = qs('seagullsTag').value;
+            const name = qs('seagullsName').value.trim() || 'Имя';
+            const date = qs('seagullsDate').value.trim() || getMoscowDate();
+            const rawProofs = qs('seagullsProofs').value.trim();
+            const proofs = rawProofs ? `\n${rawProofs}` : ''; 
+            
+            if (tag === 'chat') {
+                result = `#чат — ${name} [${id}], ${date}${proofs}`;
+            } else if (tag === 'feed') {
+                result = `#лента — ${name} [${id}], ${date}${proofs}`;
+            } else if (tag === 'private') {
+                result = `#приват — ${name} [${id}], ${date}${proofs}`;
+            } else if (tag === 'review') {
+                const words = qs('seagullsWords').value.trim() || 'N';
+                result = `#отзыв — ${words} слов, ${name} [${id}], ${date}${proofs}`;
+            } else if (tag === 'link') {
+                result = `#ссылка — ${name} [${id}], ${date}${proofs}`;
+            } else if (tag === 'stream') {
+                result = `#трансляция — ${name} [${id}], ${date}${proofs}`;
+            } else if (tag === 'post') {
+                result = `#пост — ${name} [${id}], ${date}${proofs}`;
+            } else if (tag === 'herald') {
+                result = `#вестник — ${name} [${id}], ${date}${proofs}`;
+            } else if (tag === 'take') {
+                const group = qs('seagullsGroup').value.trim() || 'название группы';
+                const partner = qs('seagullsPartnerTag').value.trim() || '@напарник';
+                result = `#беру — ${name} [${id}], пост в ${group}, ${partner}`;
+            } else if (tag === 'informant') {
+                result = `#информатор — ${name} [${id}], ${date}${proofs}`;
+            }
+        }
+
+        qs('seagullsResult').value = result;
+    };
+}
+
+const seagullsReviewText = qs('seagullsReviewText');
+const seagullsWords = qs('seagullsWords');
+const seagullsAutoCountResult = qs('seagullsAutoCountResult');
+
+if (seagullsReviewText && seagullsWords) {
+    seagullsReviewText.addEventListener('input', () => {
+        const text = seagullsReviewText.value.trim();
+        const matchWords = text.match(/[а-яА-ЯёЁa-zA-Z0-9_-]+/g);
+        const count = matchWords ? matchWords.length : 0;
+        
+        seagullsWords.value = count || '';
+        
+        if (seagullsAutoCountResult) {
+            seagullsAutoCountResult.textContent = count;
+        }
+    });
+
+    seagullsWords.addEventListener('input', () => {
+        const manualCount = seagullsWords.value || 0;
+        if (seagullsAutoCountResult) {
+            seagullsAutoCountResult.textContent = manualCount;
+        }
+    });
+}
