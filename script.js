@@ -167,13 +167,29 @@ function setForm(formId) {
 }
 
 const routes = {
-    'sphere-squadron': 'escadra', 'main-blog': 'main', 'awards-blog': 'nagrady',
-    'task-board': 'doska', 'pirate-code': 'codex', 'squad-seagulls': 'chaiki',
-    'squad-kits': 'kiti', 'squad-turtles': 'cherepahi', 'squad-sharks': 'akula',
-    'squad-octopus': 'osminogi', 'squad-flyingfish': 'letriba', 'squad-albatross': 'albatros',
-    'squad-dolphins': 'delfin', 'squad-clownfish': 'clownriba', 'sphere-guard': 'ohranka',
-    'sphere-food': 'prodovolka', 'sphere-heal': 'vrach', 'shelter-blog': 'priyut',
-    'other-journal': 'journal'
+    'main-blog':        'main',
+    'awards-blog':      'nagrady',
+    'activity-blog':    'activity',
+    'shelter-blog':     'priyut',
+    'pirate-code':      'codex',
+
+    'squad-kits':       'kiti',
+    'squad-turtles':    'cherepahi',
+    'squad-sharks':     'akula',
+    'squad-seagulls':   'chaiki',
+    'squad-octopus':    'osminogi',
+    'squad-flyingfish': 'letriba',
+    'squad-albatross':  'albatros',
+    'squad-dolphins':   'delfin',
+    'squad-clownfish':  'clownriba',
+
+    'sphere-guard':     'ohranka',
+    'sphere-food':      'prodovolka',
+    'sphere-heal':      'vrach',
+    'sphere-squadron':  'escadra',
+    'task-board':       'doska',
+
+    'other-journal':    'journal'
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -231,11 +247,15 @@ function getFormIdByHash(hash) {
     return hash; 
 }
 
+
 document.querySelectorAll('[data-form]').forEach(btn => {
     btn.addEventListener('click', (e) => {
         const formId = btn.dataset.form;
         setForm(formId);
-        qs('workAreaTitle').textContent = e.target.textContent.trim();
+        
+        const titleEl = qs('workAreaTitle');
+        if (titleEl) titleEl.textContent = btn.textContent.replace('▾', '').trim();
+        
         window.location.hash = getHashByFormId(formId);
     });
 });
