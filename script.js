@@ -160,7 +160,8 @@ function setForm(formId) {
     document.querySelectorAll('.form-view').forEach(el => el.classList.add('hidden'));
     const target = qs(`form-${formId}`);
     if (target) target.classList.remove('hidden');
-    document.querySelectorAll('.nav-btn').forEach(btn => {
+    
+    document.querySelectorAll('[data-form]').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.form === formId);
     });
 }
@@ -230,7 +231,7 @@ function getFormIdByHash(hash) {
     return hash; 
 }
 
-document.querySelectorAll('.nav-btn').forEach(btn => {
+document.querySelectorAll('[data-form]').forEach(btn => {
     btn.addEventListener('click', (e) => {
         const formId = btn.dataset.form;
         setForm(formId);
@@ -243,7 +244,9 @@ function openTabFromHash() {
     const hash = window.location.hash.replace('#', '');
     if (hash) {
         const formId = getFormIdByHash(hash);
-        const activeBtn = document.querySelector(`.nav-btn[data-form="${formId}"]`);
+        
+        const activeBtn = document.querySelector(`[data-form="${formId}"]`);
+        
         if (activeBtn) {
             const accItem = activeBtn.closest('.acc-item');
             if (accItem) accItem.classList.add('open');
@@ -261,7 +264,8 @@ mainLogoTitle.style.cursor = 'pointer';
 mainLogoTitle.addEventListener('click', () => {
     setForm('welcome');
     qs('workAreaTitle').textContent = 'Приветствие';
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    
+    document.querySelectorAll('[data-form]').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.acc-item').forEach(item => item.classList.remove('open'));
     window.history.replaceState(null, null, window.location.pathname);
 });
@@ -270,7 +274,19 @@ document.querySelectorAll('[data-copy]').forEach(btn => {
   btn.addEventListener('click', () => {
     const el = qs(btn.dataset.copy);
     if(el && el.value) {
-      navigator.clipboard.writeText(el.value);
+      navigator.clipboard.writeText(el.value).then(() => {
+        const originalText = btn.textContent;
+        btn.textContent = 'Скопировано!';
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      }).catch(err => {
+        const originalText = btn.textContent;
+        btn.textContent = 'Ошибка!';
+        setTimeout(() => {
+          btn.textContent = originalText;
+        }, 2000);
+      });
     }
   });
 });
@@ -521,23 +537,15 @@ if (qs('octoGenerate')) {
         
         const rawParts = qs('octoPartIds').value.trim();
         const partsArr = rawParts.split(/[\s,]+/).filter(Boolean);
-        const partsStr = partsArr.length > 0 ? partsArr.map(id => `[link${id}] [${id}]`).join(', ') : '[linkID] [ID]';
+        const partsStr = partsArr.length > 0 
+            ? partsArr.map(id => `[link${id}] [${id}]`).join(', ') 
+            : '[linkID] [ID]';
 
         const proofsRaw = qs('octoProofs').value.trim();
-        const proofLinks = proofsRaw.split(/\s+/).filter(Boolean);
-        
-        let proofsText = '';
-        if (proofLinks.length > 0) {
-            if (proofLinks[0]) proofsText += `\n[url=${proofLinks[0]}]скриншот Глубоководья до вылазки[/url]`;
-            if (proofLinks[1]) proofsText += `\n[url=${proofLinks[1]}]скриншот Глубоководья после вылазки[/url]`;
-            if (proofLinks[2]) proofsText += `\n[url=${proofLinks[2]}]скриншот Сопливого уголка / сундука[/url]`;
-            for (let i = 3; i < proofLinks.length; i++) {
-                proofsText += `\n[url=${proofLinks[i]}]скриншот ${i-2}[/url]`;
-            }
-        } else {
-            proofsText = '\nСкриншоты были отправлены в беседу навигаторов.';
-        }
+        const proofsText = makeProofs(proofsRaw);
+
         const text = `[b]Дата проведения: ${date}[/b]\n[b]Навигатор:[/b] [link${navId}] [${navId}].\n[b]Участники:[/b] ${partsStr}.${proofsText}`;
+        
         qs('octoResult').value = text;
     };
 }
@@ -863,7 +871,6 @@ if (healBtn) {
 }
 if (healMainEl) updateHealForm();
 
-//ЖУРНАЛ МР 
 const btnJournal = qs('btnJournal');
 const journalReportType = qs('journalReportType');
 const journalStreamWrap = qs('journalStreamWrap');
@@ -872,7 +879,6 @@ const journalTitleWrap = qs('journalTitleWrap');
 const journalAuthorWrap = qs('journalAuthorWrap');
 const journalDateInput = qs('journalDate');
 
-// Автозаполнение даты при загрузке
 if (journalDateInput) {
     journalDateInput.value = getMoscowDate();
 }
@@ -970,8 +976,8 @@ const blogOnlyElements = document.querySelectorAll('.blog-only');
 
 const seagullsOptions = {
     promo: [
-          { val: 'chat', text: '#чат' },
-       { val: 'review', text: '#отзыв' },
+        { val: 'chat', text: '#чат' },
+        { val: 'review', text: '#отзыв' },
         { val: 'feed', text: '#лента' },
         { val: 'link', text: '#ссылка' },
         { val: 'private', text: '#приват' }
@@ -990,20 +996,11 @@ if (seagullsPlatform && seagullsRole && seagullsTag) {
 
     function updateSeagullsPlatform() {
         const isBlog = seagullsPlatform.value === 'blog';
-        const idWrap = qs('seagullsIdWrap'); 
         
         vkOnlyElements.forEach(el => el.classList.toggle('hidden', isBlog));
         blogOnlyElements.forEach(el => el.classList.toggle('hidden', !isBlog));
 
-        if (idWrap) {
-            if (isBlog) {
-                idWrap.classList.add('full');
-            } else {
-                idWrap.classList.remove('full');
-            }
-        }
-
-      updateSeagullsFields();
+        updateSeagullsFields();
     }
 
     function updateSeagullsTags() {
@@ -1021,7 +1018,7 @@ if (seagullsPlatform && seagullsRole && seagullsTag) {
         updateSeagullsFields();
     }
 
-     function updateSeagullsFields() {
+    function updateSeagullsFields() {
         const isBlog = seagullsPlatform.value === 'blog';
         const proofsLabel = qs('seagullsProofsLabel'); 
 
@@ -1075,11 +1072,18 @@ if (seagullsPlatform && seagullsRole && seagullsTag) {
     seagullsRole.addEventListener('change', updateSeagullsTags);
     seagullsTag.addEventListener('change', updateSeagullsFields);
     if (seagullsBlogActivity) {
-        seagullsBlogActivity.addEventListener('change', updateSeagullsFields);
-    }
+        seagullsBlogActivity.addEventListener('change', updateSeagullsFields);
+    }
     
     updateSeagullsTags();
     updateSeagullsPlatform();
+}
+
+function countSeagullsWords() {
+    const text = qs('seagullsReviewText') ? qs('seagullsReviewText').value.trim() : '';
+    if (!text) return 'N';
+    const matchWords = text.match(/[а-яА-ЯёЁa-zA-Z]+(?:-[а-яА-ЯёЁa-zA-Z]+)*/g);
+    return matchWords ? matchWords.length : 'N';
 }
 
 const btnSeagulls = qs('seagullsGenerate');
@@ -1089,7 +1093,7 @@ if (btnSeagulls) {
         const id = qs('seagullsId').value.trim() || 'ID';
         let result = '';
 
-     if (platform === 'blog') {
+        if (platform === 'blog') {
             const activity = qs('seagullsBlogActivity').value;
             const date = qs('seagullsDate').value.trim() || getMoscowDate();
             
@@ -1102,7 +1106,7 @@ if (btnSeagulls) {
                 title = 'Отчёт о ' + activity.replace('реклама', 'рекламе');
             }
             
-            const words = qs('seagullsWords').value.trim() || 'N';
+            const words = countSeagullsWords();
             const wordsLine = isReview ? `\nКоличество слов: ${words} слов;` : '';
 
             let proofsRaw = qs('seagullsProofs').value.trim();
@@ -1132,7 +1136,7 @@ if (btnSeagulls) {
             } else if (tag === 'private') {
                 result = `#приват — ${name} [${id}], ${date}${proofs}`;
             } else if (tag === 'review') {
-                const words = qs('seagullsWords').value.trim() || 'N';
+                const words = countSeagullsWords();
                 result = `#отзыв — ${words} слов, ${name} [${id}], ${date}${proofs}`;
             } else if (tag === 'link') {
                 result = `#ссылка — ${name} [${id}], ${date}${proofs}`;
@@ -1156,26 +1160,16 @@ if (btnSeagulls) {
 }
 
 const seagullsReviewText = qs('seagullsReviewText');
-const seagullsWords = qs('seagullsWords');
 const seagullsAutoCountResult = qs('seagullsAutoCountResult');
 
-if (seagullsReviewText && seagullsWords) {
+if (seagullsReviewText) {
     seagullsReviewText.addEventListener('input', () => {
         const text = seagullsReviewText.value.trim();
-        const matchWords = text.match(/[а-яА-ЯёЁa-zA-Z0-9_-]+/g);
+        const matchWords = text.match(/[а-яА-ЯёЁa-zA-Z]+(?:-[а-яА-ЯёЁa-zA-Z]+)*/g);
         const count = matchWords ? matchWords.length : 0;
-        
-        seagullsWords.value = count || '';
         
         if (seagullsAutoCountResult) {
             seagullsAutoCountResult.textContent = count;
-        }
-    });
-
-    seagullsWords.addEventListener('input', () => {
-        const manualCount = seagullsWords.value || 0;
-        if (seagullsAutoCountResult) {
-            seagullsAutoCountResult.textContent = manualCount;
         }
     });
 }

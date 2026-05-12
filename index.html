@@ -17,25 +17,23 @@
 
     <div class="layout">
      <aside class="column nav-col" id="navCol">
-        <h3 class="column-title">Навигация</h3>
 
         <div class="accordion">
           
           <div class="acc-item">
-            <button class="nav-btn acc-head" type="button" data-form="main-blog" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">ГЛАВНЫЙ БЛОГ</button>
+            <button class="acc-head" type="button" data-form="main-blog">ГЛАВНЫЙ БЛОГ</button>
           </div>
           
      <div class="acc-item">
-            <button class="nav-btn acc-head" type="button" data-form="awards-blog" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">БЛОГ НАГРАД</button>
+            <button class="acc-head" type="button" data-form="awards-blog">БЛОГ НАГРАД</button>
           </div>
 
           <div class="acc-item">
-            <button class="nav-btn acc-head" type="button" data-form="activity-blog" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">БЛОГ АКТИВНОСТИ</button>
+            <button class="acc-head" type="button" data-form="activity-blog">БЛОГ АКТИВНОСТИ</button>
           </div>
         
-          
           <div class="acc-item">
-            <button class="nav-btn acc-head" type="button" data-form="pirate-code" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">ПИРАТСКИЙ КОДЕКС</button>
+            <button class="acc-head" type="button" data-form="pirate-code">ПИРАТСКИЙ КОДЕКС</button>
           </div>
 
           <div class="acc-item">
@@ -66,16 +64,16 @@
             </div>
           </div>
 
-          <div class="acc-item">
-            <button class="nav-btn acc-head" type="button" data-form="sphere-squadron" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">ЭСКАДРА</button>
+         <div class="acc-item">
+            <button class="acc-head" type="button" data-form="sphere-squadron">ЭСКАДРА</button>
           </div>
           
           <div class="acc-item">
-            <button class="nav-btn acc-head" type="button" data-form="task-board" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">ДОСКА ПОРУЧЕНИЙ</button>
+            <button class="acc-head" type="button" data-form="task-board">ДОСКА ПОРУЧЕНИЙ</button>
           </div>
           
           <div class="acc-item">
-            <button class="nav-btn acc-head" type="button" data-form="shelter-blog" style="padding: 14px 16px; font-size: 15px; border: none; color: var(--text);">БЛОГ ПРИТУЛЬЯ</button>
+            <button class="acc-head" type="button" data-form="shelter-blog">БЛОГ ПРИТУЛЬЯ</button>
           </div>
 
           <div class="acc-item">
@@ -89,7 +87,6 @@
         </div>
       </aside>
       <section class="column input-col">
-        <h3 class="column-title" id="workAreaTitle">Приветствие</h3>
 
     <div id="form-welcome" class="stack form-view">
   <div class="card" style="padding: 35px 25px; text-align: center;">
@@ -167,7 +164,6 @@
           </div>
 
           <div class="card">
-            <label for="rankResult">Результат</label>
             <textarea id="rankResult" class="output" readonly></textarea>
             <div class="actions">
               <button class="secondary" data-copy="rankResult">Скопировать отчёт</button>
@@ -230,15 +226,12 @@
           </div>
 
           <div class="card">
-            <label for="awardsResult">Результат</label>
             <textarea id="awardsResult" class="output" readonly></textarea>
             <div class="actions">
               <button class="secondary" data-copy="awardsResult">Скопировать отчёт</button>
             </div>
           </div>
         </div>
-
-        
 
         <div id="form-pirate-code" class="stack form-view hidden"><div class="card"><h2>Пиратский кодекс</h2></div></div>
         <div id="form-shelter-blog" class="stack form-view hidden"><div class="card"><h2>Блог притулья</h2></div></div>
@@ -250,7 +243,6 @@
        <div id="form-squad-seagulls" class="stack form-view hidden">
           <div class="card stack">
             <h2>Отряд Чаек</h2>
-            
             <div class="grid">
               <div class="full">
                 <label for="seagullsPlatform">Тип отчёта</label>
@@ -278,13 +270,13 @@
                 </select>
               </div>
 
-              <div class="full vk-only">
+              <div class="vk-only">
                 <label for="seagullsTag">Вид отчёта (тег)</label>
                 <select id="seagullsTag">
                 </select>
               </div>
 
-    <div id="seagullsDateWrap" class="full vk-only">
+<div id="seagullsDateWrap" class="vk-only">
                 <label for="seagullsDate">Дата</label>
                 <input id="seagullsDate" type="text" placeholder="дд.мм.гг">
               </div>
@@ -301,16 +293,10 @@
 
               <div id="seagullsWordsWrap" class="hidden full">
                 <label for="seagullsReviewText">Текст отзыва (вставьте сюда для подсчёта слов)</label>
-                <textarea id="seagullsReviewText" style="min-height: 80px;" placeholder=" "></textarea>
+                <textarea id="seagullsReviewText" style="min-height: 40px;" placeholder=" "></textarea>
                 
-                <div style="font-size: 10px; opacity: 0.7; margin-top: 3px; line-height: 1.4; margin-bottom: 10px;">
+                <div style="font-size: 10px; opacity: 0.7; margin-top: 3px; line-height: 1.4; margin-bottom: 5px;">
                   <b>Кол-во слов: <span id="seagullsAutoCountResult">0</span> слов</b>
-                </div>
-
-                <label for="seagullsWords">Количество слов</label>
-                <input id="seagullsWords" type="number" placeholder=" ">
-                <div style="font-size: 10px; opacity: 0.7; margin-top: 3px; line-height: 1.4;">
-                     <a href="https://text.ru/seo " target="_blank" style="color: var(--accent); text-decoration: underline;">Сайт для подсчёта слов</a>. (если вводите вручную)
                 </div>
               </div>
 
@@ -323,8 +309,8 @@
                 </select>
               </div>
 
-              <div id="seagullsPartnerWrap" class="hidden vk-only">
-                <label for="seagullsPartnerTag">Таг напарника (с @)</label>
+        <div id="seagullsPartnerWrap" class="hidden vk-only full">
+                <label for="seagullsPartnerTag">Таг напарника</label>
                 <input id="seagullsPartnerTag" type="text" placeholder="@id123456">
               </div>
 
@@ -340,7 +326,6 @@
           </div>
 
           <div class="card">
-            <label for="seagullsResult">Результат</label>
             <textarea id="seagullsResult" class="output" readonly style="min-height: 100px;"></textarea>
             <div class="actions">
               <button class="secondary" data-copy="seagullsResult">Скопировать отчёт</button>
@@ -380,7 +365,6 @@
           </div>
 
           <div class="card">
-            <label for="octoResult">Результат</label>
             <textarea id="octoResult" class="output" readonly></textarea>
             <div class="actions">
               <button class="secondary" data-copy="octoResult">Скопировать отчёт</button>
@@ -457,7 +441,6 @@
   </div>
   
   <div class="card">
-    <label for="dolphinResult">Результат</label>
     <textarea id="dolphinResult" class="output" readonly style="min-height: 100px;"></textarea>
     <div class="actions">
       <button class="secondary" data-copy="dolphinResult">Скопировать отчёт</button>
@@ -539,7 +522,6 @@
         <input id="checkTime" type="text" placeholder="18:35">
       </div>
       <div class="guard-sub-check hidden">
-        <label for="checkStatus">Результат проверки</label>
         <select id="checkStatus">
           <option value="пройдена">Пройдена</option>
           <option value="не пройдена">Не пройдена</option>
@@ -553,7 +535,6 @@
   </div> 
 
   <div class="card">
-    <label for="guardResult">Результат</label>
     <textarea id="guardResult" class="output" readonly></textarea>
     <div class="actions">
       <button class="secondary" data-copy="guardResult">Скопировать отчёт</button>
@@ -689,8 +670,7 @@
   </div>
 
   <div class="card">
-    <label for="healResult">Результат</label>
-    <textarea id="healResult" class="output" readonly style="min-height: 160px;"></textarea>
+    <textarea id="healResult" class="output" readonly></textarea>
     <div class="actions">
       <button class="secondary" data-copy="healResult">Скопировать отчёт</button>
     </div>
@@ -742,7 +722,6 @@
   </div>
 
   <div class="card">
-    <label for="eskResult">Результат</label>
     <textarea id="eskResult" class="output" readonly></textarea>
     <div class="actions">
       <button class="secondary" data-copy="eskResult">Скопировать отчёт</button>
@@ -777,12 +756,12 @@
 
               <div class="full">
                 <label for="journalNews">Новости</label>
-                <textarea id="journalNews" style="height: 50px; min-height: 50px;"></textarea>
+                <textarea id="journalNews" style="height: 50px; min-height: 30px;"></textarea>
               </div>
 
               <div class="full" id="journalStreamWrap">
                 <label for="journalStream">Трансляция</label>
-                <textarea id="journalStream" style="height: 50px; min-height: 50px;"></textarea>
+                <textarea id="journalStream" style="height: 50px; min-height: 30px;"></textarea>
               </div>
 
               <div id="journalAuthorWrap">
@@ -802,7 +781,6 @@
           </div>
 
           <div class="card">
-            <label for="journalResult">Результат</label>
             <textarea id="journalResult" class="output" readonly></textarea>
             <div class="actions">
               <button class="secondary" data-copy="journalResult">Скопировать отчёт</button>
