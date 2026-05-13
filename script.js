@@ -562,7 +562,10 @@ if (qs('octoGenerate')) {
             : '[linkID] [ID]';
 
         const proofsRaw = qs('octoProofs').value.trim();
-        const proofsText = makeProofs(proofsRaw);
+        
+        const proofsText = proofsRaw === '' 
+            ? '\nСкриншоты были отправлены в беседу навигаторов.' 
+            : makeProofs(proofsRaw);
 
         const text = `[b]Дата проведения: ${date}[/b]\n[b]Навигатор:[/b] [link${navId}] [${navId}].\n[b]Участники:[/b] ${partsStr}.${proofsText}`;
         
