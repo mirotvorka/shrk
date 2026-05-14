@@ -57,7 +57,7 @@ body::before {
 h1 {
   margin: 0;
   color: var(--text-bright); 
-  font-size: 28px;
+  font-size: 20px;
   letter-spacing: 2px;
   text-transform: uppercase;
   font-weight: bold;
@@ -93,6 +93,8 @@ h1 {
 
 .input-col {
   border-left: 1px solid var(--line);
+  min-width: 0; 
+  overflow-x: hidden;
 }
 
 .column-title {
@@ -175,7 +177,7 @@ h1 {
 .stack {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 10px;
   max-width: 860px;
   margin: 0 auto;
   width: 100%;
@@ -185,12 +187,13 @@ h1 {
   border: 1px solid var(--line);
   padding: 16px;
   background: var(--bg);
+  margin-bottom: 5px;
 }
 
 .card h2,
 .report-title {
   margin: 0;
-  font-size: 20px;
+  font-size: 18px;
   color: var(--text-bright);
   text-align: left;
   text-transform: uppercase;
@@ -198,7 +201,7 @@ h1 {
 
 .help {
   color: var(--muted);
-  font-size: 13px;
+  font-size: 11px;
   line-height: 1.5;
   margin: 0;
 }
@@ -249,8 +252,8 @@ textarea {
 }
 
 .output {
-  min-height: 80px; 
-  margin-bottom: 16px;  
+  min-height: 60px; 
+  margin-bottom: 8px;  
   background: var(--accent-soft);
   white-space: pre-wrap;
   border-color: var(--line);
@@ -258,7 +261,7 @@ textarea {
 
 .actions {
   display: flex;
-  gap: 10px;
+  gap: 12x;
   flex-wrap: wrap;
 }
 
@@ -367,5 +370,3 @@ input[type="checkbox"] {
     margin-bottom: 15px;
   }
 }
-
-

@@ -189,7 +189,9 @@ const routes = {
     'sphere-squadron':  'escadra',
     'task-board':       'doska',
 
-    'other-journal':    'journal'
+    'other-journal':    'journal',
+    'other-ad':         'ad',
+    'other-calc':       'word'
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -1114,23 +1116,16 @@ if (btnSeagulls) {
     btnSeagulls.onclick = () => {
         const platform = qs('seagullsPlatform').value;
         const id = qs('seagullsId').value.trim() || 'ID';
+        const wordsValue = qs('seagullsWords').value.trim() || 'N'; 
         let result = '';
 
         if (platform === 'blog') {
             const activity = qs('seagullsBlogActivity').value;
             const date = qs('seagullsDate').value.trim() || getMoscowDate();
-            
             const isReview = activity.includes('отзыв');
             
-            let title = '';
-            if (isReview) {
-                title = 'Отчёт об отзыве';
-            } else {
-                title = 'Отчёт о ' + activity.replace('реклама', 'рекламе');
-            }
-            
-            const words = countSeagullsWords();
-            const wordsLine = isReview ? `\nКоличество слов: ${words} слов;` : '';
+            let title = isReview ? 'Отчёт об отзыве' : 'Отчёт о ' + activity.replace('реклама', 'рекламе');
+            const wordsLine = isReview ? `\nКоличество слов: ${wordsValue} слов;` : '';
 
             let proofsRaw = qs('seagullsProofs').value.trim();
             let proofsText = 'скриншот.'; 
@@ -1146,21 +1141,20 @@ if (btnSeagulls) {
             result = `[b]${title}[/b]\n[b]${date}[/b]\nУчастник: [link${id}] [${id}];${wordsLine}\nДоказательства: ${proofsText}`;
         
         } else {
-            const tag = qs('seagullsTag').value;
+            const tag = seagullsTag.value;
             const name = qs('seagullsName').value.trim() || 'Имя';
             const date = qs('seagullsDate').value.trim() || getMoscowDate();
             const rawProofs = qs('seagullsProofs').value.trim();
             const proofs = rawProofs ? `\n${rawProofs}` : ''; 
             
-            if (tag === 'chat') {
+            if (tag === 'review') {
+                result = `#отзыв — ${wordsValue} слов, ${name} [${id}], ${date}${proofs}`;
+            } else if (tag === 'chat') {
                 result = `#чат — ${name} [${id}], ${date}${proofs}`;
             } else if (tag === 'feed') {
                 result = `#лента — ${name} [${id}], ${date}${proofs}`;
             } else if (tag === 'private') {
                 result = `#приват — ${name} [${id}], ${date}${proofs}`;
-            } else if (tag === 'review') {
-                const words = countSeagullsWords();
-                result = `#отзыв — ${words} слов, ${name} [${id}], ${date}${proofs}`;
             } else if (tag === 'link') {
                 result = `#ссылка — ${name} [${id}], ${date}${proofs}`;
             } else if (tag === 'stream') {
@@ -1182,17 +1176,47 @@ if (btnSeagulls) {
     };
 }
 
-const seagullsReviewText = qs('seagullsReviewText');
-const seagullsAutoCountResult = qs('seagullsAutoCountResult');
+const calcInput = qs('calcInput');
+const calcResult = qs('calcResult');
 
-if (seagullsReviewText) {
-    seagullsReviewText.addEventListener('input', () => {
-        const text = seagullsReviewText.value.trim();
-        const matchWords = text.match(/[а-яА-ЯёЁa-zA-Z]+(?:-[а-яА-ЯёЁa-zA-Z]+)*/g);
-        const count = matchWords ? matchWords.length : 0;
+if (calcInput) {
+    calcInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+
+        const text = this.value.trim();
         
-        if (seagullsAutoCountResult) {
-            seagullsAutoCountResult.textContent = count;
+        if (!text) {
+            calcResult.textContent = "Итого: 0 слов";
+            this.style.height = '60px'; 
+            return;
         }
+
+        const wordsMatch = text.match(/[а-яА-ЯёЁa-zA-Z]+(?:-[а-яА-ЯёЁa-zA-Z]+)*/g);
+        const count = wordsMatch ? wordsMatch.length : 0;
+
+        calcResult.textContent = `Итого: ${count} слов`;
     });
 }
+
+
+const  APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzTeTpiRbQzJpMduPQSUwZgqNXv3D859ZRe_d8GLMhHm-5ZkTset1XHC0NqB7KaFRQ5pg/exec';
+async function fetchAdCode() {
+  const adArea = document.getElementById('adCodeArea');
+  
+  try {
+    const response = await fetch(APPS_SCRIPT_URL);
+    const data = await response.json();
+    
+    if (data.code) {
+      adArea.value = data.code;
+    } else if (data.error) {
+      adArea.value = "Ошибка: " + data.error;
+    }
+  } catch (err) {
+    console.error("Ошибка сети:", err);
+    adArea.value = "Ошибка загрузки данных";
+  }
+}
+
+document.addEventListener('DOMContentLoaded', fetchAdCode);
