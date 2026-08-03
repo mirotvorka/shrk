@@ -14,68 +14,51 @@
       </div>
       <button class="nav-toggle" id="navToggle" type="button">Показать навигацию</button>
     </div>
-
     <div class="layout">
      <aside class="column nav-col" id="navCol">
-
         <div class="accordion">
-          
+
           <div class="acc-item">
             <button class="acc-head" type="button" data-form="main-blog">ГЛАВНЫЙ БЛОГ</button>
           </div>
-          
+
      <div class="acc-item">
             <button class="acc-head" type="button" data-form="awards-blog">БЛОГ НАГРАД</button>
           </div>
 
-          <div class="acc-item">
-            <button class="acc-head" type="button" data-form="activity-blog">БЛОГ АКТИВНОСТИ</button>
-          </div>
-        
-          <div class="acc-item">
-            <button class="acc-head" type="button" data-form="pirate-code">ПИРАТСКИЙ КОДЕКС</button>
-          </div>
 
+  
           <div class="acc-item">
             <button class="acc-head" type="button">ОТРЯДНЫЕ <span>▾</span></button>
             <div class="acc-body">
               <div class="nav-list">
-                <button class="nav-btn" data-form="squad-kits">Отряд Китов</button>
-                <button class="nav-btn" data-form="squad-turtles">Отряд Черепах</button>
-                <button class="nav-btn" data-form="squad-sharks">Отряд Акул</button>
                 <button class="nav-btn" data-form="squad-seagulls">Отряд Чаек</button>
-                <button class="nav-btn" data-form="squad-octopus">Отряд Осьминогов</button>
-                <button class="nav-btn" data-form="squad-flyingfish">Отряд Летучих рыб</button>
-                <button class="nav-btn" data-form="squad-albatross">Отряд Альбатросов</button>
                 <button class="nav-btn" data-form="squad-dolphins">Отряд Дельфинов</button>
-                <button class="nav-btn" data-form="squad-clownfish">Отряд Рыб-клоунов</button>
+                <button class="nav-btn" data-form="squad-toddlers">Отряд Мальков</button>
+                <button class="nav-btn" data-form="squad-albatross">Отряд Альбатросов</button>
+                <button class="nav-btn" data-form="squad-kits">Отряд Китов</button>
+                <button class="nav-btn" data-form="squad-octopus">Навигаторы</button>
               </div>
             </div>
           </div>
-
           <div class="acc-item">
             <button class="acc-head" type="button">ОБЩЕКОМАНДНЫЕ <span>▾</span></button>
             <div class="acc-body">
               <div class="nav-list">
                 <button class="nav-btn" data-form="sphere-guard">Охранная сфера</button>
-                <button class="nav-btn" data-form="sphere-food">Продовольственная сфера</button>
                 <button class="nav-btn" data-form="sphere-heal">Врачевательная сфера</button>
               </div>
             </div>
           </div>
-
          <div class="acc-item">
             <button class="acc-head" type="button" data-form="sphere-squadron">ЭСКАДРА</button>
           </div>
-          
+
           <div class="acc-item">
             <button class="acc-head" type="button" data-form="task-board">ДОСКА ПОРУЧЕНИЙ</button>
           </div>
-          
-          <div class="acc-item">
-            <button class="acc-head" type="button" data-form="shelter-blog">БЛОГ ПРИТУЛЬЯ</button>
-          </div>
 
+      
           <div class="acc-item">
             <button class="acc-head" type="button">ДРУГОЕ <span>▾</span></button>
             <div class="acc-body">
@@ -89,65 +72,56 @@
         </div>
       </aside>
       <section class="column input-col">
-
     <div id="form-welcome" class="stack form-view">
 <div class="card" style="padding: 35px 25px; text-align: center;">
   <img src="images/shrk.png" alt="ШРК лого" class="welcome-logo">
-  
+
   <p style="font-style: italic; opacity: 0.8; margin-bottom: 25px;">
    ! Сайт находится на стадии разработки !
   </p>
-
   <div class="help">
     <p style="margin-top: 20px; opacity: 0.85;">
-      <b>Авторство:</b> Миротворка [750333] [<a href="https://vk.com/mirotvorkaa"  target="_blank" style="color: var(--accent); text-decoration: underline;">VK</a>]  
+      <b>Авторство:</b> Миротворка [750333] [<a href="https://vk.com/mirotvorkaa"  target="_blank" style="color: var(--accent); text-decoration: underline;">VK</a>]
       <br>
       По всем вопросам и возникающим проблемам можно обращаться к ней.
     </p>
   </div>
 </div>
 </div>
-
 <div id="form-main-blog" class="stack form-view hidden">
           <div class="card stack">
-            <h2>Посвящение</h2>
-
+            <h2>Посвящение<span class="blog-links"> <a href="https://catwar.net/blog713741" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog713742" target="_blank">catwar.su</a></span></h2>
             <div class="grid">
               <div>
                 <label for="rankType">Посвящение в</label>
                 <select id="rankType"></select>
               </div>
-
               <div>
                 <label for="rankDate">Дата посвящения</label>
                 <select id="rankDate"></select>
               </div>
-
               <div class="full">
                 <label for="rankId">ID</label>
                 <input id="rankId" type="text" class="save-id" placeholder="1234567">
               </div>
-              
+
               <div>
                 <label for="rankProof">Скриншот(ы)</label>
                 <input id="rankProof" type="text" placeholder="ссылка1 ссылка2 ссылка3">
+                <p class="help full"> Скриншоты доказательств лучше загружать на хостинг: <a href="https://ibb.org.ru" target="_blank">ibb.org.ru</a>, <a href="https://pic.maxiol.com" target="_blank">pic.maxiol.com</a> или <a href="https://imgbb.com" target="_blank">imgbb.com</a>. </p>
               </div>
-
               <div>
                 <label for="rankBaseName">Имя</label>
                 <input id="rankBaseName" type="text" placeholder="-">
               </div>
-
               <div id="rankMentorWrap">
                 <label for="rankMentor">Наставник</label>
                 <select id="rankMentor"></select>
               </div>
-
               <div id="rankPirateWrap" class="hidden">
                 <label for="rankPirateName">Пиратское имя</label>
                 <input id="rankPirateName" type="text">
               </div>
-
               <div id="rankFemWrap" class="hidden">
                 <label for="rankFeminine">Феминитив</label>
                 <select id="rankFeminine">
@@ -155,7 +129,6 @@
                   <option> ставить</option>
                 </select>
               </div>
-
               <div id="rankSpeechWrap">
                 <label for="rankSpeech">Речь</label>
                 <select id="rankSpeech">
@@ -164,24 +137,20 @@
                 </select>
               </div>
             </div>
-
             <div class="actions">
               <button class="primary" id="rankGenerate">Составить отчёт</button>
             </div>
           </div>
-
           <div class="card">
-            <textarea id="rankResult" class="output" readonly></textarea>
+            <textarea id="rankResult" class="output" readonly style="min-height: 100px;"></textarea>
             <div class="actions">
               <button class="secondary" data-copy="rankResult">Скопировать отчёт</button>
             </div>
           </div>
         </div>
-
         <div id="form-awards-blog" class="stack form-view hidden">
           <div class="card stack">
-            <h2>Запрос награды</h2>
-
+            <h2>Запрос награды<span class="blog-links"> <a href="https://catwar.net/blog747397" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog747397" target="_blank">catwar.su</a></span></h2>
             <div class="grid">
               <div>
                 <label for="awardsMode">Вид отчёта</label>
@@ -192,64 +161,160 @@
                   <option value="title">Запрос должности</option>
                 </select>
               </div>
-
               <div>
                 <label for="awardsId">ID</label>
                 <input id="awardsId" type="text" class="save-id" placeholder="1234567">
               </div>
-
               <div>
                 <label for="awardsDol">Должность</label>
                 <select id="awardsDol"></select>
               </div>
-
               <div>
                 <label id="awardsGroupLabel" for="awardsGroup">Категория:</label>
                 <select id="awardsGroup"></select>
               </div>
-
             <div id="awardsItemWrap"> <label id="awardsItemLabel" for="awardsItem">Название</label>
     <select id="awardsItem"></select>
 </div>
-
               <div id="variantWrap" class="hidden">
   <label id="awardsVariantLabel" for="awardsVariant">Вариант / цвет / срок</label>
   <div id="variantInputArea">
      <input id="awardsVariant" type="text" placeholder="Например: красный">
   </div>
 </div>
-
 <div class="full">
     <label for="awardsProofs">Скриншот(ы)</label>
     <input id="awardsProofs" type="text" placeholder="ссылка1 ссылка2 ссылка3">
+    <p class="help full"> Скриншоты доказательств лучше загружать на хостинг: <a href="https://ibb.org.ru" target="_blank">ibb.org.ru</a>, <a href="https://pic.maxiol.com" target="_blank">pic.maxiol.com</a> или <a href="https://imgbb.com" target="_blank">imgbb.com</a>. </p>
     <div id="awardsTitleNote" class="hidden" style="font-size: 10px; opacity: 0.7; margin-top: 3px; line-height: 1.4;;"> Должность запрашивается в ЛС <b>Морской Разбойник [2410]</b></div>
 </div>
                </div>
-            
 
             <div class="actions">
               <button class="primary" id="awardsGenerate">Составить отчёт</button>
             </div>
           </div>
-
           <div class="card">
-            <textarea id="awardsResult" class="output" readonly></textarea>
+            <textarea id="awardsResult" class="output" readonly style="min-height: 100px;"></textarea>
             <div class="actions">
               <button class="secondary" data-copy="awardsResult">Скопировать отчёт</button>
             </div>
           </div>
         </div>
-
-        <div id="form-pirate-code" class="stack form-view hidden"><div class="card"><h2>Пиратский кодекс</h2></div></div>
-        <div id="form-shelter-blog" class="stack form-view hidden"><div class="card"><h2>Блог притулья</h2></div></div>
-        <div id="form-task-board" class="stack form-view hidden"><div class="card"><h2>Доска поручений</h2></div></div>
-
-        <div id="form-squad-kits" class="stack form-view hidden"><div class="card"><h2>Отряд Китов</h2></div></div>
-        <div id="form-squad-turtles" class="stack form-view hidden"><div class="card"><h2>Отряд Черепах</h2></div></div>
-        <div id="form-squad-sharks" class="stack form-view hidden"><div class="card"><h2>Отряд Акул</h2></div></div>
+        <div id="form-pirate-code" class="stack form-view hidden"><div class="card"><h2>Пиратский кодекс<span class="blog-links"> <a href="https://catwar.net/blog752421" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog752421" target="_blank">catwar.su</a></span></h2></div></div>
+        <div id="form-shelter-blog" class="stack form-view hidden"><div class="card"><h2>Блог притулья<span class="blog-links"> <a href="https://catwar.net/blog1079063" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog1079063" target="_blank">catwar.su</a></span></h2></div></div>
+        <div id="form-task-board" class="stack form-view hidden">
+          <div class="card stack">
+            <h2>Доска поручений<span class="blog-links"> <a href="https://catwar.net/blog1095323" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog1095323" target="_blank">catwar.su</a></span></h2>
+            <div class="grid">
+              <div class="full">
+                <label for="taskMode">Вид отчёта</label>
+                <select id="taskMode">
+                  <option value="done">Выполнение поручения</option>
+                  <option value="reward">Запрос награды</option>
+                </select>
+              </div>
+              <div class="full">
+                <label for="taskId">Ваш ID</label>
+                <input id="taskId" type="text" class="save-id" placeholder="1234567">
+              </div>
+              <div class="task-sub-done full">
+                <label for="taskNumber">Номер поручения (n)</label>
+                <input id="taskNumber" type="text" placeholder="1">
+              </div>
+              <div class="task-sub-done full">
+                <label for="taskRange">Промежуток</label>
+                <select id="taskRange"></select>
+              </div>
+              <div class="task-sub-reward full hidden">
+                <label for="taskRewardType">Награда</label>
+                <select id="taskRewardType">
+                  <option value="ВТ-предмет">ВТ-предмет</option>
+                  <option value="клон">Клон</option>
+                </select>
+              </div>
+              <div id="taskCloneWrap" class="stack full hidden">
+                <label for="taskCloneColor">Окрас [PNG] (ссылка)</label>
+                <input id="taskCloneColor" type="text" placeholder="ссылка">
+                <label for="taskCloneRef">Референс (ссылка)</label>
+                <input id="taskCloneRef" type="text" placeholder="ссылка">
+                <label for="taskCloneExtra">Дополнительная информация</label>
+                <input id="taskCloneExtra" type="text" placeholder="-">
+              </div>
+              <div class="full">
+                <label for="taskProof">Ссылка на доказательства</label>
+                <input id="taskProof" type="text" placeholder="ссылка">
+                <p class="help full"> Скриншоты доказательств лучше загружать на хостинг: <a href="https://ibb.org.ru" target="_blank">ibb.org.ru</a>, <a href="https://pic.maxiol.com" target="_blank">pic.maxiol.com</a> или <a href="https://imgbb.com" target="_blank">imgbb.com</a>. </p>
+              </div>
+            </div>
+            <div class="actions">
+              <button class="primary" id="taskGenerate">Составить отчёт</button>
+            </div>
+          </div>
+          <div class="card">
+            <textarea id="taskResult" class="output" readonly style="min-height: 100px;"></textarea>
+            <div class="actions">
+              <button class="secondary" data-copy="taskResult">Скопировать отчёт</button>
+            </div>
+          </div>
+        </div>
+        <div id="form-squad-kits" class="stack form-view hidden">
+  <div class="card stack">
+    <h2>Отряд Китов<span class="blog-links"> <a href="https://catwar.net/blog736261" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog736261" target="_blank">catwar.su</a> | <a href="https://vk.ru/im/convo/2000000217" target="_blank">чат ВК</a></span></h2>
+    <div class="grid">
+      <div class="full">
+        <label for="kitsType">Вид отчёта</label>
+        <select id="kitsType">
+          <option value="teach_mentor">Обучение Наставники</option>
+          <option value="tour_mentor">Экскурсия Наставники</option>
+          <option value="tour_educator">Экскурсия Воспитатели</option>
+          <option value="teach_educator">Обучение Воспитатели</option>
+        </select>
+      </div>
+      <div>
+        <label for="kitsChildName">Имя обучаемого</label>
+        <input id="kitsChildName" type="text" placeholder="Имя">
+      </div>
+      <div>
+        <label for="kitsChildId">ID обучаемого</label>
+        <input id="kitsChildId" type="text" placeholder="1234567">
+      </div>
+      <div>
+        <label id="kitsStaffLabel" for="kitsStaffName">Имя наставника</label>
+        <input id="kitsStaffName" type="text" class="save-name" placeholder="Имя">
+      </div>
+      <div>
+        <label for="kitsStaffId">ID</label>
+        <input id="kitsStaffId" type="text" class="save-id" placeholder="1234567">
+      </div>
+      <div id="kitsCoinsWrap" class="full checkbox-row hidden">
+        <input type="checkbox" id="kitsCoins100">
+        <label for="kitsCoins100">Начислить 100 монет (иначе будет указано 0)</label>
+      </div>
+      <div id="kitsTerritoryWrap" class="full hidden">
+        <label for="kitsTerritory">Территория</label>
+        <select id="kitsTerritory">
+          <option value="лагерной">лагерной</option>
+          <option value="внелагерной">внелагерной</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="kitsGenerate">Составить отчёт</button>
+    </div>
+  </div>
+  <div class="card">
+    <textarea id="kitsResult" class="output" readonly style="min-height: 100px;"></textarea>
+    <div class="actions">
+      <button class="secondary" data-copy="kitsResult">Скопировать отчёт</button>
+    </div>
+  </div>
+</div>
+        <div id="form-squad-turtles" class="stack form-view hidden"><div class="card"><h2>Отряд Черепах<span class="blog-links"> <a href="https://catwar.net/blog0" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog0" target="_blank">catwar.su</a></span></h2></div></div>
+        <div id="form-squad-sharks" class="stack form-view hidden"><div class="card"><h2>Отряд Акул<span class="blog-links"> <a href="https://catwar.net/blog726855" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog726855" target="_blank">catwar.su</a></span></h2></div></div>
        <div id="form-squad-seagulls" class="stack form-view hidden">
           <div class="card stack">
-            <h2>Отряд Чаек</h2>
+            <h2>Отряд Чаек<span class="blog-links"> <a href="https://catwar.net/blog730142" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog730142" target="_blank">catwar.su</a></span></h2>
             <div class="grid">
               <div class="full">
                 <label for="seagullsPlatform">Тип отчёта</label>
@@ -258,7 +323,6 @@
                   <option value="blog">Отпись под блог</option>
                 </select>
               </div>
-
               <div class="full blog-only hidden">
                 <label for="seagullsBlogActivity">Вид деятельности</label>
                 <select id="seagullsBlogActivity">
@@ -268,7 +332,6 @@
                   <option value="отзыв">отзыв</option>
                 </select>
               </div>
-
               <div class="full vk-only">
                 <label for="seagullsRole">Направление</label>
                 <select id="seagullsRole">
@@ -276,38 +339,32 @@
                   <option value="herald">Вестники / Информаторы</option>
                 </select>
               </div>
-
               <div class="vk-only">
                 <label for="seagullsTag">Вид отчёта (тег)</label>
                 <select id="seagullsTag">
                 </select>
               </div>
-
 <div id="seagullsDateWrap" class="vk-only">
                 <label for="seagullsDate">Дата</label>
                 <input id="seagullsDate" type="text" placeholder="дд.мм.гг">
               </div>
-
              <div class="vk-only" id="seagullsNameWrap">
                 <label for="seagullsName">Имя</label>
                 <input id="seagullsName" type="text" class="save-name" placeholder="Имя">
               </div>
-
               <div id="seagullsIdWrap">
                 <label for="seagullsId">ID</label>
                 <input id="seagullsId" type="text" class="save-id" placeholder="1234567">
               </div>
-
               <div id="seagullsWordsWrap" class="hidden full">
   <label for="seagullsWords">Количество слов</label>
   <input id="seagullsWords" type="number" placeholder=" ">
-  
+
   <div class="help">
-    Количество слов можно посчитать 
-    <a href="https://mirotvorka.github.io/shrk/#word" target="_blank" style="color: var(--accent); text-decoration: underline;">вот тут</a>. 
+    Количество слов можно посчитать
+    <a href="https://mirotvorka.github.io/shrk/#word" target="_blank" style="color: var(--accent); text-decoration: underline;">вот тут</a>.
   </div>
 </div>
-
           <div id="seagullsGroupWrap" class="hidden vk-only">
                 <label for="seagullsGroup">Название группы</label>
                 <select id="seagullsGroup">
@@ -316,23 +373,20 @@
                   <option value="CatWar-СМИ | Revolution Dance">CatWar-СМИ | Revolution Dance</option>
                 </select>
               </div>
-
         <div id="seagullsPartnerWrap" class="hidden vk-only full">
                 <label for="seagullsPartnerTag">Таг напарника</label>
                 <input id="seagullsPartnerTag" type="text" placeholder="@id123456">
               </div>
-
           <div class="full" id="seagullsProofsWrap">
                 <label id="seagullsProofsLabel" for="seagullsProofs">Ссылка на пост</label>
                 <input id="seagullsProofs" type="text" placeholder="ссылка1 ссылка2">
               </div>
             </div>
-            
+
             <div class="actions">
               <button class="primary" id="seagullsGenerate">Составить отчёт</button>
             </div>
           </div>
-
           <div class="card">
             <textarea id="seagullsResult" class="output" readonly style="min-height: 100px;"></textarea>
             <div class="actions">
@@ -340,114 +394,326 @@
             </div>
           </div>
         </div>
-        
+
         <div id="form-squad-octopus" class="stack form-view hidden">
           <div class="card stack">
-            <h2>Морская вылазка</h2>
-            
+            <h2>Морская вылазка<span class="blog-links"> <a href="https://catwar.net/blog726849" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog726849" target="_blank">catwar.su</a></span></h2>
+
             <div class="grid">
               <div>
                 <label for="octoDate">Дата проведения</label>
                 <input id="octoDate" type="text" placeholder="дд.мм.гг">
               </div>
-
               <div>
                 <label for="octoNavId">ID Навигатора</label>
                 <input id="octoNavId" type="text" class="save-id" placeholder="1234567">
               </div>
-
               <div class="full">
                 <label for="octoPartIds">ID Участников (через пробел)</label>
                 <input id="octoPartIds" type="text" placeholder="123456 789012 345678">
               </div>
-
               <div class="full">
                 <label for="octoProofs">Скриншоты</label>
                 <input id="octoProofs" type="text" placeholder="ссылка1 ссылка2 ссылка3">
+                <p class="help full"> Скриншоты доказательств лучше загружать на хостинг: <a href="https://ibb.org.ru" target="_blank">ibb.org.ru</a>, <a href="https://pic.maxiol.com" target="_blank">pic.maxiol.com</a> или <a href="https://imgbb.com" target="_blank">imgbb.com</a>. </p>
               </div>
             </div>
-
             <div class="actions">
               <button class="primary" id="octoGenerate">Составить отчёт</button>
             </div>
           </div>
-
           <div class="card">
-            <textarea id="octoResult" class="output" readonly></textarea>
+            <textarea id="octoResult" class="output" readonly style="min-height: 100px;"></textarea>
             <div class="actions">
               <button class="secondary" data-copy="octoResult">Скопировать отчёт</button>
             </div>
           </div>
         </div>
-        <div id="form-squad-flyingfish" class="stack form-view hidden"><div class="card"><h2>Отряд Летучих рыб</h2></div></div>
-        <div id="form-squad-albatross" class="stack form-view hidden"><div class="card"><h2>Отряд Альбатросов</h2></div></div>
-   
+        <div id="form-squad-flyingfish" class="stack form-view hidden"><div class="card"><h2>Отряд Летучих рыб<span class="blog-links"> <a href="https://catwar.net/blog726853" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog726853" target="_blank">catwar.su</a></span></h2></div></div>
+<div id="form-squad-albatross" class="stack form-view hidden">
+  <div class="card stack">
+    <h2>Отряд Альбатросов<span class="blog-links"> <a href="https://catwar.net/blog731079" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog731079" target="_blank">catwar.su</a> | <a href="https://vk.ru/im/convo/2000000280" target="_blank">чат ВК</a></span></h2>
+    <div class="grid">
+      <div class="full">
+        <label for="albCategory">Категория отчёта</label>
+        <select id="albCategory">
+          <option value="congrat_report">Отчёт о поздравительном блоге</option>
+             <option value="vk_booking">ВК: Бронирование</option>
+          <option value="vk_done">ВК: Завершение работы</option>
+          <option value="anketa_blog">Запись в таблицу С блогом</option>
+          <option value="anketa_noblog">Запись в таблицу БЕЗ блога</option>
+          <option value="edit_prefs">Редактирование предпочтений</option>
+        </select>
+      </div>
+      
+      <div id="albCongratWrap" class="stack full">
+        <div class="grid">
+          <div class="full">
+            <label for="albCongratLink">Ссылка на блог</label>
+            <input id="albCongratLink" type="text" placeholder="https://catwar.su/blog...">
+          </div>
+          <div>
+            <label for="albCongratTargetId">ID именинника</label>
+            <input id="albCongratTargetId" type="text" placeholder="123456">
+          </div>
+          <div>
+            <label for="albDesigner">Оформитель (ID)</label>
+            <input id="albDesigner" type="text" placeholder="123456">
+          </div>
+          <div>
+            <label for="albCollageMakers">Коллажи (ID через пробел)</label>
+            <input id="albCollageMakers" type="text" placeholder="123456 789012">
+          </div>
+          <div>
+            <label for="albCongratulator">Поздравитель (ID)</label>
+            <input id="albCongratulator" type="text" placeholder="123456">
+          </div>
+          <div>
+            <label for="albPoets">Писатели стихов (ID через пробел)</label>
+            <input id="albPoets" type="text" placeholder="123456">
+          </div>
+          <div>
+            <label for="albMessageWriter">Писал сообщение (ID)</label>
+            <input id="albMessageWriter" type="text" placeholder="123456">
+          </div>
+          <div>
+            <label for="albCollectorId">Сборщик (ID)</label>
+            <input id="albCollectorId" type="text" placeholder="123456">
+          </div>
+          <div>
+            <label for="albCollectorCount">Кол-во собранных/опрошенных</label>
+            <input id="albCollectorCount" type="text" placeholder="5/10">
+          </div>
+          <div>
+            <label for="albHeader">Нарисовал шапку (ID)</label>
+            <input id="albHeader" type="text" placeholder="123456">
+          </div>
+          <div>
+            <label for="albClonePainter">Красил клон (ID)</label>
+            <input id="albClonePainter" type="text" placeholder="123456">
+          </div>
+          <div class="full">
+            <label for="albArtists">Художники (ID через пробел)</label>
+            <input id="albArtists" type="text" placeholder="123456 789012">
+          </div>
+        </div>
+      </div>
+
+      <div id="albAnketaBlogWrap" class="stack full hidden">
+        <div class="full">
+          <label for="albBirthId">ID именинника</label>
+          <input id="albBirthId" type="text" class="save-id" placeholder="1234567">
+        </div>
+        <div class="full">
+          <label for="albBirthDate">Дата рождения (дд.мм)</label>
+          <input id="albBirthDate" type="text" placeholder="15.08">
+        </div>
+        <div class="full">
+          <label for="albPrefs">1. Предпочтения</label>
+          <textarea id="albPrefs" placeholder="Любимые цвета, фандомы..."></textarea>
+        </div>
+        <div class="full">
+          <label for="albMainChar">2. Основной персонаж (окрас PNG, заметки)</label>
+          <textarea id="albMainChar"></textarea>
+        </div>
+        <div class="full">
+          <label for="albExtraChars">3. Дополнительные персонажи</label>
+          <textarea id="albExtraChars"></textarea>
+        </div>
+        <div class="full">
+          <label for="albFriends">4. Друзья (только ID без ссылок)</label>
+          <textarea id="albFriends"></textarea>
+        </div>
+        <div class="full">
+          <label for="albHowIntroduce">5. Как вас представлять друзьям</label>
+          <input id="albHowIntroduce" type="text" placeholder="Клички, ник">
+        </div>
+      </div>
+
+      <div id="albAnketaNoBlogWrap" class="stack full hidden">
+        <div class="full">
+          <label for="albNoBlogId">ID именинника</label>
+          <input id="albNoBlogId" type="text" class="save-id" placeholder="1234567">
+        </div>
+        <div class="full">
+          <label for="albNoBlogDate">Дата рождения (дд.мм)</label>
+          <input id="albNoBlogDate" type="text" placeholder="15.08">
+        </div>
+      </div>
+
+      <div id="albEditWrap" class="stack full hidden">
+        <div class="full">
+          <label for="albEditId">Ваш ID</label>
+          <input id="albEditId" type="text" class="save-id" placeholder="1234567">
+        </div>
+        <div class="full">
+          <label for="albEditSection">Название раздела</label>
+          <input id="albEditSection" type="text" placeholder="Предпочтения">
+        </div>
+        <div class="full">
+          <label for="albEditText">Новый текст</label>
+          <textarea id="albEditText"></textarea>
+        </div>
+      </div>
+
+      <div id="albVkBookingWrap" class="stack full hidden">
+        <div class="full">
+          <label for="albBookRole">Бронируемая роль</label>
+          <select id="albBookRole">
+            <option value="оформление">Оформитель</option>
+            <option value="коллаж">Коллажист</option>
+            <option value="рисунок">Художник</option>
+            <option value="клон">Клон</option>
+            <option value="шапка">Шапка</option>
+            <option value="декорация">Декорация</option>
+            <option value="сбор поздравлений">Сборщик</option>
+            <option value="поздравление">Поздравитель</option>
+            <option value="стих">Стихотворец</option>
+            <option value="коллаб_рисунок">Коллаб художников</option>
+            <option value="коллаб_оформление">Коллаб оформителей</option>
+          </select>
+        </div>
+        <div class="grid">
+          <div>
+            <label for="albBookName">Ваше имя</label>
+            <input id="albBookName" type="text" class="save-name" placeholder="Имя">
+          </div>
+          <div>
+            <label for="albBookId">Ваш ID</label>
+            <input id="albBookId" type="text" class="save-id" placeholder="123456">
+          </div>
+        </div>
+        <div id="albBookPartnerWrap" class="grid hidden">
+          <div>
+            <label for="albBookPartnerName">Имя напарника</label>
+            <input id="albBookPartnerName" type="text" placeholder="Имя">
+          </div>
+          <div>
+            <label for="albBookPartnerId">ID напарника</label>
+            <input id="albBookPartnerId" type="text" placeholder="123456">
+          </div>
+        </div>
+        <div id="albBookCollageCountWrap" class="full hidden">
+          <label for="albBookCollageCount">Количество коллажей</label>
+          <input id="albBookCollageCount" type="number" placeholder="1">
+        </div>
+        <div class="grid">
+          <div>
+            <label for="albBookTargetName">Имя именинника</label>
+            <input id="albBookTargetName" type="text" placeholder="Имя">
+          </div>
+          <div>
+            <label for="albBookTargetId">ID именинника</label>
+            <input id="albBookTargetId" type="text" placeholder="123456">
+          </div>
+        </div>
+      </div>
+
+      <div id="albVkDoneWrap" class="stack full hidden">
+        <div class="full">
+          <label for="albDoneRole">Выполненная роль</label>
+          <select id="albDoneRole">
+            <option value="оформитель">Оформитель</option>
+            <option value="художник">Художник</option>
+            <option value="сборщик">Сборщик</option>
+            <option value="поздравление">Поздравитель</option>
+            <option value="коллаб_художники">Коллаб художников</option>
+            <option value="коллаб_оформители">Коллаб оформителей</option>
+          </select>
+        </div>
+        <div class="grid">
+          <div>
+            <label for="albDoneName">Ваше имя</label>
+            <input id="albDoneName" type="text" class="save-name" placeholder="Имя">
+          </div>
+          <div>
+            <label for="albDoneId">Ваш ID</label>
+            <input id="albDoneId" type="text" class="save-id" placeholder="123456">
+          </div>
+        </div>
+        <div class="grid">
+          <div>
+            <label for="albDoneTargetName">Имя именинника</label>
+            <input id="albDoneTargetName" type="text" placeholder="Имя">
+          </div>
+          <div>
+            <label for="albDoneTargetId">ID именинника</label>
+            <input id="albDoneTargetId" type="text" placeholder="123456">
+          </div>
+        </div>
+        <div id="albDonePartner2Wrap" class="full hidden">
+          <label for="albDonePartner2">Инфо о второй стадии (Имя [ID] сделал...)</label>
+          <input id="albDonePartner2" type="text" placeholder="Имя [123] сделал 3-4 стадии работы">
+        </div>
+        <div id="albDoneCountWrap" class="full hidden">
+          <label for="albDoneCount">Количество опрошенных игроков</label>
+          <input id="albDoneCount" type="number" placeholder="5">
+        </div>
+        <div id="albDoneContentWrap" class="full hidden">
+          <label for="albDoneContent">Доказательства / Текст / Файл</label>
+          <textarea id="albDoneContent" placeholder="Текст поздравления или прикреплённый документ"></textarea>
+        </div>
+      </div>
+    </div>
+    
+    <div class="actions">
+      <button class="primary" id="albGenerate">Составить отчёт</button>
+    </div>
+  </div>
+  <div class="card">
+    <textarea id="albResult" class="output" readonly style="min-height: 150px;"></textarea>
+    <div class="actions">
+      <button class="secondary" data-copy="albResult">Скопировать отчёт</button>
+    </div>
+  </div>
+</div>
 
      <div id="form-squad-dolphins" class="stack form-view hidden">
   <div class="card stack">
-    <h2>Отряд Дельфинов</h2>
+    <h2>Отряд Дельфинов<span class="blog-links"> <a href="https://catwar.net/blog852778" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog852778" target="_blank">catwar.su</a></span></h2>
     <div class="grid">
-      
       <div class="full">
-        <label for="dolphinReportType">Тип отчёта</label>
+        <label for="dolphinReportType">Вид отчёта</label>
         <select id="dolphinReportType">
-          <option value="vk">Отпись в ВК</option>
-          <option value="cw">Отчет о сопровождении</option>
+          <option value="climb">Сопровождение на лазательные локации</option>
+          <option value="vision">Прокачивание зоркости</option>
+          <option value="dive">Сопровождение на плавательные локации</option>
           <option value="teach">Обучение игрока лазанию</option>
         </select>
       </div>
-
-      <div class="full" id="dolphinActivityWrap">
-        <label for="dolphinActivityType">Сопровождение на</label>
-        <select id="dolphinActivityType">
-          <option value="climb">Лазание</option>
-          <option value="vision">Прокачивание зоркости</option>
-          <option value="dive">Ныряние</option>
-        </select>
-      </div>
-
       <div id="dolphinDateWrap">
         <label for="dolphinDate">Дата проведения</label>
         <input id="dolphinDate" type="text" class="save-date" placeholder="07.04.26">
       </div>
-
       <div id="dolphinMyIdWrap">
-        <label for="dolphinMyId">ID</label>
+        <label for="dolphinMyId">ID Дельфина</label>
         <input id="dolphinMyId" type="text" class="save-id" placeholder="1234567">
       </div>
-
-      <div id="dolphinTimeWrap" class="hidden">
-        <label for="dolphinTimeRange">Время (чч.мм - чч.мм)</label>
-        <input id="dolphinTimeRange" type="text" placeholder="12.00 - 13.00">
+      <div id="dolphinTimeWrap" class="full">
+        <label for="dolphinTimeRange">Время (чч:мм - чч:мм)</label>
+        <input id="dolphinTimeRange" type="text" placeholder="12:00 - 13:00">
       </div>
-
-      <div id="dolphinTargetWrap">
-        <label id="dolphinTargetLabel" for="dolphinTargetIds">ID сопровождаемых (через пробел)</label>
-        <input id="dolphinTargetIds" type="text" placeholder="123456 789012">
-      </div>
-
-     <div id="dolphinDiveWrap" class="hidden">
+      <div id="dolphinDiveWrap" class="hidden">
         <label for="dolphinDives">Количество заходов</label>
-        <input id="dolphinDives" type="text" placeholder="1">
+        <input id="dolphinDives" type="number" placeholder="1">
       </div>
-
-      <div id="dolphinToddlerWrap" class="full hidden" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-        <input type="checkbox" id="dolphinIsToddler" style="width: 20px; height: 20px; cursor: pointer;">
-        <label for="dolphinIsToddler" style="margin: 0; cursor: pointer;">Малыш-топотушка+</label>
+      <div id="dolphinTargetWrap" class="full">
+        <label id="dolphinTargetLabel" for="dolphinTargetIds">ID сопровождаемых (через пробел)</label>
+        <input id="dolphinTargetIds" type="text" placeholder="123456 789012+">
+        <div style="font-size: 10px; opacity: 0.7; margin-top: 3px; line-height: 1.4;">
+          Чтобы указать взрослого, добавьте <b>+</b> после ID (например: <b>123456+</b>)
+        </div>
       </div>
-
       <div class="full hidden" id="dolphinProofWrap">
-        <label for="dolphinProof">Скриншот</label>
+        <label for="dolphinProof">Скриншот письменного подтверждения</label>
         <input id="dolphinProof" type="text" placeholder="ссылка">
+        <p class="help full"> Скриншоты доказательств лучше загружать на хостинг: <a href="https://ibb.org.ru" target="_blank">ibb.org.ru</a>, <a href="https://pic.maxiol.com" target="_blank">pic.maxiol.com</a> или <a href="https://imgbb.com" target="_blank">imgbb.com</a>. </p>
       </div>
-
     </div>
-    
     <div class="actions">
       <button class="primary" id="dolphinGenerate">Составить отчёт</button>
     </div>
   </div>
-  
   <div class="card">
     <textarea id="dolphinResult" class="output" readonly style="min-height: 100px;"></textarea>
     <div class="actions">
@@ -455,12 +721,132 @@
     </div>
   </div>
 </div>
+<div id="form-squad-toddlers" class="stack form-view hidden">
+  <div class="card stack">
+    <h2>Отряд Мальков<span class="blog-links"> <a href="https://catwar.net/blog1194933" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog1194933" target="_blank">catwar.su</a></span></h2>
+    <div class="grid">
+      <div class="full">
+        <label for="tdlType">Вид деятельности</label>
+        <select id="tdlType">
+          <option value="patrol">Лагерный патруль</option>
+          <option value="watch_start">Начало лагерного дозора</option>
+          <option value="watch_end">Завершение лагерного дозора</option>
+          <option value="hunt">Лагерная охота</option>
+          <option value="check">Проверка дозорного</option>
+        </select>
+      </div>
+      <div id="tdlPatrolTimeWrap" class="full">
+        <label for="tdlPatrolTime">Время сбора (МСК)</label>
+        <select id="tdlPatrolTime"></select>
+      </div>
+      <div id="tdlCollectorWrap" class="full">
+        <label for="tdlCollectorId">Собирающий (ID)</label>
+        <input id="tdlCollectorId" type="text" class="save-id" placeholder="1234567">
+      </div>
+      <div id="tdlLeadsWrap" class="full">
+        <label for="tdlLeads">Ведущие (ID через пробел)</label>
+        <input id="tdlLeads" type="text" placeholder="123456 789012">
+        <div style="font-size: 10px; opacity: 0.7; margin-top: 3px; line-height: 1.4;">
+          Первый ID — <b>(А)</b>, второй ID — <b>(Б)</b>. Если указан только один — маршрут будет «Общий».
+        </div>
+      </div>
+      <div id="tdlPartsWrap" class="full">
+        <label for="tdlParts">Участники (ID через пробел)</label>
+        <input id="tdlParts" type="text" placeholder="123456 789012">
+      </div>
 
-
+      <div id="tdlWatchModeWrap" class="hidden">
+        <label for="tdlWatchMode">Вид дозора</label>
+        <select id="tdlWatchMode">
+          <option value="активного">Активный</option>
+          <option value="пассивного">Пассивный</option>
+        </select>
+      </div>
+      <div id="tdlWatchIdWrap" class="hidden">
+        <label for="tdlWatchId">ID участника</label>
+        <input id="tdlWatchId" type="text" class="save-id" placeholder="1234567">
+      </div>
+      <div id="tdlRouteWrap" class="full hidden">
+        <label for="tdlRoute">Маршрут / Тип</label>
+        <select id="tdlRoute">
+          <option value="А">Маршрут А</option>
+          <option value="Б">Маршрут Б</option>
+          <option value="без деления на ветви">Без деления на ветви</option>
+          <option value="loc">Локация (для пассивного)</option>
+        </select>
+      </div>
+      <div id="tdlLocWrap" class="full hidden">
+        <label for="tdlLoc">Название локации</label>
+        <select id="tdlLoc"></select>
+      </div>
+      <div id="tdlTimeRangeWrap" class="full hidden">
+        <label for="tdlTimeRange">Время (чч:мм - чч:мм)</label>
+        <input id="tdlTimeRange" type="text" placeholder="12:00 - 13:00">
+      </div>
+      <div id="tdlHunterWrap" class="hidden">
+        <label for="tdlHunterId">Охотник (ID)</label>
+        <input id="tdlHunterId" type="text" class="save-id" placeholder="1234567">
+      </div>
+      <div id="tdlCatchWrap" class="hidden">
+        <label for="tdlCatch">Улов</label>
+        <input id="tdlCatch" type="text" placeholder="1 2 3">
+        <div style="font-size: 10px; opacity: 0.7; margin-top: 3px; line-height: 1.4;">
+          Напишите 3 цифры улова (хилые, обычные, упитанные) через пробел.
+        </div>
+      </div>
+      <div id="tdlProofBeforeWrap" class="hidden">
+        <label for="tdlProofBefore">Скриншот ДО</label>
+        <input id="tdlProofBefore" type="text" placeholder="ссылка">
+      </div>
+      <div id="tdlProofAfterWrap" class="hidden">
+        <label for="tdlProofAfter">Скриншот ПОСЛЕ</label>
+        <input id="tdlProofAfter" type="text" placeholder="ссылка">
+      </div>
+      <div id="tdlProofHelpWrap" class="hidden full">
+        <p class="help full">
+          Скриншоты доказательств лучше загружать на хостинг:
+          <a href="https://ibb.org.ru" target="_blank">ibb.org.ru</a>,
+          <a href="https://pic.maxiol.com" target="_blank">pic.maxiol.com</a>
+          или
+          <a href="https://imgbb.com" target="_blank">imgbb.com</a>.
+        </p>
+      </div>
+      <div id="tdlCheckMyIdWrap" class="hidden">
+        <label for="tdlCheckMyId">Ваш ID</label>
+        <input id="tdlCheckMyId" type="text" class="save-id" placeholder="1234567">
+      </div>
+      <div id="tdlCheckTargetIdWrap" class="hidden">
+        <label for="tdlCheckTargetId">ID дозорного</label>
+        <input id="tdlCheckTargetId" type="text" placeholder="123456">
+      </div>
+      <div id="tdlCheckTimeWrap" class="hidden">
+        <label for="tdlCheckTime">Время (чч:мм)</label>
+        <input id="tdlCheckTime" type="text" placeholder="18:35">
+      </div>
+      <div id="tdlCheckStatusWrap" class="hidden">
+        <label for="tdlCheckStatus">Результат</label>
+        <select id="tdlCheckStatus">
+          <option value="пройдена">Пройдена</option>
+          <option value="не пройдена">Не пройдена</option>
+        </select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="tdlGenerate">Составить отчёт</button>
+    </div>
+  </div>
+  <div class="card">
+    <textarea id="tdlResult" class="output" readonly style="min-height: 100px;"></textarea>
+    <div class="actions">
+      <button class="secondary" data-copy="tdlResult">Скопировать отчёт</button>
+    </div>
+  </div>
+</div>
+<div id="form-squad-clownfish" class="stack form-view hidden"><div class="card"><h2>Отряд Рыб-клоунов<span class="blog-links"> <a href="https://catwar.net/blog0" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog0" target="_blank">catwar.su</a></span></h2></div></div>
 <div id="form-sphere-guard" class="stack form-view hidden">
   <div class="card stack">
-    <h2 id="guardTypeTitle">Охранная сфера</h2>
-    
+    <h2 id="guardTypeTitle">Охранная сфера<span class="blog-links"> <a href="https://catwar.net/blog755559" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog755559" target="_blank">catwar.su</a></span></h2>
+
     <div class="grid">
       <div class="full">
         <label for="guardMode">Вид отчёта</label>
@@ -470,7 +856,6 @@
           <option value="check">Проверка дозорного</option>
         </select>
       </div>
-
       <div class="full guard-sub-patrol">
         <label for="patrolTime">Время сбора (МСК)</label>
         <select id="patrolTime">
@@ -497,7 +882,6 @@
         <label for="patrolParts">Участники (ID через пробел)</label>
         <input id="patrolParts" type="text" placeholder="123 456 789">
       </div>
-
       <div class="full guard-sub-watch hidden">
         <label for="watchSubMode">Вид дозора</label>
         <select id="watchSubMode">
@@ -516,7 +900,6 @@
       <div class="full guard-sub-watch hidden" id="watchLocWrap">
         <label for="watchLoc">Локация / Маршрут</label>
         <select id="watchLoc"></select> </div>
-
      <div class="guard-sub-check hidden">
         <label for="checkMyId">ID</label>
         <input id="checkMyId" type="text" class="save-id" placeholder="1234567">
@@ -535,24 +918,20 @@
           <option value="не пройдена">Не пройдена</option>
         </select>
       </div>
-
    </div> <div class="actions">
       <button class="primary" id="guardGenerate">Составить отчёт</button>
     </div>
-
-  </div> 
-
+  </div>
   <div class="card">
-    <textarea id="guardResult" class="output" readonly></textarea>
+    <textarea id="guardResult" class="output" readonly style="min-height: 100px;"></textarea>
     <div class="actions">
       <button class="secondary" data-copy="guardResult">Скопировать отчёт</button>
     </div>
   </div>
 </div>
-        <div id="form-sphere-food" class="stack form-view hidden"><div class="card"><h2>Продовольственная сфера</h2></div></div>
-
+        <div id="form-sphere-food" class="stack form-view hidden"><div class="card"><h2>Продовольственная сфера<span class="blog-links"> <a href="https://catwar.net/blog890784" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog890784" target="_blank">catwar.su</a></span></h2></div></div>
         <div id="form-sphere-heal" class="stack form-view hidden">
-  
+
   <style>
     .shrk-chip {
       padding: 6px 14px;
@@ -575,10 +954,9 @@
       border-color: #4a3525;
     }
   </style>
-
   <div class="card stack">
-    <h2>Врачевательная сфера</h2>
-    
+    <h2>Врачевательная сфера<span class="blog-links"> <a href="https://catwar.net/blog825919" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog825919" target="_blank">catwar.su</a></span></h2>
+
     <div class="grid">
       <div class="full">
         <label for="healMainType">Вид отчёта</label>
@@ -590,7 +968,6 @@
           <option value="spv">СПВ</option>
         </select>
       </div>
-
       <div class="full heal-sub-resource">
         <label for="healSubResource">Ресурсный патруль</label>
         <select id="healSubResource">
@@ -599,7 +976,6 @@
           <option value="мховник">Мховник</option>
         </select>
       </div>
-
       <div class="full heal-sub-exp hidden">
         <label for="healSubExp">Экспедиция</label>
         <select id="healSubExp">
@@ -607,7 +983,6 @@
           <option value="вечерняя экспедиция">Вечерняя</option>
         </select>
       </div>
-
       <div class="full heal-sub-spv hidden">
         <label for="healSubSpv">Деятельность</label>
         <select id="healSubSpv">
@@ -616,17 +991,14 @@
           <option value="supervision">Надзор</option>
         </select>
       </div>
-
       <div id="healCollectorWrap">
         <label id="healCollectorLabel" for="healCollectorId">Собирающий (ID)</label>
         <input id="healCollectorId" type="text" class="save-id" placeholder="1234567">
       </div>
-
       <div id="healHelpersWrap" class="hidden">
         <label for="healHelperIds">Помощники (ID через пробел)</label>
         <input id="healHelperIds" type="text" placeholder="1234567 7890123">
       </div>
-
       <div id="healPartsWrap">
         <label for="healPartIds">Участники (ID через пробел)</label>
         <input id="healPartIds" type="text" class="extra-id" placeholder="123456 789012">
@@ -634,17 +1006,14 @@
           Чтобы добавить мышей, напишите их количество через плюс после ID: <b>123456+2</b>
         </div>
       </div>
-
       <div id="healMiceWrap" class="hidden">
         <label for="healMice">Кол-во мышей</label>
         <input id="healMice" type="text" placeholder="1">
       </div>
-
       <div id="healPatientWrap" class="hidden">
         <label for="healPatientId">Кого вылечил (ID)</label>
         <input id="healPatientId" type="text" placeholder="123456">
       </div>
-
       <div id="healDiseaseWrap" class="hidden full">
         <label for="healDisease">Вылечил от</label>
         <select id="healDisease">
@@ -655,7 +1024,6 @@
           <option value="ссадин от утопления">Ссадины от утопления</option>
         </select>
       </div>
-
       <div id="healReplacedWrap" class="hidden full">
         <div style="font-size: 11px; text-transform: uppercase; opacity: 0.7; margin-bottom: 8px; font-weight: bold; letter-spacing: 0.5px;">
           Заменил и провел мероприятия (нажмите, чтобы выбрать)
@@ -669,26 +1037,23 @@
           <div class="shrk-chip" data-value="докторский патруль">Докт. патруль</div>
         </div>
       </div>
-
     </div>
-    
+
     <div class="actions">
       <button class="primary" id="healGenerate">Составить отчёт</button>
     </div>
   </div>
-
   <div class="card">
-    <textarea id="healResult" class="output" readonly></textarea>
+    <textarea id="healResult" class="output" readonly style="min-height: 100px;"></textarea>
     <div class="actions">
       <button class="secondary" data-copy="healResult">Скопировать отчёт</button>
     </div>
   </div>
 </div>
-
     <div id="form-sphere-squadron" class="stack form-view hidden">
   <div class="card stack">
-    <h2>Эскадра</h2>
-    
+    <h2>Эскадра<span class="blog-links"> <a href="https://catwar.net/blog929369" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog929369" target="_blank">catwar.su</a></span></h2>
+
     <div class="grid">
       <div class="full">
         <label for="eskType">Вид отчёта</label>
@@ -702,47 +1067,39 @@
           <option value="Персональное занятие">Персональное занятие</option>
         </select>
       </div>
-
       <div>
         <label for="eskDate">Дата проведения</label>
         <input id="eskDate" type="text" class="save-date" placeholder="07.04.26">
       </div>
-
       <div>
         <label for="eskId">ID</label>
         <input id="eskId" type="text" class="save-id" placeholder="1234567">
       </div>
-
       <div class="full">
         <label for="eskTime">Время (чч:мм - чч:мм)</label>
         <input id="eskTime" type="text" placeholder="18:00 - 19:00">
       </div>
-
       <div class="full" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
         <input type="checkbox" id="eskIsLead" style="width: 20px; height: 20px; cursor: pointer;">
         <label for="eskIsLead" style="margin: 0; cursor: pointer;">Ведущий</label>
       </div>
     </div>
-
     <div class="actions">
       <button class="primary" id="eskGenerate">Составить отчёт</button>
     </div>
   </div>
-
   <div class="card">
-    <textarea id="eskResult" class="output" readonly></textarea>
+    <textarea id="eskResult" class="output" readonly style="min-height: 100px;"></textarea>
     <div class="actions">
       <button class="secondary" data-copy="eskResult">Скопировать отчёт</button>
     </div>
   </div>
 </div>
-
-
 <div id="form-other-journal" class="stack form-view hidden">
-          
+
           <div class="card stack">
-            <h2>ЖУРНАЛ МОРСКОГО РАЗБОЙНИКА</h2>
-            
+            <h2>ЖУРНАЛ МОРСКОГО РАЗБОЙНИКА<span class="blog-links"> <a href="https://catwar.net/blog780696" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog780696" target="_blank">catwar.su</a></span></h2>
+
             <div class="grid">
               <div class="full">
                 <label for="journalReportType">Вид отчёта</label>
@@ -751,72 +1108,61 @@
                   <option value="news">Отдельный пост (#новости)</option>
                 </select>
               </div>
-
           <div class="full" id="journalDateWrap">
   <label for="journalDate">Дата</label>
   <input id="journalDate" type="text" placeholder="дд.мм.гг">
 </div>
-
               <div class="full hidden" id="journalTitleWrap">
                 <label for="journalTitle">Заголовок</label>
                 <input id="journalTitle" type="text">
               </div>
-
               <div class="full">
                 <label for="journalNews">Новости</label>
                 <textarea id="journalNews" style="height: 50px; min-height: 30px;"></textarea>
               </div>
-
               <div class="full" id="journalStreamWrap">
                 <label for="journalStream">Трансляция</label>
                 <textarea id="journalStream" style="height: 50px; min-height: 30px;"></textarea>
               </div>
-
               <div id="journalAuthorWrap">
                 <label for="journalAuthorId">Пост составил ID</label>
                 <input id="journalAuthorId" type="text" class="save-id" placeholder="123456789">
               </div>
-
               <div id="journalCasterWrap">
                 <label for="journalCasterId">Транслировал ID</label>
                 <input id="journalCasterId" type="text" class="extra-id" placeholder="12345678">
               </div>
             </div>
-            
+
             <div class="actions">
               <button class="primary" id="btnJournal">СОСТАВИТЬ ОТЧЁТ</button>
             </div>
           </div>
-
           <div class="card">
-            <textarea id="journalResult" class="output" readonly></textarea>
+            <textarea id="journalResult" class="output" readonly style="min-height: 100px;"></textarea>
             <div class="actions">
               <button class="secondary" data-copy="journalResult">Скопировать отчёт</button>
             </div>
           </div>
 
-          
-
         </div>
-
 <div id="form-other-ad" class="stack form-view hidden">
-  <div class="card stack"> 
+  <div class="card stack">
     <h2>КОД РЕКЛАМЫ</h2>
-    
+
     <textarea id="adCodeArea" class="output" readonly placeholder="Загрузка..."></textarea>
-    
+
     <div class="actions">
       <button class="primary" data-copy="adCodeArea">СКОПИРОВАТЬ КОД</button>
     </div>
   </div>
 </div>
-
 <div id="form-other-calc" class="stack form-view hidden">
   <div class="card stack">
     <h2>Автоподсчёт слов</h2>
     <div class="full">
-      <textarea id="calcInput" 
-        style="font-size: 10px; line-height: 1.1; width: 100%; min-height: 30px; height: 30px; padding: 5px; resize: none; overflow-y: auto; border: 1px solid rgba(0,0,0,0.1); border-radius: 4px; max-height: 450px;" 
+      <textarea id="calcInput"
+        style="font-size: 10px; line-height: 1.1; width: 100%; min-height: 30px; height: 30px; padding: 5px; resize: none; overflow-y: auto; border: 1px solid rgba(0,0,0,0.1); border-radius: 4px; max-height: 450px;"
         placeholder=" "></textarea>
     </div>
     <div class="card" style="background: rgba(0,0,0,0.05); padding: 10px; margin-top: -10px;">
@@ -824,8 +1170,6 @@
     </div>
   </div>
 </div>
-
   <script src="script.js"></script>
-
 </body>
 </html>
