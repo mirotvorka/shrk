@@ -667,17 +667,26 @@
   </div>
 </div>
 
-     <div id="form-squad-dolphins" class="stack form-view hidden">
+   <div id="form-squad-dolphins" class="stack form-view hidden">
   <div class="card stack">
     <h2>Отряд Дельфинов<span class="blog-links"> <a href="https://catwar.net/blog852778" target="_blank">catwar.net</a> | <a href="https://catwar.su/blog852778" target="_blank">catwar.su</a></span></h2>
     <div class="grid">
       <div class="full">
         <label for="dolphinReportType">Вид отчёта</label>
         <select id="dolphinReportType">
+          <option value="vk">Отпись в ВК</option>
           <option value="climb">Сопровождение на лазательные локации</option>
           <option value="vision">Прокачивание зоркости</option>
           <option value="dive">Сопровождение на плавательные локации</option>
           <option value="teach">Обучение игрока лазанию</option>
+        </select>
+      </div>
+      <div id="dolphinVkActivityWrap" class="full hidden">
+        <label for="dolphinVkActivityType">Вид деятельности</label>
+        <select id="dolphinVkActivityType">
+          <option value="climb">Лазание</option>
+          <option value="vision">Прокачивание зоркости</option>
+          <option value="dive">Ныряние</option>
         </select>
       </div>
       <div id="dolphinDateWrap">
@@ -692,14 +701,14 @@
         <label for="dolphinTimeRange">Время (чч:мм - чч:мм)</label>
         <input id="dolphinTimeRange" type="text" placeholder="12:00 - 13:00">
       </div>
-      <div id="dolphinDiveWrap" class="hidden">
+      <div id="dolphinDiveWrap" class="full hidden">
         <label for="dolphinDives">Количество заходов</label>
         <input id="dolphinDives" type="number" placeholder="1">
       </div>
       <div id="dolphinTargetWrap" class="full">
         <label id="dolphinTargetLabel" for="dolphinTargetIds">ID сопровождаемых (через пробел)</label>
         <input id="dolphinTargetIds" type="text" placeholder="123456 789012+">
-        <div style="font-size: 10px; opacity: 0.7; margin-top: 3px; line-height: 1.4;">
+        <div id="dolphinAdultHint" class="hidden" style="font-size: 10px; opacity: 0.7; margin-top: 3px; line-height: 1.4;">
           Чтобы указать взрослого, добавьте <b>+</b> после ID (например: <b>123456+</b>)
         </div>
       </div>

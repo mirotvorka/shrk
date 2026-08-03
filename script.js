@@ -717,12 +717,20 @@ function updateDolphinForm() {
     const diveWrap = qs('dolphinDiveWrap');
     const proofWrap = qs('dolphinProofWrap');
     const targetLabel = qs('dolphinTargetLabel');
-    if (timeWrap) {
-        timeWrap.classList.toggle('hidden', type === 'teach');
-        timeWrap.classList.toggle('full', type !== 'dive');
-    }
+    const dateWrap = qs('dolphinDateWrap');
+    const myIdWrap = qs('dolphinMyIdWrap');
+    const vkActivityWrap = qs('dolphinVkActivityWrap');
+    const adultHint = qs('dolphinAdultHint');
+
+    const hideDate = (type === 'vk');
+    if (dateWrap) dateWrap.classList.toggle('hidden', hideDate);
+    if (myIdWrap) myIdWrap.classList.toggle('full', hideDate);
+
+    if (vkActivityWrap) vkActivityWrap.classList.toggle('hidden', type !== 'vk');
+    if (timeWrap) timeWrap.classList.toggle('hidden', type === 'teach' || type === 'vk' || type === 'dive');
     if (diveWrap) diveWrap.classList.toggle('hidden', type !== 'dive');
     if (proofWrap) proofWrap.classList.toggle('hidden', type !== 'teach');
+    if (adultHint) adultHint.classList.toggle('hidden', type !== 'dive');
     if (targetLabel) targetLabel.textContent = type === 'teach' ? 'ID игрока' : 'ID сопровождаемых (через пробел)';
 }
 const dolphinReportEl = qs('dolphinReportType');
@@ -745,7 +753,15 @@ if (dolphinBtn) {
             }
         }).join(', ') || '[linkID] [ID]';
         let resultText = '';
-        if (type === 'climb' || type === 'vision') {
+        if (type === 'vk') {
+            const activity = qs('dolphinVkActivityType').value;
+            const plainIds = rawIds.map(id => id.replace('+', '')).join(', ') || 'ID';
+            let vkTag = '', vkAction = '';
+            if (activity === 'climb') { vkTag = '#лазание'; vkAction = 'лазать.'; }
+            else if (activity === 'vision') { vkTag = '#зоркость'; vkAction = 'прокачивать зоркость.'; }
+            else if (activity === 'dive') { vkTag = '#ныряние'; vkAction = 'нырять.'; }
+            resultText = `${vkTag}\n${myId}, веду ${plainIds} ${vkAction}`;
+        } else if (type === 'climb' || type === 'vision') {
             const title = type === 'climb' ? 'Сопровождение на лазательные локации' : 'Прокачивание зоркости';
             const timeRange = qs('dolphinTimeRange').value.trim() || 'чч:мм - чч:мм';
             const dur = calculateTimeDifference(timeRange).formatted;
@@ -753,7 +769,7 @@ if (dolphinBtn) {
         } else if (type === 'dive') {
             const timeRange = qs('dolphinTimeRange').value.trim() || 'чч:мм - чч:мм';
             const dives = qs('dolphinDives').value.trim() || '1';
-            resultText = `[b]${date}[/b]\n[b]Сопровождение на плавательные локации[/b]\n[b]Время:[/b] ${timeRange} (${dives} заходов)\n[b]Дельфин:[/b] [link${myId}] [${myId}]\n[b]Сопровождаемые[/b]: ${targetsStr}`;
+            resultText = `[b]${date}[/b]\n[b]Сопровождение на плавательные локации[/b]\n[b]Время:[/b] ${timeRange} (${dives} заходов)\n[b]Дельфин:[/b] [link${myId}] [${myId}]\n[b]Сопровождаемые:[/b] ${targetsStr}`;
         } else if (type === 'teach') {
             const proofText = makeProofs(qs('dolphinProof').value);
             const playerId = rawIds[0] ? rawIds[0].replace('+', '') : 'ID';
