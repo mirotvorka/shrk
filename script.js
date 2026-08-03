@@ -177,23 +177,23 @@ if (qs('kitsGenerate')) {
         const cId = val('kitsChildId');
         const cName = val('kitsChildName');
         const sName = val('kitsStaffName');
+        const sId = val('kitsStaffId'); // <-- Получаем ID наставника/воспитателя из поля
         let text = '';
         
         if (t === 'teach_educator') {
             const coinsBox = qs('kitsCoins100');
             const coins = (coinsBox && coinsBox.checked) ? 100 : 0;
-            text = `#Обучение_Воспитатели\n${sName}\n${cName} [${cId}] прошел(ла) обучение. (${coins} монеток)`;
+            text = `#Обучение_Воспитатели — ${sName} [${sId}]\n${cName} [${cId}] прошел(ла) обучение. (${coins} монеток)`;
         } else if (t === 'teach_mentor') {
-            text = `#Обучение_Наставники\n${sName}\n${cName} [${cId}] прошел(ла) обучение.`;
+            text = `#Обучение_Наставники — ${sName} [${sId}]\n${cName} [${cId}] прошел(ла) обучение.`;
         } else if (t === 'tour_educator') {
-            text = `#Экскурсия_Воспитатели\n${sName}\n${cName} [${cId}], ${qs('kitsTerritory').value}`;
+            text = `#Экскурсия_Воспитатели — ${sName} [${sId}]\n${cName} [${cId}], ${qs('kitsTerritory').value}`;
         } else if (t === 'tour_mentor') {
-            text = `#Экскурсия_Наставники\n${sName}\n${cName} [${cId}], внелагерная`;
+            text = `#Экскурсия_Наставники — ${sName} [${sId}]\n${cName} [${cId}], внелагерная территория`;
         }
         qs('kitsResult').value = text;
     };
 }
-// ===================== МАРШРУТЫ =====================
 const routes = {
     'main-blog':        'main',
     'awards-blog':      'nagrady',
@@ -700,7 +700,7 @@ ${qs('albEditText').value.trim() || '-'}`;
     } else {
       let ending = '';
       if (r === 'оформитель') ending = 'Код в личных сообщениях главы.';
-      else if (r === 'сборщик') ending = `Опросил ${qs('albDoneCount').value || 0} игроков.\n(скриншоты-доказательства, где видно всех опрошенных игроков)`;
+      else if (r === 'сборщик') ending = `Опросил ${qs('albDoneCount').value || 0} игроков.`;
       else if (r === 'художник') ending = `(рисунок, прикреплённый ВК документом)\n${qs('albDoneContent').value.trim() || '-'}`;
       else ending = qs('albDoneContent').value.trim() || '-';
       res = `#итог — ${name} [${id}] выполнил работу для игрока ${target}.\n${ending}`.trim();
@@ -1257,7 +1257,7 @@ if (qs('taskGenerate')) qs('taskGenerate').onclick = () => {
     const id = idInput ? (idInput.value.trim() || 'ID') : 'ID';
     const proof = qs('taskProof').value.trim() || '-';
     if (qs('taskMode').value === 'done') {
-        qs('taskResult').value = `[b]Выполнение поручения[/b]\nЯ, [link${id}] [${id}], выполнил поручение под номером ${qs('taskNumber').value || 1} за промежуток ${qs('taskRange').value}. [[url=${proof}]Доказательство[/url]].`;
+        qs('taskResult').value = `Я, [link${id}] [${id}], выполнил поручение под номером ${qs('taskNumber').value || 1} за промежуток ${qs('taskRange').value}. [[url=${proof}]Доказательство[/url]].`;
     } else {
         let res = `[b]Запрос награды[/b]\nЯ, [link${id}] [${id}], выполнил требования на ${qs('taskRewardType').value}. [[url=${proof}]Доказательство[/url]].`;
         if (qs('taskRewardType').value === 'клон') {
